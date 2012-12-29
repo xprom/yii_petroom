@@ -1,0 +1,396 @@
+
+.new-holder {
+    min-height: 110px;
+}
+    .news-relate img {
+        margin: 10px 10px 0 0;
+    }
+
+
+#head_line {
+
+}
+
+
+
+    .aside {
+        float: right;
+        width: 240px;
+        border-left: solid 1px #d5d0d0;
+        margin-top: -13px;
+        background: url("images/aside-bg.png");
+    }
+        .aside .border-bottom {
+            margin: 0px 15px 0px;
+            padding: 10px 0 15px;
+        }
+        .aside .status {
+            font-family: 'MuseoSlab-500';
+            font-size: 14px;
+            line-height: 14px;
+            padding-bottom: 23px;
+        }
+            .aside .status div {
+                margin: 3px 0;
+                color: #aaa0a0;
+            }
+
+
+
+
+
+
+
+
+    .page-content {
+        width: 940px;
+        background: url("images/l.gif") repeat-y scroll 181px 0 transparent;
+        margin: 13px auto 0;
+    }
+        .page-content .logo {
+            float: left;
+            position: relative;
+            width: 85px;
+            height: 85px;
+        }
+            .page-content .logo a.pancel {
+                display: block;
+                height: 18px;
+                margin-left: 61px;
+                margin-top: -15px;
+                padding: 0;
+                position: relative;
+                width: 18px;
+            }
+            .page-content .logo a.online {
+                display: block;
+                background: url("images/sprite.png") no-repeat scroll -222px -57px transparent;
+                height: 18px;
+                margin-left: 61px;
+                margin-top: -15px;
+                padding: 0;
+                position: relative;
+                width: 18px;
+            }
+        .page-content h1 {
+            font-size: 26px;
+            color: #00aee1;
+            font-family: 'MuseoSlab-500';
+        }
+        .page-content .logo-holder {
+            height: 89px;
+            background: white;
+            border-bottom: dashed 1px #c6bfbf;
+        }
+        .page-content .status-line {
+            height: 22px;
+        }
+        .page-content .status-line a {
+            text-decoration: none;
+        }
+        .page-content .status-line span {
+            color: #aaa0a0;
+        }
+        .page-content .date-hidtory li {
+            float: left;
+        }
+            .page-content .date-hidtory li a {
+                background: none repeat scroll 0 0 #E9E7E7;
+                color: #ADA3A2;
+                display: block;
+                font-size: 9px;
+                font-weight: bold;
+                height: 13px;
+                line-height: 13px;
+                float: left;
+                text-decoration: none;
+
+                margin-right: 5px;
+                padding: 3px 20px;
+
+
+
+            }
+            .page-content .date-hidtory li a:hover, .page-content .date-hidtory li a.active {
+                background: #00ade0;
+                color: white;
+            }
+    ul.date-hidtory {
+        height: 20px;
+        list-style: none outside none;
+        overflow: hidden;
+        padding-top: 2px;
+    }
+    ul.date-hidtory li {
+        height: 18px;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .group-row {
+         height: 53px;
+         margin-bottom: 10px;
+
+    }
+        .group-row img {
+            float: left;
+            margin-right: 10px;
+        }
+        .group-row a {
+            font-weight: bold;
+            color: #564343;
+            text-decoration: none;
+        }
+        .group-row a.location, .group-row span.time {
+            font-weight: normal;
+            padding-left: 14px;
+            background: url("images/sprite.png") no-repeat scroll -234px -16px transparent;
+            color: #aaa0a0;
+        }
+        .group-row span.time {
+            background-position: -235px -29px;
+        }
+    .aside .share {
+        padding: 24px 0 10px 0;
+    }
+        .share .button {
+            display: block;
+            margin: auto;
+            width: 192px;
+            height: 37px;
+            margin-bottom: 12px;
+            background: url("images/buttons.png") no-repeat scroll -0px -0px transparent;
+        }
+        .share .button-small {
+            width: 165px;
+            height: 37px;
+        }
+        .share .button-small-like {
+            background: url("images/buttons.png") no-repeat scroll -0px -149px transparent;
+        }
+        .share .button-small-like:hover {
+            background: url("images/buttons.png") no-repeat scroll right -149px transparent;
+        }
+        .share .button-small-gift {
+            background: url("images/buttons.png") no-repeat scroll -0px -198px transparent;
+        }
+        .share .button-small-gift:hover {
+            background: url("images/buttons.png") no-repeat scroll right -198px transparent;
+        }
+        .share .button-small-price {
+            background: url("images/buttons.png") no-repeat scroll -0px -249px transparent;
+        }
+        .share .button-small-price:hover {
+            background: url("images/buttons.png") no-repeat scroll right -249px transparent;
+        }
+        .share .button-small-rss {
+            background: url("images/buttons.png") no-repeat scroll -0px -298px transparent;
+        }
+        .share .button-small-rss:hover {
+            background: url("images/buttons.png") no-repeat scroll right -298px transparent;
+        }
+    .add-friends-holder {
+        padding-top: 4px;
+    }
+
+    .pancel {
+        background: url("images/sprite.png") no-repeat scroll -104px -34px transparent;
+        padding-left: 15px;
+        margin-left: 5px;
+    }
+    .online {
+        background: url("images/sprite.png") no-repeat scroll -222px -61px transparent;
+        display: block;
+        float: right;
+        height: 8px;
+        margin-left: 45px;
+        margin-top: 43px;
+        position: absolute;
+        width: 8px;
+    }
+    .friends .add-friends-new {
+        height: 36px;
+        margin-bottom: 8px;
+    }
+        .friends .add-friends-new img {
+            float: left;
+            margin-right: 11px;
+        }
+        .friends .add-friend, .friends .remove-friend, .friends .deleter-friend {
+            display: block;
+            margin-top: 2px;
+        }
+        .friends .add-friend {
+            background: url("images/sprite.png") no-repeat scroll 0 -292px transparent;
+            float: left;
+            height: 20px;
+            overflow: hidden;
+            text-indent: -500px;
+            width: 69px;
+            margin-right: 5px;
+        }
+        .friends .remove-friend {
+            background: url("images/sprite.png") no-repeat scroll -73px -292px transparent;
+            float: left;
+            height: 20px;
+            overflow: hidden;
+            text-indent: -500px;
+            width: 50px;
+        }
+        .friends .deleter-friend {
+            background: url("images/sprite.png") no-repeat scroll -126px -37px transparent;
+            float: right;
+            height: 10px;
+            margin-top: -4px;
+            width: 10px;
+        }
+        .aside .friends {
+            padding-bottom: 9px;
+        }
+    .left-menu {
+        width: 181px;
+        float: left;
+    }
+
+
+    .counter-table td {
+        background: url('images/counter-bg.png') repeat-x;
+        height: 48px;
+        text-align: center;
+        color: #807171;
+        vertical-align: middle;
+        font-family: 'MuseoSlab-500';
+    }
+    .counter-table-inner td {
+        font-size: 20px;
+        text-align: left;
+    }
+        .counter-table-inner td.title {
+            padding-left: 18px;
+        }
+        .counter-table-inner td.right {
+            font-size: 11px;
+            text-align: right;
+            padding-right: 18px;
+        }
+        .counter-table-inner td span {
+            display: block;
+            float: left;
+            width: 23px;
+            height: 26px;
+            background: url('images/sprite.png') -246px -131px repeat-x;
+            margin-left: 18px;
+            margin-right: 11px;
+        }
+    .inner-content {
+        padding-left: 182px;
+        padding-right: 242px;
+    }
+        .inner-content .insert-news textarea {
+            font-weight: bold;
+            border: solid 1px #d5d0d0;
+            resize: none;
+            font-size: 14px;
+            padding: 10px;
+            color: #aba1a1;
+            width: 462px;
+            height: 18px;
+            margin: 18px auto;
+            display: block;
+        }
+        .inner-content .post {
+            margin: 15px 20px 0;
+            padding-bottom: 15px;
+        }
+        .inner-content .sub-post {
+            margin: 15px 0 20px 65px;
+            padding-bottom: 15px;
+        }
+
+            .inner-content .post .post-logo {
+                width: 51px;
+                margin-right: 14px;
+                color: #aaa0a0;
+                text-align: center;
+                float: left;
+            }
+            .inner-content .post .post-date {
+                color: #aaa0a0;
+                margin-top: 15px;
+            }
+            .inner-content .post .new-holder .post-date {
+                margin-top: 0;
+            }
+
+            .inner-content .post .post-text {
+                min-height: 28px;
+            }
+                .inner-content .post .post-text img, .photo-news {
+                    border: solid 1px #aba1a1;
+                    margin-top: 10px;
+                    margin-right: 10px;
+                }
+                .photo-news {
+                    float: left;
+                    margin-top: 0;
+                }
+                .news-title {
+                    font-size: 14px;
+                }
+                .inner-content .post .post-text img.no-border {
+                    border: none;
+                }
+                .inner-content .post .like {
+                    color: #00ADE0;
+                    cursor: pointer;
+                    float: right;
+                }
+                .inner-content .post .like-left {
+                    float: left;
+                }
+                .inner-content .post .like span.counter {
+                    background: url("images/sprite.png") no-repeat scroll -210px -90px transparent;
+                    padding-left: 18px;
+                }
+                .inner-content .post .like-active span {
+                    display: none;
+                }
+                .inner-content .post .like-active span.counter {
+                    color: #41403B;
+                    font-weight: bold;
+                    display: inline;
+                    background: url("images/sprite.png") no-repeat scroll -210px -73px transparent;
+                }
+                    .inner-content .post .like:hover span.counter {
+                        background: url("images/sprite.png") no-repeat scroll -210px -73px transparent;
+                    }
+                .inner-content .post .comment-count {
+                    color: #00ADE0;
+                    text-align: center;
+                    background: #eae8e8;
+                    padding: 8px;
+                    margin-top: 10px;
+
+                    -webkit-border-radius: 4px;
+                    -moz-border-radius: 4px;
+                    border-radius: 4px;
+                    margin-left: 65px;
+                    cursor: pointer;
+                }
+            .inner-content .post .sub-post img {
+                margin: 0;
+                border: none;
+            }
+            .inner-content .insert-comment {
+                background: #eae8e8;
+                margin-left: 65px;
+                padding: 8px;
+                margin-top: 10px;
+            }
+                .inner-content .insert-comment textarea {
+                    color: #AAA0A0;
+                    padding: 3px 8px;
+                    width: 376px;
+                    border: solid 1px #d5d0d0;
+                    resize: none;
+                    height: 18px;
+                }

@@ -1,0 +1,649 @@
+2012/11/11 00:13:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=gii
+---
+2012/11/11 00:13:45 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=gii
+---
+2012/11/11 00:17:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=gii
+---
+2012/11/11 00:17:51 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=gii
+---
+2012/11/11 00:57:45 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=gii
+---
+2012/11/11 01:00:02 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection.connectionString cannot be empty.' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:370
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=gii/default/index
+---
+2012/11/11 01:09:06 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=gii/default/index
+---
+2012/11/11 11:48:23 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'testdrive.tbl_user' doesn't exist. The SQL statement executed was: SHOW COLUMNS FROM `tbl_user`.
+in N:\home\test3.ru\www\petroom\index.php (13)
+2012/11/11 11:49:51 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: SQLSTATE[28000] [1045] Access denied for user 'postgresql'@'localhost' (using password: YES)' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/11 11:59:32 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/12 00:15:49 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/12 00:18:31 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/12 00:20:00 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES)' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/12 00:25:10 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/12 00:39:26 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/12 00:40:12 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/12 01:09:42 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/12 01:25:49 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in N:\home\test3.ru\www\yii\framework\db\CDbConnection.php:382
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 N:\home\test3.ru\www\yii\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 N:\home\test3.ru\www\yii\framework\base\CModule.php(388): CDbConnection->init()
+#3 N:\home\test3.ru\www\yii\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 N:\home\test3.ru\www\yii\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 N:\home\test3.ru\www\yii\framework\web\CFormModel.php(40): ModelCode->init()
+#6 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 N:\home\test3.ru\www\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('')
+#13 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/petroom/index.php?r=gii/model
+---
+2012/11/29 01:20:56 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('post')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=post
+---
+2012/11/29 01:21:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "tplpost".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('tplpost')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=tplpost
+---
+2012/11/29 01:21:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "TplPOst".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('TplPOst')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=TplPOst
+---
+2012/11/29 01:21:40 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('post')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=post
+---
+2012/12/05 01:21:03 [error] [exception.CException] exception 'CException' with message 'SiteController has an extra endWidget(CContentDecorator) call in its view.' in N:\home\test3.ru\www\yii\framework\web\CBaseController.php:211
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(301): CBaseController->endWidget('CContentDecorat...')
+#1 N:\home\test3.ru\www\petroom\protected\views\layouts\column1.php(5): CBaseController->endContent()
+#2 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(127): require('N:\home\test3.r...')
+#3 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(96): CBaseController->renderInternal('N:\home\test3.r...', Array, true)
+#4 N:\home\test3.ru\www\yii\framework\web\CController.php(785): CBaseController->renderFile('N:\home\test3.r...', Array, true)
+#5 N:\home\test3.ru\www\petroom\protected\controllers\SiteController.php(72): CController->render('contact', Array)
+#6 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): SiteController->actionContact()
+#7 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#8 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#9 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('contact')
+#11 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/contact')
+#12 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#13 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/petroom/index.php?r=site/contact
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=site/page&view=about
+---
+2012/12/05 01:52:45 [error] [php] include(Comment.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (N:\home\test3.ru\www\yii\framework\YiiBase.php:423)
+Stack trace:
+#0 N:\home\test3.ru\www\petroom\protected\components\views\userMenu.php(5): spl_autoload_call()
+#1 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(131): require()
+#2 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(96): UserMenu->renderInternal()
+#3 N:\home\test3.ru\www\yii\framework\web\widgets\CWidget.php(244): UserMenu->renderFile()
+#4 N:\home\test3.ru\www\petroom\protected\components\UserMenu.php(14): UserMenu->render()
+#5 N:\home\test3.ru\www\yii\framework\zii\widgets\CPortlet.php(95): UserMenu->renderContent()
+#6 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(174): UserMenu->run()
+#7 N:\home\test3.ru\www\petroom\protected\views\layouts\main.php(30): SiteController->widget()
+#8 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(127): require()
+#9 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(96): SiteController->renderInternal()
+#10 N:\home\test3.ru\www\yii\framework\web\widgets\CContentDecorator.php(77): SiteController->renderFile()
+#11 N:\home\test3.ru\www\yii\framework\web\widgets\CContentDecorator.php(55): CContentDecorator->decorate()
+#12 N:\home\test3.ru\www\yii\framework\web\widgets\COutputProcessor.php(45): CContentDecorator->processOutput()
+#13 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(207): CContentDecorator->run()
+#14 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(301): SiteController->endWidget()
+#15 N:\home\test3.ru\www\petroom\protected\views\layouts\column1.php(9): SiteController->endContent()
+#16 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(127): require()
+#17 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(96): SiteController->renderInternal()
+#18 N:\home\test3.ru\www\yii\framework\web\CController.php(785): SiteController->renderFile()
+#19 N:\home\test3.ru\www\petroom\protected\controllers\SiteController.php(32): SiteController->render()
+#20 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): SiteController->actionIndex()
+#21 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams()
+#22 N:\home\test3.ru\www\yii\framework\web\CController.php(287): SiteController->runAction()
+#23 N:\home\test3.ru\www\yii\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#24 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): SiteController->run()
+#25 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#26 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#27 N:\home\test3.ru\www\petroom\index.php(13): CWebApplication->run()
+REQUEST_URI=/petroom/index.php?r=site/index
+in N:\home\test3.ru\www\petroom\protected\components\views\userMenu.php (5)
+in N:\home\test3.ru\www\petroom\protected\components\UserMenu.php (14)
+in N:\home\test3.ru\www\petroom\protected\views\layouts\main.php (30)
+2012/12/05 01:56:30 [error] [exception.CDbException] exception 'CDbException' with message 'The table "{{comment}}" for active record class "TblComment" cannot be found in the database.' in N:\home\test3.ru\www\yii\framework\db\ar\CActiveRecord.php:2312
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\db\ar\CActiveRecord.php(388): CActiveRecordMetaData->__construct(Object(TblComment))
+#1 N:\home\test3.ru\www\petroom\protected\models\TblComment.php(25): CActiveRecord::model('TblComment')
+#2 N:\home\test3.ru\www\petroom\protected\components\views\userMenu.php(5): TblComment::model()
+#3 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(131): require('N:\home\test3.r...')
+#4 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(96): CBaseController->renderInternal('N:\home\test3.r...', NULL, false)
+#5 N:\home\test3.ru\www\yii\framework\web\widgets\CWidget.php(244): CBaseController->renderFile('N:\home\test3.r...', NULL, false)
+#6 N:\home\test3.ru\www\petroom\protected\components\UserMenu.php(14): CWidget->render('userMenu')
+#7 N:\home\test3.ru\www\yii\framework\zii\widgets\CPortlet.php(95): UserMenu->renderContent()
+#8 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(174): CPortlet->run()
+#9 N:\home\test3.ru\www\petroom\protected\views\layouts\main.php(30): CBaseController->widget('UserMenu')
+#10 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(127): require('N:\home\test3.r...')
+#11 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(96): CBaseController->renderInternal('N:\home\test3.r...', Array, true)
+#12 N:\home\test3.ru\www\yii\framework\web\widgets\CContentDecorator.php(77): CBaseController->renderFile('N:\home\test3.r...', Array, true)
+#13 N:\home\test3.ru\www\yii\framework\web\widgets\CContentDecorator.php(55): CContentDecorator->decorate('<div id="conten...')
+#14 N:\home\test3.ru\www\yii\framework\web\widgets\COutputProcessor.php(45): CContentDecorator->processOutput('<div id="conten...')
+#15 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(207): COutputProcessor->run()
+#16 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(301): CBaseController->endWidget('CContentDecorat...')
+#17 N:\home\test3.ru\www\petroom\protected\views\layouts\column1.php(9): CBaseController->endContent()
+#18 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(127): require('N:\home\test3.r...')
+#19 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(96): CBaseController->renderInternal('N:\home\test3.r...', Array, true)
+#20 N:\home\test3.ru\www\yii\framework\web\CController.php(785): CBaseController->renderFile('N:\home\test3.r...', Array, true)
+#21 N:\home\test3.ru\www\petroom\protected\controllers\SiteController.php(32): CController->render('index')
+#22 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): SiteController->actionIndex()
+#23 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#24 N:\home\test3.ru\www\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#25 N:\home\test3.ru\www\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#26 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('index')
+#27 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/index')
+#28 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#29 N:\home\test3.ru\www\petroom\index.php(13): CApplication->run()
+#30 {main}
+REQUEST_URI=/petroom/index.php?r=site/index
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=site/page&view=about
+---
+2012/12/05 02:21:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post/create".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('post/create')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=post/create
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=site/index
+---
+2012/12/05 02:21:21 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post/admin".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('post/admin')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=post/admin
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=post/create
+---
+2012/12/05 02:22:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post/admin".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('post/admin')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=post/admin
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=post/create
+---
+2012/12/05 02:22:17 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post/admin".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('post/admin')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=post/admin
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=post/create
+---
+2012/12/05 02:22:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post/login".' in N:\home\test3.ru\www\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('post/login')
+#1 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 N:\home\test3.ru\www\petroom\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/petroom/index.php?r=post/login
+---
+2012/12/05 02:22:39 [error] [php] include(Lookup.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (N:\home\test3.ru\www\yii\framework\YiiBase.php:423)
+Stack trace:
+#0 N:\home\test3.ru\www\petroom\protected\views\tblPost\_form.php(37): spl_autoload_call()
+#1 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(127): require()
+#2 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(96): TblPostController->renderInternal()
+#3 N:\home\test3.ru\www\yii\framework\web\CController.php(870): TblPostController->renderFile()
+#4 N:\home\test3.ru\www\petroom\protected\views\tblPost\create.php(8): TblPostController->renderPartial()
+#5 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(127): require()
+#6 N:\home\test3.ru\www\yii\framework\web\CBaseController.php(96): TblPostController->renderInternal()
+#7 N:\home\test3.ru\www\yii\framework\web\CController.php(870): TblPostController->renderFile()
+#8 N:\home\test3.ru\www\yii\framework\web\CController.php(783): TblPostController->renderPartial()
+#9 N:\home\test3.ru\www\petroom\protected\controllers\TblPostController.php(74): TblPostController->render()
+#10 N:\home\test3.ru\www\yii\framework\web\actions\CInlineAction.php(50): TblPostController->actionCreate()
+#11 N:\home\test3.ru\www\yii\framework\web\CController.php(309): CInlineAction->runWithParams()
+#12 N:\home\test3.ru\www\yii\framework\web\filters\CFilterChain.php(134): TblPostController->runAction()
+#13 N:\home\test3.ru\www\yii\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#14 N:\home\test3.ru\www\yii\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#15 N:\home\test3.ru\www\yii\framework\web\filters\CInlineFilter.php(59): TblPostController->filterAccessControl()
+#16 N:\home\test3.ru\www\yii\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#17 N:\home\test3.ru\www\yii\framework\web\CController.php(292): CFilterChain->run()
+#18 N:\home\test3.ru\www\yii\framework\web\CController.php(266): TblPostController->runActionWithFilters()
+#19 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): TblPostController->run()
+#20 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#21 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#22 N:\home\test3.ru\www\petroom\index.php(12): CWebApplication->run()
+REQUEST_URI=/petroom/index.php?r=TblPost/create
+in N:\home\test3.ru\www\petroom\protected\views\tblPost\_form.php (37)
+in N:\home\test3.ru\www\petroom\protected\views\tblPost\create.php (8)
+in N:\home\test3.ru\www\petroom\protected\controllers\TblPostController.php (74)
+2012/12/11 00:33:53 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "suggestTags".' in N:\home\test3.ru\www\yii\framework\web\CController.php:484
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CController.php(271): CController->missingAction('suggestTags')
+#1 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('suggestTags')
+#2 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('tblPost/suggest...')
+#3 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 N:\home\test3.ru\www\petroom\index.php(12): CApplication->run()
+#5 {main}
+REQUEST_URI=/petroom/index.php?r=tblPost/suggestTags&q=sdfsdf&limit=10&timestamp=1355157233579
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=TblPost/create
+---
+2012/12/11 00:33:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "suggestTags".' in N:\home\test3.ru\www\yii\framework\web\CController.php:484
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CController.php(271): CController->missingAction('suggestTags')
+#1 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('suggestTags')
+#2 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('tblPost/suggest...')
+#3 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 N:\home\test3.ru\www\petroom\index.php(12): CApplication->run()
+#5 {main}
+REQUEST_URI=/petroom/index.php?r=tblPost/suggestTags&q=dsf&limit=10&timestamp=1355157234619
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=TblPost/create
+---
+2012/12/11 00:34:08 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "suggestTags".' in N:\home\test3.ru\www\yii\framework\web\CController.php:484
+Stack trace:
+#0 N:\home\test3.ru\www\yii\framework\web\CController.php(271): CController->missingAction('suggestTags')
+#1 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(283): CController->run('suggestTags')
+#2 N:\home\test3.ru\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('tblPost/suggest...')
+#3 N:\home\test3.ru\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 N:\home\test3.ru\www\petroom\index.php(12): CApplication->run()
+#5 {main}
+REQUEST_URI=/petroom/index.php?r=tblPost/suggestTags&q=dsf&limit=10&timestamp=1355157248736
+HTTP_REFERER=http://test3.ru/petroom/index.php?r=TblPost/create
+---
+2012/12/11 21:33:22 [error] [exception.CException] exception 'CException' with message 'MembersController cannot find the requested view "index".' in N:\home\test3.ru\yii\framework\web\CController.php:879
+Stack trace:
+#0 N:\home\test3.ru\yii\framework\web\CController.php(783): CController->renderPartial('index', NULL, true)
+#1 N:\home\test3.ru\www\protected\controllers\MembersController.php(34): CController->render('index')
+#2 N:\home\test3.ru\yii\framework\web\actions\CInlineAction.php(50): MembersController->actionIndex()
+#3 N:\home\test3.ru\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#4 N:\home\test3.ru\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#5 N:\home\test3.ru\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 N:\home\test3.ru\yii\framework\web\CWebApplication.php(283): CController->run('index')
+#7 N:\home\test3.ru\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('members/index')
+#8 N:\home\test3.ru\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#9 N:\home\test3.ru\www\index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=members/index
+---
+2012/12/11 21:34:47 [error] [exception.CException] exception 'CException' with message 'MembersController cannot find the requested view "index".' in N:\home\test3.ru\yii\framework\web\CController.php:879
+Stack trace:
+#0 N:\home\test3.ru\yii\framework\web\CController.php(783): CController->renderPartial('index', NULL, true)
+#1 N:\home\test3.ru\www\protected\controllers\MembersController.php(21): CController->render('index')
+#2 N:\home\test3.ru\yii\framework\web\actions\CInlineAction.php(50): MembersController->actionSignup()
+#3 N:\home\test3.ru\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#4 N:\home\test3.ru\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#5 N:\home\test3.ru\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 N:\home\test3.ru\yii\framework\web\CWebApplication.php(283): CController->run('signup')
+#7 N:\home\test3.ru\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('members/signup')
+#8 N:\home\test3.ru\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#9 N:\home\test3.ru\www\index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=members/signup
+HTTP_REFERER=http://test3.ru/index.php?r=members/signup
+---
+2012/12/11 21:37:47 [error] [exception.CException] exception 'CException' with message 'MembersController cannot find the requested view "signup".' in N:\home\test3.ru\yii\framework\web\CController.php:879
+Stack trace:
+#0 N:\home\test3.ru\yii\framework\web\CController.php(783): CController->renderPartial('signup', NULL, true)
+#1 N:\home\test3.ru\www\protected\controllers\MembersController.php(21): CController->render('signup')
+#2 N:\home\test3.ru\yii\framework\web\actions\CInlineAction.php(50): MembersController->actionSignup()
+#3 N:\home\test3.ru\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#4 N:\home\test3.ru\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#5 N:\home\test3.ru\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 N:\home\test3.ru\yii\framework\web\CWebApplication.php(283): CController->run('signup')
+#7 N:\home\test3.ru\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('members/signup')
+#8 N:\home\test3.ru\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#9 N:\home\test3.ru\www\index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=members/signup
+HTTP_REFERER=http://test3.ru/index.php?r=members/signup
+---
+2012/12/19 03:01:05 [error] [exception.CException] exception 'CException' with message 'Property "MembersController.pattern" is not defined.' in N:\home\test3.ru\yii\framework\base\CComponent.php:131
+Stack trace:
+#0 N:\home\test3.ru\yii\framework\validators\CEmailValidator.php(84): CComponent->__get('pattern')
+#1 N:\home\test3.ru\www\protected\controllers\MembersController.php(22): CEmailValidator->validateValue('demo')
+#2 N:\home\test3.ru\yii\framework\web\actions\CInlineAction.php(50): MembersController->actionSignup()
+#3 N:\home\test3.ru\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#4 N:\home\test3.ru\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#5 N:\home\test3.ru\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 N:\home\test3.ru\yii\framework\web\CWebApplication.php(283): CController->run('signup')
+#7 N:\home\test3.ru\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('members/signup')
+#8 N:\home\test3.ru\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#9 N:\home\test3.ru\www\index.php(17): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=members/signup
+HTTP_REFERER=http://test3.ru/index.php?r=members/signup
+---
+2012/12/19 03:32:21 [error] [php] strpos() expects parameter 1 to be string, array given (N:\home\test3.ru\yii\framework\web\CController.php:707)
+Stack trace:
+#0 N:\home\test3.ru\yii\framework\web\CController.php(868): MembersController->getViewFile()
+#1 N:\home\test3.ru\yii\framework\web\CController.php(783): MembersController->renderPartial()
+#2 N:\home\test3.ru\www\protected\controllers\MembersController.php(53): MembersController->render()
+#3 N:\home\test3.ru\yii\framework\web\actions\CInlineAction.php(50): MembersController->actionSignup()
+#4 N:\home\test3.ru\yii\framework\web\CController.php(309): CInlineAction->runWithParams()
+#5 N:\home\test3.ru\yii\framework\web\CController.php(287): MembersController->runAction()
+#6 N:\home\test3.ru\yii\framework\web\CController.php(266): MembersController->runActionWithFilters()
+#7 N:\home\test3.ru\yii\framework\web\CWebApplication.php(283): MembersController->run()
+#8 N:\home\test3.ru\yii\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#9 N:\home\test3.ru\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#10 N:\home\test3.ru\www\index.php(17): CWebApplication->run()
+REQUEST_URI=/index.php?r=members/signup
+in N:\home\test3.ru\www\protected\controllers\MembersController.php (53)
+in N:\home\test3.ru\www\index.php (17)
+2012/12/24 02:19:36 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42P01]: Undefined table: 7 ОШИБКА:  отношение "tbluser" не существует
+LINE 1: select count(0) c from tbluser
+                               ^. The SQL statement executed was: select count(0) c from tbluser.
+in N:\home\test3.ru\www\protected\controllers\MembersController.php (31)
+in N:\home\test3.ru\www\index.php (17)
+2012/12/24 02:19:36 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42P01]: Undefined table: 7 ОШИБКА:  отношение "tbluser" не существует
+LINE 1: select count(0) c from tbluser
+                               ^. The SQL statement executed was: select count(0) c from tbluser' in N:\home\test3.ru\yii\framework\db\CDbCommand.php:528
+Stack trace:
+#0 N:\home\test3.ru\yii\framework\db\CDbCommand.php(390): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 N:\home\test3.ru\www\protected\controllers\MembersController.php(31): CDbCommand->queryAll()
+#2 N:\home\test3.ru\yii\framework\web\actions\CInlineAction.php(50): MembersController->actionSignup()
+#3 N:\home\test3.ru\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#4 N:\home\test3.ru\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#5 N:\home\test3.ru\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 N:\home\test3.ru\yii\framework\web\CWebApplication.php(283): CController->run('signup')
+#7 N:\home\test3.ru\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('members/signup')
+#8 N:\home\test3.ru\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#9 N:\home\test3.ru\www\index.php(17): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=members/signup
+HTTP_REFERER=http://test3.ru/index.php?r=members/signup
+---
+2012/12/24 02:19:54 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42P01]: Undefined table: 7 ОШИБКА:  отношение "tbl_user" не существует
+LINE 1: select count(0) c from tbl_user
+                               ^. The SQL statement executed was: select count(0) c from tbl_user.
+in N:\home\test3.ru\www\protected\controllers\MembersController.php (31)
+in N:\home\test3.ru\www\index.php (17)
+2012/12/24 02:19:54 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42P01]: Undefined table: 7 ОШИБКА:  отношение "tbl_user" не существует
+LINE 1: select count(0) c from tbl_user
+                               ^. The SQL statement executed was: select count(0) c from tbl_user' in N:\home\test3.ru\yii\framework\db\CDbCommand.php:528
+Stack trace:
+#0 N:\home\test3.ru\yii\framework\db\CDbCommand.php(390): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 N:\home\test3.ru\www\protected\controllers\MembersController.php(31): CDbCommand->queryAll()
+#2 N:\home\test3.ru\yii\framework\web\actions\CInlineAction.php(50): MembersController->actionSignup()
+#3 N:\home\test3.ru\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#4 N:\home\test3.ru\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#5 N:\home\test3.ru\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 N:\home\test3.ru\yii\framework\web\CWebApplication.php(283): CController->run('signup')
+#7 N:\home\test3.ru\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('members/signup')
+#8 N:\home\test3.ru\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#9 N:\home\test3.ru\www\index.php(17): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=members/signup
+HTTP_REFERER=http://test3.ru/index.php?r=members/signup
+---
