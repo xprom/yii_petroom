@@ -29,65 +29,124 @@ class User extends CActiveRecord
 		return 'tbl_user';
 	}
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('id, username, password, email', 'required'),
-			array('id', 'numerical', 'integerOnly'=>true),
-			array('username, password, email', 'length', 'max'=>128),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, username, password, email', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * добавление нового пользователя
+     * @param array $data
+     */
+    public static function registrate($data = array())
+    {
+        $insertMember = Yii::app()->db->createCommand("insert into {{user}} (email,password,username,timezone) values (:email,:password,:username,:timezone) returning id");
+        $insertMember->bindParam(":email",$data['email'],PDO::PARAM_STR);
+        $insertMember->bindParam(":password",$data['password'],PDO::PARAM_STR);
+        $insertMember->bindParam(":username",$data['username'],PDO::PARAM_STR);
+        $insertMember->bindParam(":timezone",$data['timezone'],PDO::PARAM_STR);
+        $r = $insertMember->queryAll();
+        $_SESSION['MEMBERS']['ID'] = $r[0]['id'];
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
-	}
+        self::updateSessionData();
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'username' => 'Username',
-			'password' => 'Password',
-			'email' => 'Email',
-		);
-	}
+    /**
+     * обновляем контактную информацию о пользователе
+     * @param array $data
+     */
+    public static function updateProfiler($data = array())
+    {
+        $insertMember = Yii::app()->db->createCommand("
+          update {{user}} set
+              name=:name,
+              sex=:sex,
+              birthday=:birthday,
+              site=:site,
+              twitter=:twitter,
+              facebook=:facebook,
+              aim=:aim,
+              about=:about
+          where id=:id
+        ");
+        $insertMember->bindParam(":name",$data['name'],PDO::PARAM_STR);
+        $insertMember->bindParam(":sex",intval($data['sex']),PDO::PARAM_INT);
+        $insertMember->bindParam(":birthday",date('d.m.Y',$data['birthday']),PDO::PARAM_STR);
+        $insertMember->bindParam(":site",$data['site'],PDO::PARAM_STR);
+        $insertMember->bindParam(":twitter",$data['twitter'],PDO::PARAM_STR);
+        $insertMember->bindParam(":facebook",$data['facebook'],PDO::PARAM_STR);
+        $insertMember->bindParam(":aim",$data['aim'],PDO::PARAM_STR);
+        $insertMember->bindParam(":about",$data['about'],PDO::PARAM_STR);
+        $insertMember->bindParam(":id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $r = $insertMember->queryAll();
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+        self::updateSessionData();
+    }
+    /**
+     * обновляем фотографию пользователя
+     * @param array $data
+     */
+    public static function updatePhoto($data = array())
+    {
+        $insertMember = Yii::app()->db->createCommand("
+          update {{user}} set
+              image_thumb=:image_thumb,
+              image_50=:image_50,
+              image=:image
+          where id=:id
+        ");
+        $insertMember->bindParam(":image",$data['image'],PDO::PARAM_STR);
+        $insertMember->bindParam(":image_thumb",$data['image_thumb'],PDO::PARAM_STR);
+        $insertMember->bindParam(":image_50",$data['image_50'],PDO::PARAM_STR);
+        $insertMember->bindParam(":id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $r = $insertMember->queryAll();
 
-		$criteria=new CDbCriteria;
+        self::updateSessionData();
+    }
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('email',$this->email,true);
+    /**
+     * обновляем данные сессии
+     */
+    public static function updateSessionData()
+    {
+        $data = Yii::app()->db->createCommand("select * from {{user}} where id=:id");
+        $data->bindParam(":id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $r = $data->queryAll();
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        $_SESSION['MEMBERS']['image'] = $r[0]['image'];
+        $_SESSION['MEMBERS']['image_thumb'] = $r[0]['image_thumb'];
+        $_SESSION['MEMBERS']['image_50'] = $r[0]['image_50'];
+
+        $_SESSION['MEMBERS']['name'] = $r[0]['name'];
+        $_SESSION['MEMBERS']['sex'] = $r[0]['sex'];
+        $_SESSION['MEMBERS']['birthday'] = $r[0]['birthday'];
+        $_SESSION['MEMBERS']['site'] = $r[0]['site'];
+        $_SESSION['MEMBERS']['twitter'] = $r[0]['twitter'];
+        $_SESSION['MEMBERS']['facebook'] = $r[0]['facebook'];
+        $_SESSION['MEMBERS']['aim'] = $r[0]['aim'];
+        $_SESSION['MEMBERS']['about'] = $r[0]['about'];
+        $_SESSION['MEMBERS']['username'] = $r[0]['username'];
+        $_SESSION['MEMBERS']['timezone'] = $r[0]['timezone'];
+        $_SESSION['MEMBERS']['email'] = $r[0]['email'];
+    }
+
+    public static function saveStatus($text)
+    {
+        $insertMember = Yii::app()->db->createCommand("
+            insert into {{status}} (user_id,date,text) values (:user_id,now(),:text)
+        ");
+        $insertMember->bindParam(":text",   $text,PDO::PARAM_STR);
+        $insertMember->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $insertMember->queryAll();
+
+        $_SESSION['MEMBERS']['status'] = $text;
+
+        self::updateSessionData();
+    }
+
+    public static function authorization($login,$password)
+    {
+        $testEmail = Yii::app()->db->createCommand("select id from {{user}} where email=:email");
+        $testEmail->bindParam(":email",trim($login),PDO::PARAM_STR);
+        $r = $testEmail->queryAll();
+
+        $_SESSION['MEMBERS']['ID'] = $r[0]['id'];
+        self::updateSessionData();
+    }
+
 }

@@ -326,7 +326,7 @@ table {
                 border: solid 1px #d5d0d0;
             }
             #head_line form .search {
-                background: url("../i/sprite.png") no-repeat scroll -246px 4px transparent;
+                background: url("../i/sprite.png") no-repeat scroll -246px 4px #ffffff;
                 padding-left: 25px;
                 width: 138px;
                 margin-right: 116px;
@@ -347,6 +347,7 @@ table {
         #head_line .submit {
             display: block;
             width: 94px;
+            cursor: pointer;
             height: 27px;
             background: url("../i/sprite.png") no-repeat scroll 0 -28px white;
             float: right;
@@ -372,6 +373,9 @@ table {
             line-height: 14px;
             padding-bottom: 23px;
         }
+            .aside .status a:hover {
+                text-decoration: underline;
+            }
             .aside .status div {
                 margin: 3px 0;
                 color: #aaa0a0;
@@ -876,11 +880,11 @@ table {
                     float: right;
                     font-size: 9px;
                     font-weight: bold;
-                    line-height: 16px;
-                    margin-top: 4px;
+                    line-height: 9px;
                     margin-right: 9px;
-                    padding: 0 4px;
-                    text-shadow: 0px 0px 1px #5e5e5e;
+                    margin-top: 4px;
+                    padding: 4px 4px 2px;
+                    text-shadow: 0 0 1px #5E5E5E;
 
                 }
                 .left-menu .border-bottom ul li a span.green {
@@ -1058,7 +1062,13 @@ table {
                     border: solid 1px #d5d0d0;
                     resize: none;
                     height: 18px;
+                    line-height: 18px;
                 }
+                    .inner-content .insert-comment-focus textarea {
+                        height: 55px;
+                        margin-left: 7px;
+                        width: 315px;
+                    }
 #login-holder p {
     color: #AAA0A0;
     margin-top: 8px;
@@ -1093,7 +1103,8 @@ h3.inner-title {
     overflow: hidden;
     text-align: left;
 }
-#login-holder label span, #login-holder label span, #login-holder input.text, #login-holder span.text, #user_form_login input.text, #password, #user_form_auth_forgot input.text {
+#login-holder label span, #login-holder label span, #login-holder input.text, #login-holder span.text, #user_form_login input.text, #password, #user_form_auth_forgot input.text,
+#user_form_login textarea.text {
     color: #807171;
     display: block;
     font-size: 14px;
@@ -1103,11 +1114,17 @@ h3.inner-title {
     width: 225px;
 }
 
-#login-holder input.text, #login-holder span.text, #user_form_login input.text, #password, #user_form_auth_forgot input.text {
+#login-holder input.text,
+#user_form_login textarea.text,
+#login-holder span.text, #user_form_login input.text, #password, #user_form_auth_forgot input.text {
     background: none repeat scroll 0 0 white;
     border: 1px solid #D8D3D3;
     display: block;
     height: 20px;
+}
+#user_form_login textarea.text {
+    height: 150px;
+    width: 300px;
 }
 .global_form div.form-wrapper {
     clear: both;
@@ -1121,10 +1138,6 @@ h3.inner-title {
     padding: 4px 15px 0 2px;
     text-align: right;
     width: 150px;
-}
-.global_form > div > div > h3 + div, .global_form > div > div > h3 + p + div {
-    margin-top: 10px;
-    padding: 0.7em;
 }
 .global_form div > p {
     max-width: 450px;
@@ -1176,3 +1189,106 @@ ul.form-errors > li {
     border: medium none;
     color: white;
 }
+.photo-upload-form img {
+    border: solid 1px #afa6a6;
+}
+.thumb {
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    border-radius: 40px;
+    border:1px solid #AFA6A6;
+}
+.shadow {
+    background: #000000;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    opacity: 0.2;
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+    left: 0;
+    display: none;
+    top: 0;
+}
+.change-current-status {
+    left: 50%;
+    display: none;
+    margin-left: -200px;
+    position: absolute;
+    top: 50px;
+    width: 400px;
+}
+.submin-button {
+    background: none repeat scroll 0 0 #44C6C6;
+    border: medium none;
+    color: white;
+    padding: 4px 14px;
+    cursor: pointer;
+    -webkit-border-radius: 18px;
+    -moz-border-radius: 18px;
+    border-radius: 18px;
+}
+    .submin-button:hover {
+        background: none repeat scroll 0 0 #00D4DC;
+    }
+
+.transparent-borders {
+    overflow: hidden;
+    padding: 18px 0;
+    position: relative;
+}
+.transparent-borders .cr {
+    background: url("../i/border-t_b.png") no-repeat scroll 0 0 transparent;
+    position: absolute;
+}
+.transparent-borders .r {
+    height: 36px;
+    left: -18px;
+    margin-left: 100%;
+    width: 18px;
+}
+.transparent-borders .t {
+    top: -18px;
+}
+.transparent-borders .l {
+    height: 36px;
+    left: -18px;
+    width: 100%;
+}
+.transparent-borders .b {
+    height: 18px;
+    top: auto;
+}
+.transparent-borders .sh-r {
+    background: url("../i/border-l_r.png") repeat-y scroll 100% 0 transparent;
+    padding-right: 18px;
+    position: relative;
+}
+.transparent-borders .sh-l {
+    background: url("../i/border-l_r.png") repeat-y scroll 0 0 transparent;
+    padding-left: 18px;
+    position: relative;
+}
+.inner-shadow {
+    background: white;
+    padding: 15px;
+}
+.inner-shadow input[type=text] {
+    border: 1px solid #CCCCCC;
+    margin-bottom: 15px;
+    padding: 4px;
+    width: 325px;
+}
+.void-status {
+    color:#41403B;
+}
+#send-button-post-div {
+    padding: 0 15px 15px 15px;
+    display: none;
+}
+    .post .insert-comment .submin-button {
+        margin-top: 7px;
+        margin-right: 7px;
+    }
+    .insert-comment img {
+        float: left;
+    }

@@ -35,7 +35,7 @@
             </form>
         </div>
 
-        <div id="intro-holder">
+<div id="intro-holder">
             <div class="el el1"></div>
             <div class="el el2"></div>
             <div class="el el3"></div>
@@ -52,8 +52,8 @@
             </div>
         </div>
 
-        <div class="clear"></div>
-        <div class="index-bg">
+<div class="clear"></div>
+<div class="index-bg">
             <p class="i">Bekannt aus den Medien:</p>
 
             <div class="sub-slider">
@@ -116,4 +116,4 @@
                     </td>
                 </tr>
             </table>
-        </div>
+</div>

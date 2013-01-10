@@ -7,6 +7,14 @@ $(document).ready(function(){
         $(this).addClass('focus');
     });
 
+    $('#user_form_login input[name=username]').keypress(function(){
+        $('#profile_address_text').html( $(this).val() );
+    });
+
+    $('#user_form_login input[name=username]').keyup(function(){
+        $('#profile_address_text').html( $(this).val() );
+    });
+
     if( $('#login-holder input[name=nickname]').val()!='Tiername' )
         $('#login-holder input[name=nickname]').addClass('focus');
 
@@ -137,6 +145,162 @@ $(document).ready(function(){
     }
 
     window.setTimeout('next_slider(1);',window['next_slider_speed']);
+
+    /**
+     * смена статуса
+     */
+    $('.aside .status a').click(function(){
+        if($('.aside .status a.void-status').size()==0)
+        {
+            $('.change-current-status input[type=text]').val($.trim($('.aside .status a.text-status').html()) );
+        }
+        $('.shadow, .change-current-status').show();
+        return false;
+    })
+
+    $('.change-current-status input[type=button]').click(function(){
+        if($.trim($('.change-current-status input[type=text]').val())=='')
+        {
+            $('.aside .status a.text-status').html($.trim($('.aside .status a.text-status').attr('void-text')))
+                                             .addClass('void-status');
+        }
+        else
+        {
+            $('.aside .status a.text-status').html($.trim($('.change-current-status input[type=text]').val()))
+                                             .removeClass('void-status');
+        }
+        $.ajax({
+            url:'/?save_status=1',
+            data:{
+                text:$.trim($('.change-current-status input[type=text]').val())
+            }
+        });
+        $('.shadow, .change-current-status').hide();
+    })
+
+    /**
+     * вставка нового поста
+     */
+    $('.insert-news textarea').focus(function(){
+        $('#send-button-post-div').show();
+        if($.trim($(this).val())==$(this).attr('void-text'))
+            $(this).val('');
+
+        $(this).animate({
+            height:'50px'
+        },{
+            complete:function(){
+
+            }
+        });
+    });
+
+    $('.insert-news textarea').blur(function(){
+        if($.trim($(this).val())=='' || $.trim($(this).val())==$(this).attr('void-text'))
+        {
+            ~function(self){
+                window['timer_post_message'] = window.setTimeout(function(){
+                    $(self).val($(self).attr('void-text'));
+                    $('#send-button-post-div').hide();
+
+                    $(self).animate({
+                        height:'18px'
+                    },{
+                        complete:function(){
+
+                        }
+                    });
+                },100);
+            }(this);
+        }
+    });
+
+    $('#send-button-post-div input[type=button]').click(function(){
+        clearTimeout(window['timer_post_message']);
+        $.ajax({
+            url:'?savePost',
+            data:{
+                text:$('.insert-news textarea').val()
+            }
+        })
+
+
+        $('.insert-news').after('<div class="post border-bottom">\
+            <div class="post-logo">\
+            <span class="online"></span>\
+            <img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'">\
+            Online\
+            </div>\
+        <a href="/profile/'+$('input[name=members_home]').val()+'"><b>'+$('input[name=members_name]').val()+'</b></a><br />\
+            <div class="post-left post-text">\
+            '+$('.insert-news textarea').val().replace(/\n/g,"<br>")+'\
+            </div>\
+        <div class="post-date post-left">Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a></div>\
+        </div>');
+
+        $('.insert-news textarea').val('');
+        $('.insert-news textarea').blur();
+        return false;
+    });
+
+    Window.prototype.show_comment_form = function(el){
+        if($(el).parents('.post').find('.insert-comment').size()==0)
+        {
+            $(el).parents('.post')
+                .append('<div class="insert-comment">\
+                            <textarea class="radius" name="text">Schreib hier dein Kommentar</textarea>\
+                        </div>');
+        }
+        $(el).parents('.post').find('.insert-comment textarea').focus();
+    }
+
+    $('.post .insert-comment textarea').live('focus',function(){
+
+        if( $(this).parents('.insert-comment').find('.submin-button').size()==0 )
+        {
+            $(this).after('<input type="button" class="submin-button" value="Send"> <span>Ctrl+Enter – send message</span>');
+            $(this).before('<img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'">');
+            $(this).parents('.insert-comment').addClass('insert-comment-focus');
+        }
+
+        if($(this).val()=='Schreib hier dein Kommentar')
+            $(this).val('');
+    });
+
+    $('.post .insert-comment textarea').live('blur',function(){
+
+        !function(self){
+            window['comment_timer'] = window.setTimeout(function(){
+                $(self).parents('.insert-comment')
+                    .removeClass('insert-comment-focus')
+                    .find(':not(textarea)')
+                    .remove();
+
+                if($.trim($(self).val())=='')
+                    $(self).val('Schreib hier dein Kommentar');
+            },100);
+        }(this);
+    });
+
+    $('.post .insert-comment input[type=button]').live('click',function(){
+        clearTimeout(window['comment_timer']);
+
+        var text = $(this).parents('.insert-comment').find('textarea');
+        if($.trim(text.val())=='' || $.trim(text.val())=='Schreib hier dein Kommentar')
+        {
+            text.focus();
+            return;
+        }
+
+    });
+
+    $('.post .insert-comment textarea').live('blur',function(){
+
+        if($(this).val()=='')
+            $(this).val('Schreib hier dein Kommentar');
+
+    });
+
 
     $('.navigator a').click(function(){
         if($(this).hasClass('active'))

@@ -5,6 +5,9 @@
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
+date_default_timezone_set('Asia/Novosibirsk');
+session_start();
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'My Web Application',
@@ -23,9 +26,6 @@ return array(
             'password'=>'14789632',
         ),
     ),
-
-
-
 	// application components
 	'components'=>array(
 		'user'=>array(

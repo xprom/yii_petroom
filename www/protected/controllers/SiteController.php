@@ -21,15 +21,45 @@ class SiteController extends Controller
 		);
 	}
 
+    public function init()
+    {
+        if(!empty($_GET['save_status']))
+        {
+            User::saveStatus($_GET['text']);
+            exit();
+        }
+
+        if(isset($_GET['savePost']))
+        {
+            Post::savePost($_GET['']);
+            exit();
+        }
+    }
+
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
 	 */
 	public function actionIndex()
 	{
-		// renders the view file 'protected/views/site/index.php'
+        $data = array();
+
+        /**
+         * есчли человек авторизован
+         * то выводим всю информацию для его стены
+         */
+        if(!empty($_SESSION['MEMBERS']['ID']))
+        {
+            $data['wall'] = Post::getTimeLineList();
+        }
+
+
+        // renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+        if(!empty($_SESSION['MEMBERS']['ID']))
+            $this->render('members/home',$data);
+        else
+		    $this->render('index',$data);
 	}
 
 	/**

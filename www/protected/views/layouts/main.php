@@ -35,7 +35,7 @@
 
             <a href="/" class="logo"></a>
 
-            <form method="POST" action="/login/">
+            <form method="POST" action="<?=CHtml::normalizeUrl(array('members/signin'));?>">
                 <input type="submit" class="submit" value="Einloggen" />
 
                 <label>
@@ -45,7 +45,7 @@
 
                 <label class="pass_label">
                     <span>Passwort</span>
-                    <input type="password" class="text radius" name="pass" value="" />
+                    <input type="password" class="text radius" name="password" value="" />
                 </label>
 
 
@@ -147,65 +147,34 @@
         </table>
         <p class="copy">Petroom © 2012 · Deutsch · Vitali Tcherednitchenko · Liebevoll in Zürich entwickelt</p>
     </div>
-</body>
-</html>
+
+    <div class="shadow"></div>
+    <div class="change-current-status">
+        <div class="transparent-borders">
+            <b class="cr t l png"></b>
+            <b class="cr t r png"></b>
+            <div class="sh-l">
+                <div class="sh-r png">
+                    <div class="inner-shadow">
 
 
-<?
-exit();
-?>
+                        <input type="text" maxlength="255" name="current-status" value="" /><br />
+                        <input type="button" class="submin-button" value="Save" />
+
+                    </div>
+                </div>
+            </div>
+            <b class="cr b l png"></b>
+            <b class="cr b r png"></b>
+        </div>
 
 
-<?php /* @var $this Controller */ ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
 
-	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
-	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
-	<![endif]-->
 
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-</head>
 
-<body>
 
-<div class="container" id="page">
 
-	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-	</div><!-- header -->
-
-	<div id="mainmenu">
-        <?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
-	</div>
-
-    <!-- mainmenu -->
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
-
-	<?php echo $content; ?>
-
-	<div class="clear"></div>
-
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
-	</div><!-- footer -->
-
-</div><!-- page -->
-
+    </div>
 </body>
 </html>
