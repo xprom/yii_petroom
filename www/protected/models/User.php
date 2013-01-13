@@ -87,12 +87,14 @@ class User extends CActiveRecord
           update {{user}} set
               image_thumb=:image_thumb,
               image_50=:image_50,
+              image_31=:image_31,
               image=:image
           where id=:id
         ");
         $insertMember->bindParam(":image",$data['image'],PDO::PARAM_STR);
         $insertMember->bindParam(":image_thumb",$data['image_thumb'],PDO::PARAM_STR);
         $insertMember->bindParam(":image_50",$data['image_50'],PDO::PARAM_STR);
+        $insertMember->bindParam(":image_31",$data['image_31'],PDO::PARAM_STR);
         $insertMember->bindParam(":id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
         $r = $insertMember->queryAll();
 
@@ -111,6 +113,7 @@ class User extends CActiveRecord
         $_SESSION['MEMBERS']['image'] = $r[0]['image'];
         $_SESSION['MEMBERS']['image_thumb'] = $r[0]['image_thumb'];
         $_SESSION['MEMBERS']['image_50'] = $r[0]['image_50'];
+        $_SESSION['MEMBERS']['image_31'] = $r[0]['image_31'];
 
         $_SESSION['MEMBERS']['name'] = $r[0]['name'];
         $_SESSION['MEMBERS']['sex'] = $r[0]['sex'];

@@ -7,6 +7,67 @@ $(document).ready(function(){
         $(this).addClass('focus');
     });
 
+    $('.like ').live('click',function(){
+        $(this).toggleClass('like-active');
+        if( $(this).hasClass('like-active'))
+        {
+            $(this).find('span.counter').html( parseInt($(this).find('span.counter').html())+1 );
+            $.ajax({
+                url:'/?makeLike=1',
+                data: {
+                    postId:$(this).parents('.post')
+                                  .find('input.post-id')
+                                  .val()
+                }
+            });
+            $(this).mouseenter();
+            var hover_id = $(this).data('hover_id');
+            var like_string = $('input[name=members_home]').val() + '||' + $('input[name=image_31]').val();
+            var image_arr = $(this).attr('image-arr');
+            if(typeof(image_arr)=='undefined')
+                image_arr = like_string;
+            else
+                image_arr = like_string + '//' + image_arr;
+
+            $(this).attr('image-arr',image_arr);
+
+            $('#'+hover_id).find('.line')
+                           .css({marginLeft:'-31px'})
+                           .prepend('<a href="/profile/'+ $('input[name=members_home]').val() +'"><img align="absmiddle" class="thumb" src="/photos/'+ $('input[name=image_31]').val() +'" /></a>')
+                           .animate({
+                                marginLeft:0
+                            },100);
+        }
+        else
+        {
+            $(this).find('span.counter').html( parseInt($(this).find('span.counter').html())-1 );
+            var hover_id = $(this).data('hover_id');
+            var like_string = $('input[name=members_home]').val() + '||' + $('input[name=image_31]').val();
+            var image_arr = $(this).attr('image-arr');
+            image_arr = image_arr.replace(like_string,'');
+            image_arr = image_arr.replace('////','');
+
+            $(this).attr('image-arr',image_arr);
+
+
+            $('#'+hover_id).find('.line')
+                           .animate({marginLeft:'-31px'},100,function(){
+                                $(this).find('img:eq(0)')
+                                       .remove();
+                                $(this).css({marginLeft:'0px'});
+                           });
+
+            $.ajax({
+                url:'/?unLike=1',
+                data: {
+                    postId:$(this).parents('.post')
+                        .find('input.post-id')
+                        .val()
+                }
+            });
+        }
+    });
+
     $('#user_form_login input[name=username]').keypress(function(){
         $('#profile_address_text').html( $(this).val() );
     });
@@ -235,7 +296,7 @@ $(document).ready(function(){
             <div class="post-left post-text">\
             '+$('.insert-news textarea').val().replace(/\n/g,"<br>")+'\
             </div>\
-        <div class="post-date post-left">Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a></div>\
+        <div class="post-date post-left"><div class="like "><span>mir gefällt</span><span class="counter">0</span></div>Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a></div>\
         </div>');
 
         $('.insert-news textarea').val('');
@@ -260,7 +321,9 @@ $(document).ready(function(){
         {
             $(this).after('<input type="button" class="submin-button" value="Send"> <span>Ctrl+Enter – send message</span>');
             $(this).before('<img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'">');
-            $(this).parents('.insert-comment').addClass('insert-comment-focus');
+            $(this).parents('.insert-comment')
+                   .addClass('insert-comment-focus')
+                   .show();
         }
 
         if($(this).val()=='Schreib hier dein Kommentar')
@@ -276,9 +339,20 @@ $(document).ready(function(){
                     .find(':not(textarea)')
                     .remove();
 
+                /**
+                 * если нет ниодного комментария у данной статьи - то скрываем и форму добавления
+                 */
+                if( $(self).parents('.post')
+                           .find('.sub-post')
+                           .size()==0 )
+                {
+                    $(self).parents('.insert-comment')
+                           .hide();
+                }
+
                 if($.trim($(self).val())=='')
                     $(self).val('Schreib hier dein Kommentar');
-            },100);
+            },200);
         }(this);
     });
 
@@ -291,7 +365,38 @@ $(document).ready(function(){
             text.focus();
             return;
         }
+        else
+        {
+            var insertComment = $(this).parents('.insert-comment');
+            insertComment.before('<div class="post sub-post border-bottom post-text">\
+                <div class="post-logo">\
+            <span class="online"></span>\
+            <img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'">\
+            Online\
+            </div>\
+        <a href="/profile/'+$('input[name=members_home]').val()+'"><b>'+$('input[name=members_name]').val()+'</b></a><br />\
+                <div class="post-left">\
+                ' + $.trim(text.val()).replace(/\n/g,"<br>") + '\
+                </div>\
+            <div class="post-date post-left">\
+            <div class="like"><span>mir gefällt</span><span class="counter">0</span></div>\
+            Donnerstag um 20:54\
+        </div>\
+            </div>');
+            $.ajax({
+                url:'?savePost=1',
+                data:{
+                    text:$.trim(text.val()),
+                    parent_id:$(this).parents('.post')
+                                     .find('input.post-id')
+                                     .val()
+                }
+            });
 
+            text.val('Schreib hier dein Kommentar');
+            text.blur();
+            return false;
+        }
     });
 
     $('.post .insert-comment textarea').live('blur',function(){
@@ -300,6 +405,104 @@ $(document).ready(function(){
             $(this).val('Schreib hier dein Kommentar');
 
     });
+
+    /**
+     * лайк новостей
+     */
+    $('.like').hover(function(){
+
+        var count = parseInt($(this).find('span.counter').html());
+        if(count==0)
+            return false;
+
+        if( count>1 )
+            count+= ' animals like this';
+        else
+            count+= ' animal like this';
+
+        if($(this).hasClass('hover'))
+        {
+            var hover_id = $(this).data('hover_id');
+            clearTimeout(window['close_tip' + hover_id]);
+            var tip = $('#'+hover_id);
+            tip.stop();
+            tip.css('visibility','visible');
+            if($('.ie7').size()==0)
+                tip.animate({opacity:0.8},100);
+
+            return false;
+        }
+
+        $(this).addClass('hover');
+        var hover_id = 'hover'+new Date().getTime();
+        $(this).data('hover_id',hover_id);
+        $(this).attr('id','like'+hover_id);
+
+        var image_string = $(this).attr('image-arr');
+        var image_arr = image_string.split('//');
+        var tip_img_str = '';
+        for(x in image_arr)
+        {
+            var s = image_arr[x].split('||');
+            if(typeof(s[1])!='undefined')
+                tip_img_str += '<a href="/profile/'+ s[0] +'"><img align="absmiddle" class="thumb" src="/photos/'+ s[1] +'"></a>';
+        }
+
+        tip = $('<div class="tool-tip" id="'+hover_id+'">'+count +'<br /><div class="line">' +
+            tip_img_str +
+            '</div><div class="tr">&nbsp;</div></div>');
+
+        var offset = $(this).offset();
+
+        tip.appendTo( $('body') );
+        tip.css({ top: offset.top - 80 + 'px', visibility: 'hidden' });
+
+
+        //tip.css({marginTop:'-'+ ( $(tip).height() + 19 ) +'px'})
+//           .css({marginLeft:'-'+Math.round(0.5*($(tip).width()+25)) +'px'});
+        tip.css('visibility','visible');
+        if($('.ie7').size()==0)
+            tip.animate({opacity:0.8},100);
+    },function(){
+        ~function(self){
+            var hover_id = $(self).data('hover_id');
+            window['close_tip' + hover_id] = window.setTimeout(function(){
+                var tip = $('#'+hover_id);
+                tip.animate({opacity:0},250,function(){
+                    $(this).remove();
+                    $(self).removeClass('hover')
+                           .removeData('hover_id');
+                });
+            },400);
+        }(this);
+    });
+
+    $(".tool-tip").live({
+        mouseenter:
+            function(){
+                var hover_id = $(this).attr('id');
+                clearTimeout(window['close_tip' + hover_id]);
+                $(this).stop()
+                       .css('visibility','visible');
+
+                if($('.ie7').size()==0)
+                    $(this).animate({opacity:0.8},100);
+            },
+            mouseleave:function(){
+                var hover_id = $(this).attr('id');
+
+                window['close_tip' + hover_id] = window.setTimeout(function(){
+                    var tip = $('#'+hover_id);
+                    tip.animate({opacity:0},250,function(){
+                        $(this).remove();
+
+                        $('#like'+hover_id).removeClass('hover')
+                                           .removeData('hover_id');
+                    });
+                },400);
+            }
+        }
+    );
 
 
     $('.navigator a').click(function(){

@@ -95,9 +95,10 @@
     <div class="logo-holder">
         <div class="logo">
             <img src="/photos/<?=$_SESSION['MEMBERS']['image_thumb'];?>" class="thumb" />
-            <input type="hidden" name="image_50" value="<?=$_SESSION['MEMBERS']['image_50'];?>" />
-            <input type="hidden" name="members_name" value="<?=$_SESSION['MEMBERS']['name'];?>" />
-            <input type="hidden" name="members_home" value="<?=$_SESSION['MEMBERS']['username'];?>" />
+            <input type="hidden" name="image_50" value="<?=trim($_SESSION['MEMBERS']['image_50']);?>" />
+            <input type="hidden" name="image_31" value="<?=trim($_SESSION['MEMBERS']['image_31']);?>" />
+            <input type="hidden" name="members_name" value="<?=trim($_SESSION['MEMBERS']['name']);?>" />
+            <input type="hidden" name="members_home" value="<?=trim($_SESSION['MEMBERS']['username']);?>" />
             <a href="#" class="pancel"></a>
         </div>
 
@@ -225,224 +226,82 @@
         </div>
     </div>
 
-<div class="inner-content">
-<div class="content">
-<div class="insert-news border-bottom">
-    <textarea name="text" rows="0" class="radius" void-text="Teile hier etwas">Teile hier etwas</textarea>
-    <div id="send-button-post-div">
-        <input type="button" class="submin-button" value="Send" />
-    </div>
-</div>
+    <div class="inner-content">
+        <div class="content">
+            <div class="insert-news border-bottom">
+                <textarea name="text" rows="0" class="radius" void-text="Teile hier etwas">Teile hier etwas</textarea>
+                <div id="send-button-post-div">
+                    <input type="button" class="submin-button" value="Send" />
+                </div>
+            </div>
+            <?php
+            foreach($wall as $key => $value)
+            {
+                ?>
+                <div class="post <?=count($wall)!=++$key?'border-bottom':'';?>">
+                    <input type="hidden" name="post[<?=$value['id'];?>]" class="post-id" value="<?=$value['id'];?>" />
+                    <div class="post-logo">
+                        <span class="online"></span>
+                        <img class="thumb" src="/photos/<?=trim($value['image_50']);?>" />
+                        Online
+                    </div>
 
-<div class="post border-bottom">
-    <div class="post-logo">
-        <span class="online"></span>
-        <img src="i/post-image.png" />
-        Online
-    </div>
-    <a href="#"><b>Daisy</b></a><br />
-    <div class="post-left post-text">
-        Um reniae deliciliquo doluptat voluptam nonsect ibusdam, nest, omnia
-        con pel ilit fugiant, aut ium iderum ugiant, aut ium iderum
-    </div>
-    <div class="post-date post-left">Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a></div>
-</div>
-<div class="post border-bottom">
-    <div class="post-logo">
-        <span class="online"></span>
-        <img src="i/post-image.png" />
-        Online
-    </div>
-    <a href="#"><b>Lady Sonia</b></a><br />
-    <div class="post-left post-text">
-        Tempost eaquis dolest officae conseque parum :::::/(())
-    </div>
+                    <a href="/profile/<?=trim($value['username']);?>"><b><?=trim($value['name']);?></b></a>
+                    <br />
 
-    <div class="post-date post-left">
-        <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-        Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>
-    </div>
-</div>
-<div class="post border-bottom">
-    <div class="post-logo">
-        <span class="online"></span>
-        <img src="i/post-image.png" />
-        Online
-    </div>
-    <a href="#"><b>Lady Sonia</b></a>hat ein Video geteilt<br />
-    <div class="post-left post-text">
-        <img src="i/update-profiler.png">
-    </div>
+                    <div class="post-left post-text">
+                        <?=nl2br(trim($value['text']));?>
+                    </div>
 
-    <div class="post-date post-left">
-        <div class="like like-active"><span>mir gefällt</span><span class="counter">12</span></div>
-        Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>
-    </div>
+                    <div class="post-date post-left">
+                        <div image-arr="<?=$value['like_images'];?>" class="like <?=!empty($value['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($value['like_count']);?></span></div>
+                        Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>
+                    </div>
 
-    <div class="comment-count post-left">Alle 6 Kommentare anzeigen</div>
+                    <?
+                    if(intval($value['comment_count'])>10)
+                    {
+                        ?>
+                        <div class="comment-count post-left">Alle <?=intval($value['comment_count']);?> Kommentare anzeigen</div>
+                        <?
+                    }
+                    ?>
 
-    <div class="post sub-post border-bottom post-text">
-        <div class="post-logo">
-            <span class="online"></span>
-            <img src="i/post-image.png" />
-            Online
-        </div>
-        <a href="#"><b>Lady Sonia</b></a><br />
-        <div class="post-left">
-            Tempost eaquis dolest officae conseque parum :::::/(())
-        </div>
+                    <?
+                    foreach((array)$value['comment'] as $k => $v)
+                    {
+                        ?>
+                        <div class="post sub-post <?=count($value['comment'])!=++$k?'border-bottom':'';?>" post-text">
+                            <div class="post-logo">
+                                <span class="online"></span>
+                                <img src="i/post-image.png" />
+                                Online
+                            </div>
+                            <a href="#"><b>Lady Sonia</b></a><br />
+                            <div class="post-left">
+                                Tempost eaquis dolest officae conseque parum :::::/(())
+                            </div>
 
-        <div class="post-date post-left">
-            <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-            Donnerstag um 20:54
-        </div>
-    </div>
-    <div class="post sub-post border-bottom post-text">
-        <div class="post-logo">
-            <span class="online"></span>
-            <img src="i/post-image.png" />
-            Online
-        </div>
-        <a href="#"><b>Lady Sonia</b></a><br />
-        <div class="post-left">
-            Tempost eaquis dolest officae conseque parum :::::/(())
-        </div>
+                            <div class="post-date post-left">
+                                <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
+                                Donnerstag um 20:54
+                            </div>
+                        </div>
+                        <?
+                    }
+                    ?>
 
-        <div class="post-date post-left">
-            <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-            Donnerstag um 20:54
-        </div>
-    </div>
-    <div class="post sub-post border-bottom post-text">
-        <div class="post-logo">
-            <span class="online"></span>
-            <img src="i/post-image.png" />
-            Online
-        </div>
-        <a href="#"><b>Lady Sonia</b></a><br />
-        <div class="post-left">
-            Tempost eaquis dolest officae conseque parum :::::/(())
-        </div>
+                    <div class="insert-comment <?=intval($value['comment_count'])>0?:'hidden';?>">
+                        <textarea name="text" class="radius">Schreib hier dein Kommentar</textarea>
+                    </div>
+                </div>
+                <?
+            }
+            ?>
 
-        <div class="post-date post-left">
-            <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-            Donnerstag um 20:54
         </div>
-    </div>
-    <div class="post sub-post post-text">
-        <div class="post-logo">
-            <span class="online"></span>
-            <img src="i/post-image.png" />
-            Online
-        </div>
-        <a href="#"><b>Lady Sonia</b></a><br />
-        <div class="post-left">
-            Tempost eaquis dolest officae conseque parum :::::/(())
-        </div>
-
-        <div class="post-date post-left">
-            <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-            Donnerstag um 20:54
-        </div>
-    </div>
-    <div class="insert-comment">
-        <textarea name="text" class="radius">Schreib hier dein Kommentar</textarea>
-    </div>
-</div>
-
-<div class="post border-bottom">
-    <div class="post-logo">
-        <span class="online"></span>
-        <img src="i/post-image.png" />
-        Online
-    </div>
-    <a href="#"><b>Lady Sonia</b></a>hat ein Video geteilt<br />
-    <div class="post-left post-text">
-        <a href="#"><img src="i/pho1.png" /></a>
-        <a href="#"><img src="i/pho2.png" /></a>
-        <a href="#"><img src="i/pho3.png" /></a>
     </div>
 
-    <div class="post-date post-left">
-        <div class="like like-active"><span>mir gefällt</span><span class="counter">12</span></div>
-        Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>
-    </div>
-
-    <div class="comment-count post-left">Alle 6 Kommentare anzeigen</div>
-
-    <div class="post sub-post border-bottom post-text">
-        <div class="post-logo">
-            <span class="online"></span>
-            <img src="i/post-image.png" />
-            Online
-        </div>
-        <a href="#"><b>Lady Sonia</b></a><br />
-        <div class="post-left">
-            Tempost eaquis dolest officae conseque parum :::::/(())
-        </div>
-
-        <div class="post-date post-left">
-            <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-            Donnerstag um 20:54
-        </div>
-    </div>
-    <div class="post sub-post border-bottom post-text">
-        <div class="post-logo">
-            <span class="online"></span>
-            <img src="i/post-image.png" />
-            Online
-        </div>
-        <a href="#"><b>Lady Sonia</b></a><br />
-        <div class="post-left">
-            Tempost eaquis dolest officae conseque parum :::::/(())
-        </div>
-
-        <div class="post-date post-left">
-            <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-            Donnerstag um 20:54
-        </div>
-    </div>
-    <div class="post sub-post border-bottom post-text">
-        <div class="post-logo">
-            <span class="online"></span>
-            <img src="i/post-image.png" />
-            Online
-        </div>
-        <a href="#"><b>Lady Sonia</b></a><br />
-        <div class="post-left">
-            Tempost eaquis dolest officae conseque parum :::::/(())
-        </div>
-
-        <div class="post-date post-left">
-            <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-            Donnerstag um 20:54
-        </div>
-    </div>
-    <div class="post sub-post post-text">
-        <div class="post-logo">
-            <span class="online"></span>
-            <img src="i/post-image.png" />
-            Online
-        </div>
-        <a href="#"><b>Lady Sonia</b></a><br />
-        <div class="post-left">
-            Tempost eaquis dolest officae conseque parum :::::/(())
-        </div>
-
-        <div class="post-date post-left">
-            <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-            Donnerstag um 20:54
-        </div>
-    </div>
-    <div class="insert-comment">
-        <textarea name="text" class="radius">Schreib hier dein Kommentar</textarea>
-    </div>
-</div>
-
-</div>
-</div>
-
-<div class="clear">
-</div>
+    <div class="clear"></div>
 
 </div>

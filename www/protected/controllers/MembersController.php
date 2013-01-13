@@ -124,6 +124,7 @@ class MembersController extends Controller
             User::updatePhoto(array(
                 'image' => $_POST['image'],
                 'image_thumb' => $_POST['image_thumb'],
+                'image_31' => $_POST['image_31'],
                 'image_50' => $_POST['image_50']
             ));
 
@@ -162,11 +163,19 @@ class MembersController extends Controller
                   ->adaptiveResize(50,50)
                   ->save('./photos/'.$new_file_name_50);
 
+            $new_file_name_31 = '31_'.md5(time()).'.'.strtolower(end(explode('.',$_FILES['photo']['name'])));
+            $thumb=new EPhpThumb();
+            $thumb->init();
+            $thumb->create($_FILES['photo']['tmp_name'])
+                  ->adaptiveResize(31,31)
+                  ->save('./photos/'.$new_file_name_31);
+
             print '<div id="new_photo"><img width="200" height="200" src="/photos/'.$new_file_name.'" /><br /><br />';
             print '<img class="thumb" width="70" height="70" src="/photos/'.$new_file_name_thumb.'" />
                    <input type="hidden" name="image" value="'.$new_file_name.'" />
                    <input type="hidden" name="image_thumb" value="'.$new_file_name_thumb.'" />
                    <input type="hidden" name="image_50" value="'.$new_file_name_50.'" />
+                   <input type="hidden" name="image_31" value="'.$new_file_name_31.'" />
                    </div>';
 
             print '<script>

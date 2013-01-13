@@ -1017,7 +1017,7 @@ table {
                     float: left;
                 }
                 .inner-content .post .like span.counter {
-                    background: url("../i/sprite.png") no-repeat scroll -210px -90px transparent;
+                    background: url("../i/sprite.png") no-repeat scroll -210px -92px transparent;
                     padding-left: 18px;
                 }
                 .inner-content .post .like-active span {
@@ -1027,10 +1027,10 @@ table {
                     color: #41403B;
                     font-weight: bold;
                     display: inline;
-                    background: url("../i/sprite.png") no-repeat scroll -210px -73px transparent;
+                    background: url("../i/sprite.png") no-repeat scroll -210px -75px transparent;
                 }
                     .inner-content .post .like:hover span.counter {
-                        background: url("../i/sprite.png") no-repeat scroll -210px -73px transparent;
+                        background: url("../i/sprite.png") no-repeat scroll -210px -75px transparent;
                     }
                 .inner-content .post .comment-count {
                     color: #00ADE0;
@@ -1291,4 +1291,45 @@ ul.form-errors > li {
     }
     .insert-comment img {
         float: left;
+    }
+.tool-tip {
+    background: none repeat scroll 0 0 black;
+    color: white;
+    font-weight: bold;
+    padding: 10px 5px 7px 10px;
+    position: absolute;
+    text-align: left;
+    width: 164px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-opacity: 0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;
+    left: 50%;
+    margin-left: 115px;
+    behavior: url(/templates/js/pie-1.0beta5/PIE.php);
+    -ms-filter: "alpha (opacity : 80 )";
+    overflow: hidden;
+}
+    .tool-tip img {
+        margin-right: 5px;
+        margin-top: 5px;
+    }
+    .tool-tip .tr {
+        background: url("../i/ballon.png") no-repeat scroll 0px 0px transparent;
+        bottom: -5px;
+        height: 5px;
+        left: 50%;
+        margin-left: -5px;
+        position: absolute;
+        width: 10px;
+    }
+    .tool-tip .line {
+        height: 41px;
+        margin-bottom: 0px;
+        overflow: hidden;
+    }
+    .tool-tip .thumb {
+        border-color: #000000;
     }

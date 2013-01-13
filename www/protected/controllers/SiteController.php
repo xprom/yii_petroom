@@ -29,9 +29,29 @@ class SiteController extends Controller
             exit();
         }
 
+        /**
+         * добавлние поста
+         */
         if(isset($_GET['savePost']))
         {
-            Post::savePost($_GET['']);
+            Post::savePost($_GET['text'],$_GET['parent_id']);
+            exit();
+        }
+
+        /**
+         * установка лайка
+         */
+        if(isset($_GET['makeLike']))
+        {
+            Post::like($_GET['postId']);
+            exit();
+        }
+        /**
+         * установка лайка
+         */
+        if(isset($_GET['unLike']))
+        {
+            Post::unlike($_GET['postId']);
             exit();
         }
     }
