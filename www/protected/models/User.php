@@ -11,6 +11,13 @@
  */
 class User extends CActiveRecord
 {
+    /**
+     * статус новых друзей
+     */
+    const FRIEND_STATUS_NEW = 1;
+
+    
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -151,5 +158,56 @@ class User extends CActiveRecord
         $_SESSION['MEMBERS']['ID'] = $r[0]['id'];
         self::updateSessionData();
     }
+
+    /**
+     * получаем спиок друзей пользователя
+     * @param $limit кол-во которое мы хотим получить
+     * @param bool $random сортировка по умолчанию
+     * @param int $status статус друзей
+     * 1 - новые заявки в друзья
+     * 2 - обработанные заявки в друзья
+     * 3 - отменённые заявки
+     *
+     * @return mixed массив друзей
+     */
+    public static  function getFriendList($limit=6,$random=false,$status=2)
+    {
+        $query = "
+            select
+                u.username,
+                u.image_31,
+                u.name,
+                u.id
+            from
+                {{friends}} f, {{user}} u
+            where
+                f.user_id=:user_id and
+                u.id=f.friend_user_id";
+
+        if(!empty($linit))
+        {
+            $query .= ' limit '.intval($linit);
+        }
+
+        if($random)
+        {
+            $query .= ' order by random()';
+        }
+
+
+        $list = Yii::app()->db->createCommand($query);
+        $list->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $r = $list->queryAll();
+
+        return (array)$r;
+    }
+
+    public static function addFrined($memberId)
+    {
+        $addFriend = Yii::app()->db->createCommand('INSERT into {{friends}} ()');
+        $addFriend->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $addFriend->queryAll();
+    }
+
 
 }

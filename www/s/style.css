@@ -883,7 +883,7 @@ table {
                     line-height: 9px;
                     margin-right: 9px;
                     margin-top: 4px;
-                    padding: 4px 4px 2px;
+                    padding: 4px 8px 2px;
                     text-shadow: 0 0 1px #5E5E5E;
 
                 }
@@ -1310,8 +1310,10 @@ ul.form-errors > li {
     margin-left: 115px;
     behavior: url(/templates/js/pie-1.0beta5/PIE.php);
     -ms-filter: "alpha (opacity : 80 )";
-    overflow: hidden;
 }
+    .tool-tip .line-holder {
+        overflow: hidden;
+    }
     .tool-tip img {
         margin-right: 5px;
         margin-top: 5px;

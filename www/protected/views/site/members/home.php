@@ -17,34 +17,49 @@
             <a href="#" class="button button-big button-big-group"></a>
             <a href="#" class="button button-big button-big-events"></a>
         </div>
-        <div class="friends border-bottom">
-            <a class="title">Vorschläge:</a>
-            <div class="add-friends-holder">
-                <div class="add-friends-new">
-                    <a href="#"><img src="i/fish-1.png" /></a>
-                    <a href="#"><b>Garfield06</b></a><br />
-                    <a href="#" class="add-friend">Hinzufügen</a>
-                    <a href="#" class="remove-friend">Folgen</a>
-                    <a href="#" class="deleter-friend"></a>
-                </div>
-                <div class="add-friends-new">
-                    <a href="#"><img src="i/fish-1.png" /></a>
-                    <a href="#"><b>Garfield06</b></a><br />
-                    <a href="#" class="add-friend">Hinzufügen</a>
-                    <a href="#" class="remove-friend">Folgen</a>
-                    <a href="#" class="deleter-friend"></a>
-                </div>
-                <div class="add-friends-new">
-                    <a href="#"><img src="i/fish-1.png" /></a>
-                    <a href="#"><b>Garfield06</b></a><br />
-                    <a href="#" class="add-friend">Hinzufügen</a>
-                    <a href="#" class="remove-friend">Folgen</a>
-                    <a href="#" class="deleter-friend"></a>
-                </div>
+        <?
+            /**
+             * новые заявки в друзья
+             */
+            if(count($newFriend)>0)
+            {
+            ?>
+            <div class="friends border-bottom">
+                <a class="title">Vorschläge:</a>
+                <div class="add-friends-holder">
+                    <?
+                    foreach($newFriend as $k => $value)
+                    {
+                        if($k>2)
+                            continue;
 
-                <a href="#">Mehr Vorschläge ›</a>
+                        ?>
+                        <div class="add-friends-new">
+                            <a target="_blank" href="/profile/<?=trim($value['username']);?>">
+                                <img class="thumb" src="/photos/<?=trim($value['image_31']);?>" />
+                            </a>
+                            <a target="_blank" href="/profile/<?=trim($value['username']);?>">
+                                <b><?=trim($value['name']);?></b>
+                            </a><br />
+                            <a href="#" class="add-friend">Hinzufügen</a>
+                            <a href="#" class="remove-friend">Folgen</a>
+                            <a href="#" class="deleter-friend"></a>
+                        </div>
+                        <?
+                    }
+
+                    if($newFriend>3)
+                    {
+                        ?>
+                        <a href="#">Mehr Vorschläge ›</a>
+                        <?
+                    }
+                    ?>
+                </div>
             </div>
-        </div>
+            <?
+            }
+        ?>
         <div class="friends border-bottom">
             <a class="title">Gemeinsame Freunde (23):</a>
             <a href="" class="fried"><img src="i/fish-1.png" align="absmiddle" /></a>
@@ -178,7 +193,7 @@
         <div class="border-bottom">
             <ul>
                 <li>
-                    <a href="#"><span>457</span>Freunde</a>
+                    <a href="#"><?=count($newFriend)>0?'<span>'.count($newFriend).'</span>':'';?>Freunde</a>
                 </li>
                 <li>
                     <a href="#">Folger</a>
@@ -242,7 +257,11 @@
                     <input type="hidden" name="post[<?=$value['id'];?>]" class="post-id" value="<?=$value['id'];?>" />
                     <div class="post-logo">
                         <span class="online"></span>
-                        <img class="thumb" src="/photos/<?=trim($value['image_50']);?>" />
+
+                        <a href="/profile/<?=trim($value['username']);?>">
+                            <img class="thumb" src="/photos/<?=trim($value['image_50']);?>" />
+                        </a>
+
                         Online
                     </div>
 
@@ -255,14 +274,15 @@
 
                     <div class="post-date post-left">
                         <div image-arr="<?=$value['like_images'];?>" class="like <?=!empty($value['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($value['like_count']);?></span></div>
-                        Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>
+                        <span class="time_needs_update" timestamp="<?=$value['date'];?>" abs_time="<?=Post::timeFormat($value['date']);?>"><?=Post::timeFormatFeed($value['date']);?></span>
+                        | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>
                     </div>
 
                     <?
-                    if(intval($value['comment_count'])>10)
+                    if(count((array)$value['comment'])>10)
                     {
                         ?>
-                        <div class="comment-count post-left">Alle <?=intval($value['comment_count']);?> Kommentare anzeigen</div>
+                        <div class="comment-count post-left">Alle <?=count((array)$value['comment']);?> Kommentare anzeigen</div>
                         <?
                     }
                     ?>
@@ -270,28 +290,44 @@
                     <?
                     foreach((array)$value['comment'] as $k => $v)
                     {
+                        $hidden = '';
+                        if(count((array)$value['comment'])>10)
+                        {
+                            if($k<count((array)$value['comment'])-5)
+                            {
+                                $hidden = 'hidden';
+                            }
+                        }
+
                         ?>
-                        <div class="post sub-post <?=count($value['comment'])!=++$k?'border-bottom':'';?>" post-text">
+                        <div class="post sub-post <?=$hidden;?> <?=count($value['comment'])!=++$k?'border-bottom':'';?>" post-text">
+                            <input type="hidden" name="post[<?=$v['id'];?>]" class="post-id" value="<?=$v['id'];?>" />
                             <div class="post-logo">
                                 <span class="online"></span>
-                                <img src="i/post-image.png" />
+
+                                <a href="/profile/<?=trim($v['username']);?>">
+                                    <img class="thumb" src="/photos/<?=trim($value['image_50']);?>" />
+                                </a>
                                 Online
                             </div>
-                            <a href="#"><b>Lady Sonia</b></a><br />
+
+                            <a href="/profile/<?=trim($v['username']);?>"><b><?=trim($v['name']);?></b></a>
+                            <br />
+
                             <div class="post-left">
-                                Tempost eaquis dolest officae conseque parum :::::/(())
+                                <?=nl2br($v['text']);?>
                             </div>
 
                             <div class="post-date post-left">
-                                <div class="like"><span>mir gefällt</span><span class="counter">12</span></div>
-                                Donnerstag um 20:54
+                                <div image-arr="<?=$v['like_images'];?>" class="like <?=!empty($v['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($v['like_count']);?></span></div>
+                                <span class="time_needs_update" timestamp="<?=$v['date'];?>" abs_time="<?=Post::timeFormat($v['date']);?>"><?=Post::timeFormatFeed($v['date']);?></span>
                             </div>
                         </div>
                         <?
                     }
                     ?>
 
-                    <div class="insert-comment <?=intval($value['comment_count'])>0?:'hidden';?>">
+                    <div class="insert-comment <?=count((array)$value['comment'])>0?:'hidden';?>">
                         <textarea name="text" class="radius">Schreib hier dein Kommentar</textarea>
                     </div>
                 </div>

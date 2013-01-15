@@ -1,4 +1,15 @@
 $(document).ready(function(){
+    window['like_count_string'] = function(count){
+        if( count>1 )
+            count+= ' animals like this';
+        else
+            count+= ' animal like this';
+        return count;
+    }
+
+    window['petroomNow'] = function(count){
+        return +new Date;
+    }
 
     $('#login-holder input[name=nickname]').focus(function(){
         if( $(this).val()=='Tiername' )
@@ -31,6 +42,10 @@ $(document).ready(function(){
 
             $(this).attr('image-arr',image_arr);
 
+            $('#'+hover_id).find('.tool-tip-count-holder')
+                           .html(like_count_string(parseInt($(this).find('span.counter').html())));
+
+
             $('#'+hover_id).find('.line')
                            .css({marginLeft:'-31px'})
                            .prepend('<a href="/profile/'+ $('input[name=members_home]').val() +'"><img align="absmiddle" class="thumb" src="/photos/'+ $('input[name=image_31]').val() +'" /></a>')
@@ -41,6 +56,9 @@ $(document).ready(function(){
         else
         {
             $(this).find('span.counter').html( parseInt($(this).find('span.counter').html())-1 );
+            var current_count = parseInt($(this).find('span.counter').html());
+            $(this).mouseenter();
+
             var hover_id = $(this).data('hover_id');
             var like_string = $('input[name=members_home]').val() + '||' + $('input[name=image_31]').val();
             var image_arr = $(this).attr('image-arr');
@@ -56,6 +74,19 @@ $(document).ready(function(){
                                        .remove();
                                 $(this).css({marginLeft:'0px'});
                            });
+
+            $('#'+hover_id).find('.tool-tip-count-holder')
+                           .html(like_count_string(current_count));
+
+            /**
+             * если никого не осталось,
+             * кому бы нравился данный пост
+             * то сразу скрываем
+             */
+            if(current_count==0)
+            {
+                $(this).mouseout();
+            }
 
             $.ajax({
                 url:'/?unLike=1',
@@ -289,7 +320,7 @@ $(document).ready(function(){
         $('.insert-news').after('<div class="post border-bottom">\
             <div class="post-logo">\
             <span class="online"></span>\
-            <img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'">\
+            <a href="/profile/'+$('input[name=members_home]').val()+'"><img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'"></a>\
             Online\
             </div>\
         <a href="/profile/'+$('input[name=members_home]').val()+'"><b>'+$('input[name=members_name]').val()+'</b></a><br />\
@@ -371,7 +402,7 @@ $(document).ready(function(){
             insertComment.before('<div class="post sub-post border-bottom post-text">\
                 <div class="post-logo">\
             <span class="online"></span>\
-            <img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'">\
+            <a href="/profile/'+$('input[name=members_home]').val()+'"><img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'"></a>\
             Online\
             </div>\
         <a href="/profile/'+$('input[name=members_home]').val()+'"><b>'+$('input[name=members_name]').val()+'</b></a><br />\
@@ -415,11 +446,7 @@ $(document).ready(function(){
         if(count==0)
             return false;
 
-        if( count>1 )
-            count+= ' animals like this';
-        else
-            count+= ' animal like this';
-
+        count = like_count_string(count);
         if($(this).hasClass('hover'))
         {
             var hover_id = $(this).data('hover_id');
@@ -448,9 +475,9 @@ $(document).ready(function(){
                 tip_img_str += '<a href="/profile/'+ s[0] +'"><img align="absmiddle" class="thumb" src="/photos/'+ s[1] +'"></a>';
         }
 
-        tip = $('<div class="tool-tip" id="'+hover_id+'">'+count +'<br /><div class="line">' +
+        tip = $('<div class="tool-tip" id="'+hover_id+'"><span class="tool-tip-count-holder">'+count +'</span><br /><div class="line-holder"><div class="line">' +
             tip_img_str +
-            '</div><div class="tr">&nbsp;</div></div>');
+            '</div></div><div class="tr">&nbsp;</div></div>');
 
         var offset = $(this).offset();
 
@@ -535,4 +562,41 @@ $(document).ready(function(){
             }
         })}(eq);
     })
+
+    /**
+     * обновление времени публикации статьи
+     */
+    $('.time_needs_update').each(function(){
+
+
+    })
+
+    /**
+     *
+     */
+    $('.post .comment-count').click(function(){
+        $(this).parents('.post')
+               .find('.post')
+               .show();
+        $(this).hide();
+        return false;
+    })
 })
+
+
+//each(geByClass('rel_date_needs_update', cont || ge('page_wall_posts'), 'span'), function(k, v) {
+//    if (!v) return;
+//    var timeRow = intval(v.getAttribute('time')), diff = timeNow - timeRow, timeText = v.getAttribute('abs_time');
+//    if (diff < 5) {
+//        timeText = getLang('wall_just_now');
+//    } else if (diff < 60) {
+//        timeText = Wall.langWordNumeric(diff, cur.lang.wall_X_seconds_ago_words, cur.lang.wall_X_seconds_ago);
+//    } else if (diff < 3600) {
+//        timeText = Wall.langWordNumeric(intval(diff / 60), cur.lang.wall_X_minutes_ago_words, cur.lang.wall_X_minutes_ago);
+//    } else if (diff < 4 * 3600) {
+//        timeText = Wall.langWordNumeric(intval(diff / 3600), cur.lang.wall_X_hours_ago_words, cur.lang.wall_X_hours_ago);
+//    } else {
+//        toClean.push(v);
+//    }
+//    v.innerHTML = timeText;
+//});

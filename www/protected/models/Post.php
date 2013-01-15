@@ -15,29 +15,34 @@ class Post
     {
         $list = Yii::app()->db->createCommand("
         with recursive  postList  (
-            id, date, text,parent_id, link, image
+            lvl, id, date, text,parent_id, link, image, user_id
         ) as (
             select * from (
                 select
-                    id, date, text,parent_id, link, image
+                    1 lvl, id, date_part('epoch', date) date, text,parent_id, link, image, user_id
                 from
                     {{post}}
                 where
                     parent_id is null
-                order by
-                    id desc
-                limit
-                    2
-            ) t
+             ) t
 
             union all
 
-            select
-                tn.id, tn.date, tn.text,tn.parent_id, tn.link, tn.image
-            from
-                postList tp, {{post}} tn
-            where
-                tp.id = tn.parent_id
+            select * from (
+                select
+                    2 lvl,
+                    tn.id,
+                    date_part('epoch', tn.date) date,
+                    tn.text,
+                    tn.parent_id,
+                    tn.link,
+                    tn.image,
+                    tn.user_id
+                from
+                    postList tp, {{post}} tn
+                where
+                    tp.id = tn.parent_id
+             ) t2
         )
 
             select
@@ -50,16 +55,54 @@ class Post
                 array_to_string(ARRAY(select lu.username||'||'||lu.image_31
                 from {{user}} lu, {{like}} li
                 where li.user_id=lu.id and li.post_id=p.id
+                order by
+                    case when user_id=:user_id then 1 else 0 end desc
                 limit 5),'//') like_images
             from
                 postList p,
                 {{user}} u
             where
                 p.user_id=:user_id and
-                p.user_id=u.id and
+                p.user_id=u.id
+            group by
+                p.lvl,
+                p.id,
+                p.date,
+                p.text,
+                p.parent_id,
+                p.link,
+                p.image,
+                p.user_id,
+                u.image_50,
+                u.name,
+                u.username
+            order by
+                case when p.lvl=1 then p.id else -1*p.id end desc
+
         ");
         $list->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
-        return $list->queryAll();
+        $list =  $list->queryAll();
+        $return = array();
+
+        /**
+         * группируем комментарии
+         */
+        foreach($list as $value)
+        {
+            if(empty($value['parent_id']))
+            {
+                if(isset($return[$value['id']]))
+                    $return[$value['id']] = $value + $return[$value['id']];
+                else
+                    $return[$value['id']] = $value;
+            }
+            else
+            {
+                $return[$value['parent_id']]['comment'][] = $value;
+            }
+        }
+
+        return $return;
     }
 
     public static function savePost($text,$parent_id)
@@ -115,4 +158,25 @@ class Post
 
         return true;
     }
+
+    /**
+     * форматирует время в независимый формат от момента генерации его
+     * @param $timestamp
+     * @return string
+     */
+    public static function timeFormat($timestamp)
+    {
+        return date('l ',intval($timestamp)).'at '.date('H:i:s',intval($timestamp));
+    }
+
+    /**
+     * форматирует время в зависимости от времени когда оно произошло
+     * @param $timestamp
+     * @return string
+     */
+    public static function timeFormatFeed($timestamp)
+    {
+        return date('l ',intval($timestamp)).'at '.date('H:i:s',intval($timestamp));
+    }
+
 }

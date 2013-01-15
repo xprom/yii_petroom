@@ -23,36 +23,43 @@ class SiteController extends Controller
 
     public function init()
     {
-        if(!empty($_GET['save_status']))
+        try
         {
-            User::saveStatus($_GET['text']);
-            exit();
-        }
+            if(!empty($_GET['save_status']))
+            {
+                User::saveStatus($_GET['text']);
+                exit();
+            }
 
-        /**
-         * добавлние поста
-         */
-        if(isset($_GET['savePost']))
-        {
-            Post::savePost($_GET['text'],$_GET['parent_id']);
-            exit();
-        }
+            /**
+             * добавлние поста
+             */
+            if(isset($_GET['savePost']))
+            {
+                Post::savePost($_GET['text'],$_GET['parent_id']);
+                exit();
+            }
 
-        /**
-         * установка лайка
-         */
-        if(isset($_GET['makeLike']))
-        {
-            Post::like($_GET['postId']);
-            exit();
+            /**
+             * установка лайка
+             */
+            if(isset($_GET['makeLike']))
+            {
+                Post::like($_GET['postId']);
+                exit();
+            }
+            /**
+             * установка лайка
+             */
+            if(isset($_GET['unLike']))
+            {
+                Post::unlike($_GET['postId']);
+                exit();
+            }
         }
-        /**
-         * установка лайка
-         */
-        if(isset($_GET['unLike']))
+        catch(Exception $e)
         {
-            Post::unlike($_GET['postId']);
-            exit();
+
         }
     }
 
@@ -71,6 +78,7 @@ class SiteController extends Controller
         if(!empty($_SESSION['MEMBERS']['ID']))
         {
             $data['wall'] = Post::getTimeLineList();
+            $data['newFriend'] = User::getFriendList(6,false,1);
         }
 
 

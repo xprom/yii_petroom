@@ -36,16 +36,17 @@
             <a href="/" class="logo"></a>
 
             <form method="POST" action="<?=CHtml::normalizeUrl(array('members/signin'));?>">
-                <input type="submit" class="submit" value="Einloggen" />
+                <input type="hidden" name="insert_flag" value="1" />
+                <input type="submit" tabindex="3" class="submit" value="Einloggen" />
 
                 <label>
                     Hier einloggen:
-                    <input type="text" class="text radius" name="email" value="E-Mail-Adresse" />
+                    <input type="text" tabindex="1" class="text radius" name="email" value="E-Mail-Adresse" />
                 </label>
 
                 <label class="pass_label">
                     <span>Passwort</span>
-                    <input type="password" class="text radius" name="password" value="" />
+                    <input type="password" tabindex="2" class="text radius" name="password" value="" />
                 </label>
 
 
