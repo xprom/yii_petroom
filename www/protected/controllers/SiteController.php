@@ -56,6 +56,33 @@ class SiteController extends Controller
                 Post::unlike($_GET['postId']);
                 exit();
             }
+
+            /**
+             * подтрверждение статуса друга
+             */
+            if(isset($_GET['confirmFriend']))
+            {
+                User::updateFriendStatus(intval($_GET['friendId']),User::FRIEND_STATUS_CONFIRM);
+                exit();
+            }
+
+            /**
+             * оставить друга в подписчиках
+             */
+            if(isset($_GET['deleteFriend']))
+            {
+                User::updateFriendStatus(intval($_GET['friendId']),User::FRIEND_STATUS_FOLGEN);
+                exit();
+            }
+
+            /**
+             * удалить заявку в друзья
+             */
+            if(isset($_GET['removeFriend']))
+            {
+                User::updateFriendStatus(intval($_GET['friendId']),User::FRIEND_STATUS_UN_CONFIRM);
+                exit();
+            }
         }
         catch(Exception $e)
         {
@@ -78,7 +105,16 @@ class SiteController extends Controller
         if(!empty($_SESSION['MEMBERS']['ID']))
         {
             $data['wall'] = Post::getTimeLineList();
-            $data['newFriend'] = User::getFriendList(6,false,1);
+
+            /**
+             * новые заявки в друзья
+             */
+            $data['newFriend'] = User::getFriendList(6,false,User::FRIEND_STATUS_NEW);
+
+            /**
+             * мои взаимные друзья
+             */
+            $data['myFriend'] = User::getFriendList(10,false,User::FRIEND_STATUS_CONFIRM);
         }
 
 

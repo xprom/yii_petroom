@@ -24,17 +24,20 @@
             if(count($newFriend)>0)
             {
             ?>
-            <div class="friends border-bottom">
+            <div class="friends border-bottom" id="friend-new-list">
                 <a class="title">Vorschläge:</a>
                 <div class="add-friends-holder">
                     <?
                     foreach($newFriend as $k => $value)
                     {
+                        $hidden = '';
                         if($k>2)
-                            continue;
+                            $hidden = 'hidden';
 
                         ?>
-                        <div class="add-friends-new">
+                        <div class="add-friends-new <?=$hidden;?>">
+                            <input type="hidden" name="friend_user_id" value="<?=intval($value['id']);?>" />
+
                             <a target="_blank" href="/profile/<?=trim($value['username']);?>">
                                 <img class="thumb" src="/photos/<?=trim($value['image_31']);?>" />
                             </a>
@@ -48,10 +51,10 @@
                         <?
                     }
 
-                    if($newFriend>3)
+                    if(count($newFriend)>3)
                     {
                         ?>
-                        <a href="#">Mehr Vorschläge ›</a>
+                        <a href="#" class="show_all_new_friend">Mehr Vorschläge ›</a>
                         <?
                     }
                     ?>
@@ -60,19 +63,48 @@
             <?
             }
         ?>
-        <div class="friends border-bottom">
-            <a class="title">Gemeinsame Freunde (23):</a>
-            <a href="" class="fried"><img src="i/fish-1.png" align="absmiddle" /></a>
-            <a href="" class="fried fried-online"><img src="i/fish-2.png" align="absmiddle" /></a>
-            <a href="" class="fried"><img src="i/fish-3.png" align="absmiddle" /></a>
-            <a href="" class="fried fried-online"><img src="i/fish-1.png" align="absmiddle" /></a>
-            <a href="" class="fried"><img src="i/fish-2.png" align="absmiddle" /></a>
-            <a href="" class="fried"><img src="i/fish-3.png" align="absmiddle" /></a>
-            <a href="" class="fried fried-online"><img src="i/fish-1.png" align="absmiddle" /></a>
-            <a href="" class="fried"><img src="i/fish-2.png" align="absmiddle" /></a>
-            <a href="" class="fried"><img src="i/fish-3.png" align="absmiddle" /></a>
-            <a href="#" class="show-all">Alle ›</a>
+
+        <?
+        $hidden_friend_list = '';
+        if(count($myFriend)==0)
+        {
+            $hidden_friend_list = 'hidden';
+        }
+        ?>
+        <div class="friends add-friend-section-show border-none <?=$hidden_friend_list;?>">
+            <a class="title">Gemeinsame Freunde (<span><?=count($myFriend);?></span>):</a>
+
+            <?
+            foreach($myFriend as $value)
+            {
+                $hidden = '';
+                if($k>8 && count($myFriend)>10)
+                    $hidden = 'hidden';
+
+                ?>
+                <a target="_blank" href="/profile/<?=trim($value['username']);?>" class="fried">
+                    <img class="thumb" src="/photos/<?=trim($value['image_31']);?>" align="absmiddle" />
+                </a>
+                <?
+            }
+
+            if(count($myFriend)>10)
+            {
+                ?>
+                <a href="#" class="show-all">Alle ›</a>
+                <?
+            }
+            else
+            {
+                ?>
+                <a href="#" class="show-all hidden">Alle ›</a>
+                <?
+            }
+            ?>
+            <div class="clear-left add-friend-section-show border-bottom <?=$hidden_friend_list;?>"></div>
         </div>
+
+
         <div class="groups border-bottom">
             <a class="title">Meine Veranstaltungen (12):</a>
             <div class="group-row">
@@ -157,7 +189,7 @@
             <table class="counter-table" width="100%">
                 <tr>
                     <td width="33%">
-                        <span><?=intval($_SESSION['MEMBERS']['friend_count']);?></span><br />
+                        <span><?=count($myFriend);?></span><br />
                         Freunde
                     </td>
                     <td width="33%" class="middle">
@@ -193,7 +225,7 @@
         <div class="border-bottom">
             <ul>
                 <li>
-                    <a href="#"><?=count($newFriend)>0?'<span>'.count($newFriend).'</span>':'';?>Freunde</a>
+                    <a href="#"><?=count($newFriend)>0?'<span id="new-friend-count">'.count($newFriend).'</span>':'';?>Freunde</a>
                 </li>
                 <li>
                     <a href="#">Folger</a>

@@ -567,12 +567,14 @@ $(document).ready(function(){
      * обновление времени публикации статьи
      */
     $('.time_needs_update').each(function(){
-
+//        var timeRow = intval($(this).attr('time')),
+//            diff    = petroomNow() - timeRow,
+//            timeText = v.getAttribute('abs_time');
 
     })
 
     /**
-     *
+     * показывае все комментарии
      */
     $('.post .comment-count').click(function(){
         $(this).parents('.post')
@@ -580,6 +582,166 @@ $(document).ready(function(){
                .show();
         $(this).hide();
         return false;
+    })
+
+    /**
+     * работа со списком друзей
+     * подтверждение статуса друга
+     */
+    $('.add-friends-new .add-friend').click(function(){
+
+        $('.counter-table td:eq(0) span').html(parseInt($('.counter-table td:eq(0) span').html())+1);
+
+        $('.add-friend-section-show').show();
+        $('.add-friend-section-show a.title span').html( parseInt($('.add-friend-section-show a.title span').html())+1 );
+
+        var new_friend_link = $(this).parents('.add-friends-new')
+            .find('a:eq(0)');
+
+        var count_current_friend = parseInt($('.add-friend-section-show a.title span').html());
+        if(count_current_friend>9)
+        {
+            $('.add-friend-section-show a.show-all').show();
+            $('.add-friend-section-show img:last').parents('a').remove();
+        }
+
+        $('.add-friend-section-show a.title').after('' +
+            '<a target="_blank" href="'+new_friend_link.attr('href')+'" class="fried">\
+                <img class="thumb" src="'+new_friend_link.find('img').attr('src')+'" align="absmiddle" />\
+            </a>');
+
+        /**
+         * счётчик друзей в меню пользователя
+         */
+        $('#new-friend-count').html(parseInt($('#new-friend-count').html())-1);
+        if(parseInt($('#new-friend-count').html())==0)
+            $('#new-friend-count').hide();
+
+        $.ajax({
+            url:'/?confirmFriend=1',
+            data: {
+                friendId:$(this).parents('.add-friends-new')
+                              .find('input[name=friend_user_id]')
+                              .val()
+            }
+        });
+
+        if($('.add-friends-new').size()==1)
+        {
+            $('#friend-new-list')
+                .animate({
+                    opacity:0
+                },500,function (){
+                    $(this).remove();
+                });
+        }
+        else
+        {
+            $(this).parents('.add-friends-new')
+                .animate({
+                    opacity:0
+                },500,function (){
+                    $(this).remove();
+                });
+        }
+
+
+        return false;
+    })
+    /**
+     * оставить друга в подписчиках моей страницы
+     */
+    $('.add-friends-new .deleter-friend').click(function(){
+
+        $('.counter-table td:eq(1) span').html(parseInt($('.counter-table td:eq(1) span').html())+1);
+
+        /**
+         * счётчик друзей в меню пользователя
+         */
+        $('#new-friend-count').html(parseInt($('#new-friend-count').html())-1);
+        if(parseInt($('#new-friend-count').html())==0)
+            $('#new-friend-count').hide();
+
+        $.ajax({
+            url:'/?deleteFriend=1',
+            data: {
+                friendId:$(this).parents('.add-friends-new')
+                              .find('input[name=friend_user_id]')
+                              .val()
+            }
+        });
+
+        if($('.add-friends-new').size()==1)
+        {
+            $('#friend-new-list')
+                .animate({
+                    opacity:0
+                },500,function (){
+                    $(this).remove();
+                });
+        }
+        else
+        {
+            $(this).parents('.add-friends-new')
+                .animate({
+                    opacity:0
+                },500,function (){
+                    $(this).remove();
+                });
+        }
+
+
+        return false;
+    })
+    /**
+     * удаление всех связей
+     */
+    $('.add-friends-new .remove-friend').click(function(){
+
+        /**
+         * счётчик друзей в меню пользователя
+         */
+        $('#new-friend-count').html(parseInt($('#new-friend-count').html())-1);
+        if(parseInt($('#new-friend-count').html())==0)
+            $('#new-friend-count').hide();
+
+        $.ajax({
+            url:'/?removeFriend=1',
+            data: {
+                friendId:$(this).parents('.add-friends-new')
+                              .find('input[name=friend_user_id]')
+                              .val()
+            }
+        });
+
+
+
+        if($('.add-friends-new').size()==1)
+        {
+            $('#friend-new-list')
+                .animate({
+                    opacity:0
+                },500,function (){
+                    $(this).remove();
+                });
+        }
+        else
+        {
+            $(this).parents('.add-friends-new')
+                .animate({
+                    opacity:0
+                },500,function (){
+                    $(this).remove();
+                });
+        }
+
+
+        return false;
+    })
+
+    $('.show_all_new_friend').click(function(){
+       $('.add-friends-new.hidden').show();
+        $(this).hide();
     })
 })
 

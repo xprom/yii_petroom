@@ -32,6 +32,9 @@ html {
 .border-bottom {
     border-bottom: dashed 1px #aba1a1;
 }
+.border-top {
+    border-top: dashed 1px #aba1a1;
+}
 body {
     color: #41403B;
     font-size: 11px;
@@ -363,9 +366,21 @@ table {
         margin-top: -13px;
         background: url("../i/aside-bg.png");
     }
-        .aside .border-bottom {
+        .aside .border-bottom, .aside .border-none {
             margin: 0px 15px 0px;
             padding: 10px 0 15px;
+        }
+        .aside .border-none {
+            padding-bottom: 0 !important;
+        }
+        .aside .border-none .border-bottom {
+            margin: 0;
+            padding: 0;
+            height: 10px;
+        }
+        .aside .border-top
+        {
+            margin-top: 10px;
         }
         .aside .status {
             font-family: 'MuseoSlab-500';
@@ -1334,4 +1349,7 @@ ul.form-errors > li {
     }
     .tool-tip .thumb {
         border-color: #000000;
+    }
+    .clear-left {
+        clear: left;
     }

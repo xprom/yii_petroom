@@ -16,7 +16,22 @@ class User extends CActiveRecord
      */
     const FRIEND_STATUS_NEW = 1;
 
-    
+    /**
+     * полноценный принятый друг
+     */
+    const FRIEND_STATUS_CONFIRM = 2;
+
+    /**
+     * друг которого ты остаил в наблюдателях
+     */
+    const FRIEND_STATUS_FOLGEN = 3;
+
+    /**
+     * друг от которого ты отказался
+     */
+    const FRIEND_STATUS_UN_CONFIRM = 4;
+
+
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -184,6 +199,11 @@ class User extends CActiveRecord
                 f.user_id=:user_id and
                 u.id=f.friend_user_id";
 
+        if(!empty($status))
+        {
+            $query .= ' and f.status=:status';
+        }
+
         if(!empty($linit))
         {
             $query .= ' limit '.intval($linit);
@@ -197,6 +217,7 @@ class User extends CActiveRecord
 
         $list = Yii::app()->db->createCommand($query);
         $list->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $list->bindParam(":status",intval($status),PDO::PARAM_INT);
         $r = $list->queryAll();
 
         return (array)$r;
@@ -209,5 +230,25 @@ class User extends CActiveRecord
         $addFriend->queryAll();
     }
 
-
+    /**
+     * обновление статуса друга
+     *
+     * @param $friendId id друга
+     * @param $status новый статус друга
+     */
+    public static function updateFriendStatus($friendId,$status)
+    {
+        $updateStatus = Yii::app()->db->createCommand('
+            UPDATE
+                {{friends}}
+            SET
+                STATUS=:status
+            WHERE
+                user_id=:user_id and
+                friend_user_id=:friend_user_id');
+        $updateStatus->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $updateStatus->bindParam(":friend_user_id",intval($friendId),PDO::PARAM_INT);
+        $updateStatus->bindParam(":status",intval($status),PDO::PARAM_INT);
+        $updateStatus->queryAll();
+    }
 }
