@@ -1,3 +1,13 @@
+var lang = {
+    wall_X_seconds_ago_words:["","One second ago","Two seconds ago","Three seconds ago","Four seconds ago","Five seconds ago"],
+    wall_X_seconds_ago:["","%s second ago","%s seconds ago"],
+    wall_X_minutes_ago_words:["","one minute ago","two minutes ago","three minutes ago","4 minutes ago","5 minutes ago"],
+    wall_X_minutes_ago:["","%s minute ago","%s minutes ago"],
+    wall_X_hours_ago_words:["","one hour ago","two hours ago","three hours ago","four hours ago","five hours ago"],
+    wall_X_hours_ago:["","%s hour ago","%s hours ago"]
+}
+function isArray(obj) { return Object.prototype.toString.call(obj) === '[object Array]'; }
+
 $(document).ready(function(){
     window['like_count_string'] = function(count){
         if( count>1 )
@@ -8,7 +18,7 @@ $(document).ready(function(){
     }
 
     window['petroomNow'] = function(count){
-        return +new Date;
+        return parseInt(+new Date/1000);
     }
 
     $('#login-holder input[name=nickname]').focus(function(){
@@ -411,7 +421,7 @@ $(document).ready(function(){
                 </div>\
             <div class="post-date post-left">\
             <div class="like"><span>mir gefällt</span><span class="counter">0</span></div>\
-            Donnerstag um 20:54\
+            <span class="time_needs_update" timestamp="" abs_time="">A few seconds ago</span>\
         </div>\
             </div>');
             $.ajax({
@@ -566,14 +576,44 @@ $(document).ready(function(){
     /**
      * обновление времени публикации статьи
      */
-    $('.time_needs_update').each(function(){
-//        var timeRow = intval($(this).attr('time')),
-//            diff    = petroomNow() - timeRow,
-//            timeText = v.getAttribute('abs_time');
+    window['feed'] = {
+        langWordNumeric: function(num, words, arr) {
+            if (isArray(words) && num < words.length) {
+                return words[num];
+            }
+            return arr[1].replace('%s',num);
+        },
+        feedTimeUpdater:function(){
+            $('.time_needs_update').each(function(){
+                var timeRow  = parseInt($(this).attr('timestamp')),
+                    diff     = parseInt(petroomNow() - timeRow),
+                    timeText = $(this).attr('abs_time');
 
-    })
+                if (diff < 5)
+                {
+                    timeText = 'A few seconds ago';
+                } else if (diff < 60) {
+                    timeText = feed.langWordNumeric(diff,lang.wall_X_seconds_ago_words,lang.wall_X_seconds_ago);
+                } else if (diff < 3600) {
+                    timeText = feed.langWordNumeric(parseInt(diff / 60),lang.wall_X_minutes_ago_words,lang.wall_X_minutes_ago);
+                } else if (diff < 4 * 3600) {
+                    timeText = feed.langWordNumeric(parseInt(diff / 3600),lang.wall_X_hours_ago_words,lang.wall_X_hours_ago);
+                } else {
+
+                }
+                $(this).html(timeText);
+            })
+
+            window.setTimeout(window['feed'].feedTimeUpdater,1000);
+        }
+    }
 
     /**
+     * обновляем время у каждой новости
+     */
+    window.setTimeout(window['feed'].feedTimeUpdater,1000);
+
+    /**`
      * показывае все комментарии
      */
     $('.post .comment-count').click(function(){
@@ -648,6 +688,7 @@ $(document).ready(function(){
 
         return false;
     })
+
     /**
      * оставить друга в подписчиках моей страницы
      */
@@ -693,6 +734,7 @@ $(document).ready(function(){
 
         return false;
     })
+
     /**
      * удаление всех связей
      */
@@ -746,19 +788,3 @@ $(document).ready(function(){
 })
 
 
-//each(geByClass('rel_date_needs_update', cont || ge('page_wall_posts'), 'span'), function(k, v) {
-//    if (!v) return;
-//    var timeRow = intval(v.getAttribute('time')), diff = timeNow - timeRow, timeText = v.getAttribute('abs_time');
-//    if (diff < 5) {
-//        timeText = getLang('wall_just_now');
-//    } else if (diff < 60) {
-//        timeText = Wall.langWordNumeric(diff, cur.lang.wall_X_seconds_ago_words, cur.lang.wall_X_seconds_ago);
-//    } else if (diff < 3600) {
-//        timeText = Wall.langWordNumeric(intval(diff / 60), cur.lang.wall_X_minutes_ago_words, cur.lang.wall_X_minutes_ago);
-//    } else if (diff < 4 * 3600) {
-//        timeText = Wall.langWordNumeric(intval(diff / 3600), cur.lang.wall_X_hours_ago_words, cur.lang.wall_X_hours_ago);
-//    } else {
-//        toClean.push(v);
-//    }
-//    v.innerHTML = timeText;
-//});

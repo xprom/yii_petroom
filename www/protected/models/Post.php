@@ -166,7 +166,7 @@ class Post
      */
     public static function timeFormat($timestamp)
     {
-        return date('l ',intval($timestamp)).'at '.date('H:i:s',intval($timestamp));
+        return date('l ',intval($timestamp)).'at '.date('h:i a',intval($timestamp));
     }
 
     /**
@@ -176,7 +176,39 @@ class Post
      */
     public static function timeFormatFeed($timestamp)
     {
-        return date('l ',intval($timestamp)).'at '.date('H:i:s',intval($timestamp));
+        $wall_X_seconds_ago = array("%s second ago","%s seconds ago");
+        $wall_X_minutes_ago = array("%s minute ago","%s minutes ago");
+        $wall_X_hours_ago = array("%s hour ago","%s hours ago");
+        $wall_X_seconds_ago_words = array("one second ago","two seconds ago","three seconds ago","four seconds ago","five seconds ago");
+        $wall_X_minutes_ago_words = array("one minute ago","two minutes ago","three minutes ago","4 minutes ago","5 minutes ago");
+        $wall_X_hours_ago_words = array("one hour ago","two hours ago","3 hours ago","4 hours ago","5 hours ago");
+
+        if(!function_exists('langWordNumeric'))
+        {
+            function langWordNumeric($num,$words,$arr)
+            {
+                if(is_array($words) && $num<=count($words))
+                    return $words[$num-1];
+
+                return str_replace('%s',$num,$arr[1]);
+            }
+        }
+
+        $diff = time() - intval($timestamp);
+        if($diff<5)
+            return 'A few seconds ago';
+        if($diff<60)
+            return langWordNumeric($diff,$wall_X_seconds_ago_words,$wall_X_seconds_ago);
+        if($diff<3600)
+            return langWordNumeric(intval($diff/60),$wall_X_minutes_ago_words,$wall_X_minutes_ago);
+        if($diff<4*3600)
+            return langWordNumeric(intval($diff/3600),$wall_X_hours_ago_words,$wall_X_hours_ago);
+        if(date('d.m.Y')==date('d.m.Y',$timestamp))
+            return 'Today at '.date('h:i a',intval($timestamp));
+        if(date('d.m.Y',strtotime('-1 day'))==date('d.m.Y',$timestamp))
+            return 'Yesterday at '.date('h:i a',intval($timestamp));
+
+        return date('l ',intval($timestamp)).'at '.date('h:i a',intval($timestamp));
     }
 
 }

@@ -20,6 +20,12 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <script>
+    var config = {
+        serverTimeStamp:<?=time();?>
+    };
+    </script>
+
 
     <script language="javascript" src="js/jquery-1.8.0.min.js"></script>
     <script language="javascript" src="js/jquery.func.js?v=2"></script>

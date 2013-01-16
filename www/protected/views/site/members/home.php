@@ -306,7 +306,7 @@
 
                     <div class="post-date post-left">
                         <div image-arr="<?=$value['like_images'];?>" class="like <?=!empty($value['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($value['like_count']);?></span></div>
-                        <span class="time_needs_update" timestamp="<?=$value['date'];?>" abs_time="<?=Post::timeFormat($value['date']);?>"><?=Post::timeFormatFeed($value['date']);?></span>
+                        <span class="time_needs_update" timestamp="<?=intval($value['date']);?>" abs_time="<?=Post::timeFormat($value['date']);?>"><?=Post::timeFormatFeed($value['date']);?></span>
                         | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>
                     </div>
 
@@ -352,7 +352,7 @@
 
                             <div class="post-date post-left">
                                 <div image-arr="<?=$v['like_images'];?>" class="like <?=!empty($v['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($v['like_count']);?></span></div>
-                                <span class="time_needs_update" timestamp="<?=$v['date'];?>" abs_time="<?=Post::timeFormat($v['date']);?>"><?=Post::timeFormatFeed($v['date']);?></span>
+                                <span class="time_needs_update" timestamp="<?=intval($v['date']);?>" abs_time="<?=Post::timeFormat($v['date']);?>"><?=Post::timeFormatFeed($v['date']);?></span>
                             </div>
                         </div>
                         <?
