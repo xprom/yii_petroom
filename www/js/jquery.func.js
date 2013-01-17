@@ -1,12 +1,32 @@
 var lang = {
-    wall_X_seconds_ago_words:["","One second ago","Two seconds ago","Three seconds ago","Four seconds ago","Five seconds ago"],
+    wall_X_seconds_ago_words:["","one second ago","two seconds ago","three seconds ago","four seconds ago","five seconds ago"],
     wall_X_seconds_ago:["","%s second ago","%s seconds ago"],
     wall_X_minutes_ago_words:["","one minute ago","two minutes ago","three minutes ago","4 minutes ago","5 minutes ago"],
     wall_X_minutes_ago:["","%s minute ago","%s minutes ago"],
-    wall_X_hours_ago_words:["","one hour ago","two hours ago","three hours ago","four hours ago","five hours ago"],
-    wall_X_hours_ago:["","%s hour ago","%s hours ago"]
+    wall_X_hours_ago_words:["","one hour ago","two hours ago","3 hours ago","4 hours ago","5 hours ago"],
+    wall_X_hours_ago:["","%s hour ago","%s hours ago"],
+    weekDays:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 }
 function isArray(obj) { return Object.prototype.toString.call(obj) === '[object Array]'; }
+function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    hours = hours< 10 ? '0'+hours:hours;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+}
+function dateString()
+{
+    var date = new Date(petroomNow()*1000);
+    return lang.weekDays[date.getDay()] + ' at ' + formatAMPM(date);
+}
+
+
+
 
 $(document).ready(function(){
     window['like_count_string'] = function(count){
@@ -337,7 +357,11 @@ $(document).ready(function(){
             <div class="post-left post-text">\
             '+$('.insert-news textarea').val().replace(/\n/g,"<br>")+'\
             </div>\
-        <div class="post-date post-left"><div class="like "><span>mir gefällt</span><span class="counter">0</span></div>Donnerstag um 20:54 | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a></div>\
+        <div class="post-date post-left"><div class="like "><span>mir gefällt</span><span class="counter">0</span></div>\
+            <span class="time_needs_update" timestamp="'+petroomNow()+'" abs_time="'+dateString()+'">A few seconds ago</span>\ | \
+            \
+            <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>\
+            | <a href="#" class="comment" onclick="delete_comment(this); return false;">Delete</a></div>\
         </div>');
 
         $('.insert-news textarea').val('');
@@ -409,21 +433,31 @@ $(document).ready(function(){
         else
         {
             var insertComment = $(this).parents('.insert-comment');
-            insertComment.before('<div class="post sub-post border-bottom post-text">\
+
+            /**
+             * делаем предыдущий комментарий с рамкой снизу
+             */
+            if(insertComment.prev('.post')
+                .hasClass('sub-post'))
+                insertComment.prev('.post').addClass('border-bottom');
+
+            insertComment.before('<div class="post sub-post post-text">\
                 <div class="post-logo">\
-            <span class="online"></span>\
-            <a href="/profile/'+$('input[name=members_home]').val()+'"><img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'"></a>\
-            Online\
-            </div>\
-        <a href="/profile/'+$('input[name=members_home]').val()+'"><b>'+$('input[name=members_name]').val()+'</b></a><br />\
-                <div class="post-left">\
-                ' + $.trim(text.val()).replace(/\n/g,"<br>") + '\
+                    <span class="online"></span>\
+                    <a href="/profile/'+$('input[name=members_home]').val()+'"><img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'"></a>\
+                    Online\
+                    </div>\
+                <a href="/profile/'+$('input[name=members_home]').val()+'"><b>'+$('input[name=members_name]').val()+'</b></a><br />\
+                        <div class="post-left">\
+                        ' + $.trim(text.val()).replace(/\n/g,"<br>") + '\
+                        </div>\
+                    <div class="post-date post-left">\
+                    <div class="like"><span>mir gefällt</span><span class="counter">0</span></div>\
+                    <span class="time_needs_update" timestamp="'+petroomNow()+'" abs_time="'+dateString()+'">A few seconds ago</span>\
+                    | <a href="#" class="comment" onclick="delete_comment(this); return false;">Delete</a>\
                 </div>\
-            <div class="post-date post-left">\
-            <div class="like"><span>mir gefällt</span><span class="counter">0</span></div>\
-            <span class="time_needs_update" timestamp="" abs_time="">A few seconds ago</span>\
-        </div>\
             </div>');
+
             $.ajax({
                 url:'?savePost=1',
                 data:{
@@ -581,15 +615,21 @@ $(document).ready(function(){
             if (isArray(words) && num < words.length) {
                 return words[num];
             }
-            return arr[1].replace('%s',num);
+            return arr[2].replace('%s',num);
         },
         feedTimeUpdater:function(){
             $('.time_needs_update').each(function(){
                 var timeRow  = parseInt($(this).attr('timestamp')),
                     diff     = parseInt(petroomNow() - timeRow),
-                    timeText = $(this).attr('abs_time');
+                    timeText = $(this).attr('abs_time'),
 
-                if (diff < 5)
+                    date = new Date(petroomNow()*1000),
+                    date_yesterday = new Date(petroomNow()*1000),
+                    date_post = new Date(timeRow*1000);
+
+                date_yesterday.setDate(date_yesterday.getDate()-1);
+
+                if (diff < 2)
                 {
                     timeText = 'A few seconds ago';
                 } else if (diff < 60) {
@@ -598,14 +638,45 @@ $(document).ready(function(){
                     timeText = feed.langWordNumeric(parseInt(diff / 60),lang.wall_X_minutes_ago_words,lang.wall_X_minutes_ago);
                 } else if (diff < 4 * 3600) {
                     timeText = feed.langWordNumeric(parseInt(diff / 3600),lang.wall_X_hours_ago_words,lang.wall_X_hours_ago);
-                } else {
-
+                } else if(date.getDay()==date_post.getDay() && date.getMonth()==date_post.getMonth() && date.getYear()==date_post.getYear()) {
+                    timeText = 'Today at '+formatAMPM(date_post);
+                } else if(date_yesterday.getDay()==date_post.getDay() && date_yesterday.getMonth()==date_post.getMonth() && date_yesterday.getYear()==date_post.getYear()) {
+                    timeText = 'Yesterday at '+formatAMPM(date_post);
                 }
                 $(this).html(timeText);
             })
 
             window.setTimeout(window['feed'].feedTimeUpdater,1000);
         }
+    }
+
+    window['delete_comment'] = function(el){
+
+        $.ajax({
+            url:'?deletePost=1',
+            data:{
+                postId:$(el).parents('.post')
+                    .find('input.post-id')
+                    .val()
+            }
+        });
+
+        $(el).parents('.post')
+             .data('html',$(el).parents('.post').html())
+             .html('Post deleted. <a href="#" onclick="undelete_comment(this); return false;" class="undo-delete">Undo</a>');
+    }
+
+    window['undelete_comment'] = function(el){
+        var post = $(el).parents('.post')
+             .html( $(el).parents('.post').data('html') );
+
+        $.ajax({
+            url:'?unDeletePost=1',
+            data:{
+                postId:post.find('input.post-id')
+                    .val()
+            }
+        });
     }
 
     /**

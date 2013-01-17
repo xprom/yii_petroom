@@ -23,7 +23,7 @@ class Post
                 from
                     {{post}}
                 where
-                    parent_id is null
+                    parent_id is null and deleted=0
              ) t
 
             union all
@@ -41,7 +41,7 @@ class Post
                 from
                     postList tp, {{post}} tn
                 where
-                    tp.id = tn.parent_id
+                    tp.id = tn.parent_id and tn.deleted=0
              ) t2
         )
 
@@ -211,4 +211,43 @@ class Post
         return date('l ',intval($timestamp)).'at '.date('h:i a',intval($timestamp));
     }
 
+    /**
+     * удаление поста автором
+     * @param $postId
+     * @return bool
+     */
+    public static function delete($postId)
+    {
+        if(empty($_SESSION['MEMBERS']['ID']))
+            return false;
+
+        $deletePost = Yii::app()->db->createCommand("
+            update {{post}} set deleted=1 where id=:post_id and user_id=:user_id
+        ");
+        $deletePost->bindParam(":post_id",intval($postId),PDO::PARAM_INT);
+        $deletePost->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $deletePost->queryAll();
+
+        return true;
+    }
+
+    /**
+     * отена удаления , тоесть восстановление поста
+     * @param $postId
+     * @return bool
+     */
+    public static function undelete($postId)
+    {
+        if(empty($_SESSION['MEMBERS']['ID']))
+            return false;
+
+        $unDeletePost = Yii::app()->db->createCommand("
+            update {{post}} set deleted=0 where id=:post_id and user_id=:user_id
+        ");
+        $unDeletePost->bindParam(":post_id",intval($postId),PDO::PARAM_INT);
+        $unDeletePost->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $unDeletePost->queryAll();
+
+        return true;
+    }
 }

@@ -148,6 +148,14 @@ class User extends CActiveRecord
         $_SESSION['MEMBERS']['username'] = $r[0]['username'];
         $_SESSION['MEMBERS']['timezone'] = $r[0]['timezone'];
         $_SESSION['MEMBERS']['email'] = $r[0]['email'];
+
+        /**
+         * получаем текущий статус пользователя
+         */
+        $data = Yii::app()->db->createCommand("select text from {{status}} where user_id=:id order by id desc limit 1");
+        $data->bindParam(":id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $data = $data->queryAll();
+        $_SESSION['MEMBERS']['status'] = $data[0]['text'];
     }
 
     public static function saveStatus($text)

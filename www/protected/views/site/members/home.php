@@ -212,7 +212,7 @@
                     <a href="#"><span>457</span>Pinnwand</a>
                 </li>
                 <li>
-                    <a href="#"><span>457</span>Fotos</a>
+                    <a href="<?=CHtml::normalizeUrl(array('photos/index'));?>"><span>457</span>Fotos</a>
                 </li>
                 <li>
                     <a href="#">Videos</a>
@@ -308,6 +308,14 @@
                         <div image-arr="<?=$value['like_images'];?>" class="like <?=!empty($value['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($value['like_count']);?></span></div>
                         <span class="time_needs_update" timestamp="<?=intval($value['date']);?>" abs_time="<?=Post::timeFormat($value['date']);?>"><?=Post::timeFormatFeed($value['date']);?></span>
                         | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>
+                        <?
+                        if($value['user_id']==$_SESSION['MEMBERS']['ID'])
+                        {
+                            ?>
+                            | <a href="#" class="comment" onclick="delete_comment(this); return false;">Delete</a>
+                            <?
+                        }
+                        ?>
                     </div>
 
                     <?
@@ -353,6 +361,14 @@
                             <div class="post-date post-left">
                                 <div image-arr="<?=$v['like_images'];?>" class="like <?=!empty($v['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($v['like_count']);?></span></div>
                                 <span class="time_needs_update" timestamp="<?=intval($v['date']);?>" abs_time="<?=Post::timeFormat($v['date']);?>"><?=Post::timeFormatFeed($v['date']);?></span>
+                                <?
+                                if($v['user_id']==$_SESSION['MEMBERS']['ID'])
+                                {
+                                    ?>
+                                    | <a href="#" class="comment" onclick="delete_comment(this); return false;">Delete</a>
+                                    <?
+                                }
+                                ?>
                             </div>
                         </div>
                         <?

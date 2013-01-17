@@ -83,6 +83,25 @@ class SiteController extends Controller
                 User::updateFriendStatus(intval($_GET['friendId']),User::FRIEND_STATUS_UN_CONFIRM);
                 exit();
             }
+
+            /**
+             * удаление поста
+             */
+            if(isset($_GET['deletePost']))
+            {
+                Post::delete($_GET['postId']);
+                exit();
+            }
+
+            /**
+             * восстановление поста
+             */
+            if(isset($_GET['unDeletePost']))
+            {
+                Post::undelete($_GET['postId']);
+                exit();
+            }
+
         }
         catch(Exception $e)
         {
