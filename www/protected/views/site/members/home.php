@@ -276,7 +276,16 @@
     <div class="inner-content">
         <div class="content">
             <div class="insert-news border-bottom">
+                <div id="insert-post-attache">
+                    <a href="#" id="insert-news"></a>
+                    <a href="#" id="insert-map"></a>
+                    <a href="#" id="insert-link"></a>
+                    <a href="#" id="insert-photo"></a>
+                    <a href="#" id="insert-video"></a>
+                </div>
                 <textarea name="text" rows="0" class="radius" void-text="Teile hier etwas">Teile hier etwas</textarea>
+                <div id="media-holder">
+                </div>
                 <div id="send-button-post-div">
                     <input type="button" class="submin-button" value="Send" />
                 </div>
@@ -302,7 +311,24 @@
 
                     <div class="post-left post-text">
                         <?=nl2br(trim($value['text']));?>
+
+                        <?
+                        if(!empty($value['map_x']) && !empty($value['map_y']) && !empty($value['zoom']) )
+                        {
+                            ?>
+                            <div class="post-media">
+                                <input type="hidden" name="map_x" value="<?=$value['map_x'];?>" />
+                                <input type="hidden" name="map_y" value="<?=$value['map_y'];?>" />
+                                <input type="hidden" name="zoom" value="<?=$value['zoom'];?>" />
+                                <img align="text-top" width="180" height="70" src="http://maps.googleapis.com/maps/api/staticmap?center=<?=$value['map_x'];?>,<?=$value['map_y'];?>&amp;zoom=<?=$value['zoom'];?>&amp;size=180x70&amp;sensor=false&amp;language=en">
+                                <div class="marker-shadow">
+                                </div>
+                            </div>
+                            <?
+                        }
+                        ?>
                     </div>
+
 
                     <div class="post-date post-left">
                         <div image-arr="<?=$value['like_images'];?>" class="like <?=!empty($value['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($value['like_count']);?></span></div>

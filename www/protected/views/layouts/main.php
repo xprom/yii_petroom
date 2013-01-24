@@ -41,22 +41,53 @@
 
             <a href="/" class="logo"></a>
 
-            <form method="POST" action="<?=CHtml::normalizeUrl(array('members/signin'));?>">
-                <input type="hidden" name="insert_flag" value="1" />
-                <input type="submit" tabindex="3" class="submit" value="Einloggen" />
+            <?
+            if(empty($_SESSION['MEMBERS']['ID']))
+            {
+                ?>
+                <form method="POST" action="<?=CHtml::normalizeUrl(array('members/signin'));?>">
+                    <input type="hidden" name="insert_flag" value="1" />
+                    <input type="submit" tabindex="3" class="submit" value="Einloggen" />
 
-                <label>
-                    Hier einloggen:
-                    <input type="text" tabindex="1" class="text radius" name="email" value="E-Mail-Adresse" />
-                </label>
+                    <label>
+                        Hier einloggen:
+                        <input type="text" tabindex="1" class="text radius" name="email" value="E-Mail-Adresse" />
+                    </label>
 
-                <label class="pass_label">
-                    <span>Passwort</span>
-                    <input type="password" tabindex="2" class="text radius" name="password" value="" />
-                </label>
+                    <label class="pass_label">
+                        <span>Passwort</span>
+                        <input type="password" tabindex="2" class="text radius" name="password" value="" />
+                    </label>
+                </form>
+                <?
+            }
+            else
+            {
+                ?>
+                <div class="nav">
+                    <a href="/" class="nav1"></a>
+                    <a href="#" class="nav2"></a>
+                    <a href="<?=CHtml::normalizeUrl(array('inbox/index'));?>" class="nav3"></a>
+                    <a href="#" class="nav4"></a>
+                    <a href="<?=CHtml::normalizeUrl(array('presents/index'));?>" class="nav5"></a>
+                    <a href="<?=CHtml::normalizeUrl(array('members/settings'));?>" class="nav6"></a>
+                </div>
 
+                <form method="GET">
+                    <input type="text" name="s" class="search text radius" value="Suchen.." />
+                    <input type="submit" class="hidden" />
 
-            </form>
+                    <a href="/">
+                        Mein Konto
+                    </a>
+                    |
+                    <a href="<?=CHtml::normalizeUrl(array('members/logout'));?>">
+                        Logout
+                    </a>
+                </form>
+                <?
+            }
+            ?>
 
 
         </div>
@@ -155,16 +186,14 @@
         <p class="copy">Petroom © 2012 · Deutsch · Vitali Tcherednitchenko · Liebevoll in Zürich entwickelt</p>
     </div>
 
-    <div class="shadow"></div>
-    <div class="change-current-status">
+    <div class="shadow hidden"></div>
+    <div class="change-current-status shadow-form">
         <div class="transparent-borders">
             <b class="cr t l png"></b>
             <b class="cr t r png"></b>
             <div class="sh-l">
                 <div class="sh-r png">
                     <div class="inner-shadow">
-
-
                         <input type="text" maxlength="255" name="current-status" value="" /><br />
                         <input type="button" class="submin-button" value="Save" />
 
@@ -174,14 +203,91 @@
             <b class="cr b l png"></b>
             <b class="cr b r png"></b>
         </div>
+    </div>
+
+
+    <div class="shadow-form-center-holder shadow-form-center-holder-map shadow-form hidden">
+        <div class="transparent-borders">
+            <b class="cr t l png"></b>
+            <b class="cr t r png"></b>
+            <div class="sh-l">
+                <div class="sh-r png">
+                    <div class="inner-shadow">
+                        <div class="title-shadow">
+                            <a href="#" class="close">Close</a>
+                            <h2>Attach a map</h2>
+                            <br />
+
+                            <input type="text" maxlength="255" name="search-street" style="margin-right: 15px" value="Search by city or street name.." />
+                            <input type="button" class="submin-button" style="margin-right: 15px" value="Search" id="add_mark" />
+                            <input type="button" class="submin-button" value="Attach map" id="save_mark" />
+                        </div>
+                        <div class="body-shadow">
+                            <input type="hidden" name="mark" id="mark" value="" />
+                            <input type="hidden" name="map" id="map1" value="" />
+                            <input type="hidden" name="zoom" id="zoom" value="" />
+
+                            <div id="gmap">
+                                <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&language=de"></script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <b class="cr b l png"></b>
+            <b class="cr b r png"></b>
+        </div>
+    </div>
+
+    <div class="shadow-form-center-holder shadow-form-center-holder-link shadow-form hidden">
+        <div class="transparent-borders">
+            <b class="cr t l png"></b>
+            <b class="cr t r png"></b>
+            <div class="sh-l">
+                <div class="sh-r png">
+                    <div class="inner-shadow">
+                        <div class="title-shadow">
+                            <a href="#" class="close">Close</a>
+                            <h2>Attach a link</h2>
+                            <br />
+
+                            <input type="text" maxlength="255" name="search-url" style="margin-right: 15px" value="Url.." />
+                            <input type="button" class="submin-button" style="margin-right: 15px" value="Search" id="attach_link" />
+                        </div>
+                        <div class="body-shadow" id="parse-link">
+                            Please enter the url...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <b class="cr b l png"></b>
+            <b class="cr b r png"></b>
+        </div>
+    </div>
 
 
 
+    <div class="shadow-form-big-center-holder shadow-form hidden">
+        <div class="transparent-borders">
+            <b class="cr t l png"></b>
+            <b class="cr t r png"></b>
+            <div class="sh-l">
+                <div class="sh-r png">
+                    <div class="inner-shadow">
+                        <div class="title-shadow">
+                            <a href="#" class="close">Close</a>
+                            <h2 class="title"></h2>
+                            <br />
+                        </div>
+                        <div class="body-shadow">
 
-
-
-
-
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <b class="cr b l png"></b>
+            <b class="cr b r png"></b>
+        </div>
     </div>
 </body>
 </html>

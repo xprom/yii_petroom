@@ -15,11 +15,11 @@ class Post
     {
         $list = Yii::app()->db->createCommand("
         with recursive  postList  (
-            lvl, id, date, text,parent_id, link, image, user_id
+            lvl, id, date, text,parent_id, link, image, user_id, map_x, map_y, zoom
         ) as (
             select * from (
                 select
-                    1 lvl, id, date_part('epoch', date) date, text,parent_id, link, image, user_id
+                    1 lvl, id, date_part('epoch', date) date, text,parent_id, link, image, user_id, map_x, map_y, zoom
                 from
                     {{post}}
                 where
@@ -37,7 +37,10 @@ class Post
                     tn.parent_id,
                     tn.link,
                     tn.image,
-                    tn.user_id
+                    tn.user_id,
+                    tn.map_x,
+                    tn.map_y,
+                    tn.zoom
                 from
                     postList tp, {{post}} tn
                 where
@@ -65,6 +68,9 @@ class Post
                 p.user_id=:user_id and
                 p.user_id=u.id
             group by
+                p.map_x,
+                p.map_y,
+                p.zoom,
                 p.lvl,
                 p.id,
                 p.date,
@@ -107,26 +113,67 @@ class Post
 
     public static function savePost($text,$parent_id)
     {
-        if(trim($text)=='')
+        if(trim($text)==''
+            && !(!empty($_GET['map_zoom']) && !empty($_GET['map_x']) && !empty($_GET['map_y']))
+            && !(!empty($_GET['link']) && isset($_GET['show_image']) && isset($_GET['image']) && isset($_GET['title']) && isset($_GET['desc']))
+
+        )
             return false;
 
         if(!empty($parent_id))
         {
-            $insertMember = Yii::app()->db->createCommand("
-                insert into {{post}} (user_id,date,text,parent_id) values (:user_id,now(),:text,:parent_id)
+            $insertPost = Yii::app()->db->createCommand("
+                insert into {{post}} (user_id,date,text,parent_id) values (:user_id,now(),:text,:parent_id) returning id
             ");
-            $insertMember->bindParam(":parent_id",   $parent_id,PDO::PARAM_INT);
+            $insertPost->bindParam(":parent_id",   $parent_id,PDO::PARAM_INT);
         }
         else
         {
-            $insertMember = Yii::app()->db->createCommand("
-                insert into {{post}} (user_id,date,text) values (:user_id,now(),:text)
+            $insertPost = Yii::app()->db->createCommand("
+                insert into {{post}} (user_id,date,text) values (:user_id,now(),:text) returning id
             ");
         }
 
-        $insertMember->bindParam(":text",   $text,PDO::PARAM_STR);
-        $insertMember->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
-        $insertMember->queryAll();
+        if(!empty($_GET['map_zoom']) && !empty($_GET['map_x']) && !empty($_GET['map_y']))
+        {
+            $insertPost = Yii::app()->db->createCommand("
+                insert into {{post}} (user_id,date,text,parent_id,map_x,map_y,zoom) values (:user_id,now(),:text,:parent_id,:map_x,:map_y,:zoom)
+            ");
+            $insertPost->bindParam(":parent_id",   $parent_id,PDO::PARAM_INT);
+        }
+
+        $insertPost->bindParam(":text",   $text,PDO::PARAM_STR);
+        $insertPost->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+
+        if(!empty($_GET['map_zoom']) && !empty($_GET['map_x']) && !empty($_GET['map_y']))
+        {
+            $insertPost->bindParam(":zoom", intval($_GET['map_zoom']),PDO::PARAM_INT);
+            $insertPost->bindParam(":map_x",floatval($_GET['map_x']),PDO::PARAM_INT);
+            $insertPost->bindParam(":map_y",floatval($_GET['map_y']),PDO::PARAM_INT);
+        }
+
+
+        $res = $insertPost->queryAll();
+
+        /**
+         * вставляем ссылку на ресурс
+         */
+        if(!empty($_GET['link']) && isset($_GET['show_image']) && isset($_GET['image']) && isset($_GET['title']) && isset($_GET['desc']))
+        {
+            $insetLink = Yii::app()->db->createCommand("
+                insert into {{post}} (id_post,link,title,description,image)
+                values (:id_post,:link,:title,:description,:image)
+            ");
+            $insetLink->bindParam(":id_post",$res[0]['id'],PDO::PARAM_INT);
+            $insetLink->bindParam(":link",$_GET['link'],PDO::PARAM_STR);
+            $insetLink->bindParam(":title",$_GET['title'],PDO::PARAM_STR);
+            $insetLink->bindParam(":description",$_GET['desc'],PDO::PARAM_STR);
+            if(empty($_GET['show_image']))
+                $_GET['image'] = '';
+
+            $insetLink->bindParam(":image",$_GET['image'],PDO::PARAM_STR);
+            $insetLink->queryAll();
+        }
     }
 
     public static function like($postId)

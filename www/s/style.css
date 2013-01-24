@@ -680,6 +680,11 @@ table {
             color: #00aee1;
             font-family: 'MuseoSlab-500';
         }
+        h2 {
+            font-size: 20px;
+            color: #00aee1;
+            font-family: 'MuseoSlab-500';
+        }
         .page-content .logo-holder {
             height: 89px;
             background: white;
@@ -1221,7 +1226,6 @@ ul.form-errors > li {
     opacity: 0.2;
     filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
     left: 0;
-    display: none;
     top: 0;
 }
 .change-current-status {
@@ -1232,15 +1236,30 @@ ul.form-errors > li {
     top: 50px;
     width: 400px;
 }
+.shadow-form-center-holder {
+    left: 50%;
+    margin-left: -300px;
+    position: fixed;
+    top: 50px;
+    width: 600px;
+}
+.shadow-form-big-center-holder {
+    left: 50%;
+    margin-left: -370px;
+    position: fixed;
+    top: 50px;
+    width: 740px;
+}
 .submin-button {
     background: none repeat scroll 0 0 #44C6C6;
     border: medium none;
     color: white;
+    cursor: pointer;
     padding: 4px 14px;
     cursor: pointer;
-    -webkit-border-radius: 18px;
-    -moz-border-radius: 18px;
-    border-radius: 18px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
     .submin-button:hover {
         background: none repeat scroll 0 0 #00D4DC;
@@ -1286,6 +1305,9 @@ ul.form-errors > li {
 .inner-shadow {
     background: white;
     padding: 15px;
+}
+.shadow-form-center-holder .inner-shadow, .shadow-form-big-center-holder .inner-shadow {
+    padding: 0;
 }
 .inner-shadow input[type=text] {
     border: 1px solid #CCCCCC;
@@ -1353,3 +1375,89 @@ ul.form-errors > li {
     .clear-left {
         clear: left;
     }
+    #insert-map {
+        display: block;
+    }
+    #insert-post-attache {
+        width: 156px;
+        height: 34px;
+        left: 50%;
+        margin-left: 54px;
+        position: absolute;
+        top: 182px;
+    }
+        #insert-post-attache a {
+            display: block;
+            background: url("../i/sprite.png") no-repeat scroll -123px -317px transparent;
+            height: 30px;
+            width: 30px;
+            margin-top: 4px;
+            margin-right: 1px;
+            float: left;
+        }
+        #insert-post-attache a#insert-map {
+            background-position: -154px -317px;
+            width: 25px;
+        }
+        #insert-post-attache a#insert-link {
+            background-position: -179px -317px;
+        }
+        #insert-post-attache a#insert-photo {
+            background-position: -212px -317px;
+        }
+        #insert-post-attache a#insert-video {
+            background-position: -245px -317px;
+        }
+    .inner-shadow .close {
+        float: right;
+        margin: 6px;
+        margin-top: 2px;
+    }
+    .title-shadow {
+        background: url("../i/aside-bg.png") repeat scroll 0 0 transparent;
+        border-bottom: 1px solid #D5D0D0;
+        padding: 15px 15px 0 15px;
+    }
+    .body-shadow {
+        background: white;
+        padding: 10px 15px 15px 15px;
+    }
+    #gmap {
+        height: 250px;
+    }
+    #media-holder {
+        margin: 0px 0px 13px 18px;
+    }
+    #marker-shadow, .marker-shadow {
+        height: 70px;
+        width: 180px;
+        position: relative;
+        background: url('../i/mini_marker.png') center no-repeat;
+        margin-top: -70px;
+        cursor: pointer;
+    }
+        #marker-shadow a {
+            float: right;
+            margin-right: -40px;
+        }
+    #parse-link img, .media-holder-link img {
+        max-width: 100px;
+        max-height: 100px;
+        float: left;
+        border: 1px solid #D5D0D0;
+        float: left;
+        margin-right: 15px;
+    }
+    #parse-link table, .media-holder-link table {
+        margin-top: 6px;
+        margin-left: 120px;
+    }
+        #parse-link table.void_image, .media-holder-link table.void_image {
+            margin-left: 0;
+        }
+        .media-holder-link br.clear {
+            clear: inherit;
+        }
+        .media-holder {
+            padding-right: 25px;
+        }

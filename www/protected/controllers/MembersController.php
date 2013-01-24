@@ -260,4 +260,17 @@ class MembersController extends Controller
 
         $this->render('signin',array('error' => $error));
     }
+
+    /**
+     * выход
+     */
+    public function actionLogout()
+    {
+        unset($_SESSION['MEMBERS']);
+
+        session_write_close();
+        header('location:/');
+        exit();
+    }
+
  }

@@ -102,6 +102,17 @@ class SiteController extends Controller
                 exit();
             }
 
+            /**
+             * подгрузка url сайта
+             */
+            if(!empty($_GET['getLinkContent']))
+            {
+                $resurl = Link::getLinkContent($_GET['link']);
+
+                print json_encode($resurl);
+                exit();
+            }
+
         }
         catch(Exception $e)
         {

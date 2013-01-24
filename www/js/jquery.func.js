@@ -163,6 +163,17 @@ $(document).ready(function(){
         }
     })
 
+    if($('.pass_label input[type=password]').size()>0)
+    {
+        window['clear_pass_label'] = function(){
+            if($('.pass_label input[type=password]').val()!='')
+                $($('.pass_label span').hide());
+
+            window.setTimeout(clear_pass_label,30);
+        }
+        window.setTimeout(clear_pass_label,30);
+    }
+
     $('#login-holder input[name=nickname]').blur(function(){
         if($(this).val()=='')
             $(this).val('Tiername').removeClass('focus');
@@ -304,9 +315,12 @@ $(document).ready(function(){
      * вставка нового поста
      */
     $('.insert-news textarea').focus(function(){
+        $(this).addClass('insert-news-focus');
         $('#send-button-post-div').show();
         if($.trim($(this).val())==$(this).attr('void-text'))
             $(this).val('');
+
+        $('#insert-post-attache a').css({opacity:0.2});
 
         $(this).animate({
             height:'50px'
@@ -316,10 +330,29 @@ $(document).ready(function(){
             }
         });
     });
+    window['fastTextareaFocus'] = function(){
+        $('.insert-news textarea').addClass('insert-news-focus')
+                                  .height('50px');
+
+        $('#send-button-post-div').show();
+        if($('.insert-news textarea').val()==$(this).attr('void-text'))
+            $('.insert-news textarea').val('');
+
+        $('#insert-post-attache a').css({opacity:0.2});
+    }
+
+    $('#insert-post-attache a').hover(function(){
+        $(this).css({opacity:1});
+    },function(){
+        if($('.insert-news textarea').hasClass('insert-news-focus'))
+            $(this).css({opacity:0.2});
+    })
 
     $('.insert-news textarea').blur(function(){
-        if($.trim($(this).val())=='' || $.trim($(this).val())==$(this).attr('void-text'))
+        if(($.trim($(this).val())=='' || $.trim($(this).val())==$(this).attr('void-text')) && $('.media-holder').size()==0)
         {
+            $(this).removeClass('insert-news-focus');
+            $('#insert-post-attache a').css({opacity:1});
             ~function(self){
                 window['timer_post_message'] = window.setTimeout(function(){
                     $(self).val($(self).attr('void-text'));
@@ -339,11 +372,57 @@ $(document).ready(function(){
 
     $('#send-button-post-div input[type=button]').click(function(){
         clearTimeout(window['timer_post_message']);
+
+        var map_html = '';
+        var link_html = '';
+
+        var send_data = {
+            text:$('.insert-news textarea').val()
+        }
+
+        /**
+         * вставляем карту
+         */
+        if($('#media-holder .media-holder-map').size()==1)
+        {
+            send_data.map_x = insertMap.marker.position.lat();
+            send_data.map_y = insertMap.marker.position.lng();
+            send_data.map_zoom = insertMap.zoom;
+
+            map_html = '<div class="post-media">\
+                                <input type="hidden" name="map_x" value="'+insertMap.marker.position.lat()+'" />\
+                                <input type="hidden" name="map_y" value="'+insertMap.marker.position.lng()+'" />\
+                                <input type="hidden" name="zoom" value="'+insertMap.zoom+'" />\
+                                <img align="text-top" width="180" height="70" src="http://maps.googleapis.com/maps/api/staticmap?center='+insertMap.marker.position.lat()+','+insertMap.marker.position.lng()+'&amp;zoom='+insertMap.zoom+'&amp;size=180x70&amp;sensor=false&amp;language=en">\
+                                <div class="marker-shadow"></div>\
+                            </div>';
+        }
+
+        /**
+         * вставляем ссылку на другой ресурс
+         */
+        if($('#media-holder .media-holder-link').size()==1)
+        {
+            var data = $('.media-holder-link').data('link_data');
+            send_data.link = data.link;
+            send_data.show_image = !$('#media-holder .media-holder-link table').hasClass('void_image');
+            send_data.image = $('#media-holder .media-holder-link img:visible').attr('src');
+            send_data.title = data.title;
+            send_data.desc = data.description;
+
+            console.log($('.media-holder-link').data('link_data'));
+
+            $('#media-holder .media-holder-link br.clear').remove();
+            link_html = '<div class="post-media"><div class="media-holder-link">\
+                                '+$('#media-holder .media-holder-link').html()+'\
+                            </div></div>';
+        }
+
+
+
         $.ajax({
             url:'?savePost',
-            data:{
-                text:$('.insert-news textarea').val()
-            }
+            data:send_data
         })
 
 
@@ -356,7 +435,7 @@ $(document).ready(function(){
         <a href="/profile/'+$('input[name=members_home]').val()+'"><b>'+$('input[name=members_name]').val()+'</b></a><br />\
             <div class="post-left post-text">\
             '+$('.insert-news textarea').val().replace(/\n/g,"<br>")+'\
-            </div>\
+            '+map_html+ link_html + '</div>\
         <div class="post-date post-left"><div class="like "><span>mir gefällt</span><span class="counter">0</span></div>\
             <span class="time_needs_update" timestamp="'+petroomNow()+'" abs_time="'+dateString()+'">A few seconds ago</span>\ | \
             \
@@ -856,6 +935,347 @@ $(document).ready(function(){
        $('.add-friends-new.hidden').show();
         $(this).hide();
     })
+
+    $('.shadow, .inner-shadow .close').click(function(){
+        $('.shadow, .shadow-form').hide();
+        return false;
+    });
+
+    $(window).keydown(function(e){
+        /**
+         * escape
+         */
+        if(e.keyCode==27 && $('.shadow').is(':visible'))
+        {
+            $('.shadow').click();
+        }
+
+    })
+
+    $('input[name=search-street]').focus(function(){
+        if($(this).val()=='Search by city or street name..')
+            $(this).val('');
+    })
+
+    $('input[name=search-street]').blur(function(){
+        if($.trim($(this).val())=='')
+            $(this).val('Search by city or street name..');
+    })
+
+    $('input[name=search-url]').focus(function(){
+        if($(this).val()=='Url..')
+            $(this).val('');
+    })
+
+    $('input[name=search-url]').blur(function(){
+        if($.trim($(this).val())=='')
+            $(this).val('Url..');
+    })
+
+    insertMap = {
+        geoCoder:new google.maps.Geocoder(),
+        map:'',
+        isGeoLocated:0,
+        i:'',
+        marker:'',
+        defaultLocation:new google.maps.LatLng(47.367347, 8.550002),
+        zoom:15,
+        geocodeResult:function(results, status){
+            if (status == 'OK' && results.length > 0)
+            {
+                if(insertMap.i==1)
+                {
+                    insertMap.marker.setMap(null);
+                }
+
+                insertMap.i=1;
+
+                if(results[0].geometry.location.Qa!=undefined)
+                {
+                    insertMap.marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(results[0].geometry.location.Qa, results[0].geometry.location.Ra),
+                        map: insertMap.map,
+                        icon: 'http://www.outdoor-wear.ch/templates/i/marker.png'
+                    });
+                }
+                else
+                {
+                    insertMap.marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
+                        map: insertMap.map,
+                        icon: 'http://www.outdoor-wear.ch/templates/i/marker.png'
+                    });
+                }
+
+                insertMap.map.setCenter(insertMap.marker.position);
+                insertMap.map.setZoom(16);
+            } else {
+                alert("No data found");
+            }
+        },
+        init:function(){
+
+            function success(position) {
+                insertMap.isGeoLocated = '1';
+                insertMap.defaultLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                insertMap.map.setCenter(insertMap.defaultLocation);
+
+                insertMap.marker = new google.maps.Marker({
+                    position: insertMap.defaultLocation,
+                    map: insertMap.map,
+                    icon: 'http://www.outdoor-wear.ch/templates/i/marker.png'
+                });
+            }
+
+            function error(msg) {
+                insertMap.isGeoLocated = '1';
+                return false;
+            }
+
+            if(insertMap.isGeoLocated=='0')
+            {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(success, error);
+                } else {
+                    /**
+                     * geoLocation are not supported
+                     */
+                    insertMap.isGeoLocated = '1';
+                }
+            }
+
+            var myOptions =
+            {
+                zoom: insertMap.zoom,
+                center: insertMap.defaultLocation,
+                disableDefaultUI: true,
+                zoomControl: true,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+
+            this.map = new google.maps.Map(document.getElementById("gmap"), myOptions);
+            insertMap.marker = new google.maps.Marker({
+                position: insertMap.defaultLocation,
+                map: insertMap.map,
+                icon: 'http://www.outdoor-wear.ch/templates/i/marker.png'
+            });
+            insertMap.i = 1;
+
+            google.maps.event.addListener(this.map,'zoom_changed',function(event){
+                insertMap.zoom = insertMap.map.getZoom();
+                $('#zoom').val(insertMap.zoom);
+            })
+            google.maps.event.addListener(this.map,'center_changed',function(event){
+                insertMap.defaultLocation = insertMap.map.getCenter();
+                $('#map1').val(insertMap.defaultLocation);
+            })
+
+            google.maps.event.addListener(this.map, "click", function(event) {
+                if(insertMap.i==1)
+                    insertMap.marker.setMap(null);
+
+                insertMap.i=1;
+                insertMap.marker = new google.maps.Marker({
+                    position: event.latLng,
+                    map: insertMap.map,
+                    icon: 'http://www.outdoor-wear.ch/templates/i/marker.png'
+                });
+                insertMap.defaultLocation = event.latLng;
+                $('#mark').val(event.latLng);
+            });
+        }
+    };
+    $('#insert-map').click(function(){
+        $('.shadow, .shadow-form-center-holder-map').show();
+        insertMap.init();
+        return false;
+    })
+
+
+    $('#insert-link').click(function(){
+        $('.shadow, .shadow-form-center-holder-link').show();
+        return false;
+    })
+    $('input[name=search-street]').keyup(function(e){
+        if(e.keyCode==13)
+            $('#add_mark').click();
+    })
+    $('input[name=search-url]').keyup(function(e){
+        if(e.keyCode==13)
+            $('#attach_link').click();
+    })
+    $('#attach_link').click(function(){
+        if($('input[name=search-url]').val()!='' && $('input[name=search-url]').val()!='Url..')
+        {
+            $('#parse-link').html('loading...');
+
+            $.ajax({
+                url:'/?getLinkContent=1',
+                dataType:'json',
+                data:{
+                    link:$('input[name=search-url]').val()
+                },
+                success:function(res){
+
+                    var result = '';
+
+                    if(isArray(res['image_arr']) && res['image_arr'].length>0)
+                    {
+                        for(x in res['image_arr'])
+                        {
+                            if(x==0)
+                                result += '<img src="'+res['image_arr'][x]+'" />';
+                            else
+                                result += '<img class="hidden" src="'+res['image_arr'][x]+'" />';
+                        }
+
+                        result += '</td><td>';
+                    }
+
+                    result += '<table><tr><td>';
+
+                    if(typeof(res['title'])!='undefined')
+                    {
+                        if($.trim(res['title'])!='')
+                            result += '<a href="'+res['url']+'" target="_blank">'+res['title']+'</a></br />';
+                    }
+
+                    if(typeof(res['description'])!='undefined')
+                    {
+                        if($.trim(res['description'])!='')
+                        result += res['description']+'</br /></br />';
+                    }
+
+                    if(isArray(res['image_arr']))
+                    {
+                        if(res['image_arr'].length>1)
+                        {
+                            result += '<label>Choose Image: <a href="#" class="prev">« Last</a> | <span class="count-start">1</span> of <span class="count-max">'+res['image_arr'].length+'</span> | <a href="#" class="next">Next »</a><br /></label>';
+                        }
+                    }
+
+                    if(typeof(res['image_arr'][0])!='undefined')
+                    {
+                        result += '<label><input type="checkbox">Don\'t show an image</label>';
+                    }
+
+
+
+                    result += '</td></table><br class="clear" />';
+                    result += '<input type="button" class="submin-button" style="margin-right: 15px" value="Attach" onclick="append_link();" id="confirm_link" />';
+
+                    ~function(res){
+                    window['append_link'] = function(){
+
+                        $('#confirm_link, #parse-link label').remove();
+                        var content = $('#parse-link').html();
+
+                        $('.media-holder-link').remove();
+                        $('#media-holder').append(
+                            '<div class="media-holder media-holder-link">\
+                                    '+content+'\
+                                    </div>'
+                        );
+                        $('#send-button-post-div').append('<input type="button" value="Remove link" class="submin-button submin-button-remove-link" />');
+                        $('.submin-button-remove-link').click(function(){
+                            $('.media-holder-link').remove();
+                            $(this).remove();
+                            return false;
+                        });
+
+                        $('.media-holder-link').data('link_data',res);
+                        window['fastTextareaFocus']();
+
+                        $('input[name=search-url]').val('Url..');
+                        $('.shadow-form-center-holder-link #parse-link').val('Please enter the url...');
+                        $('.shadow, .shadow-form-center-holder-link').hide();
+                        return false;
+                    };}(res);
+
+                    $('#parse-link').html(result);
+                    $('#parse-link a.next').click(function(){
+                        if(parseInt($('.count-start').html())<parseInt($('.count-max').html()))
+                            $('.count-start').html(parseInt($('.count-start').html())+1);
+
+                        $('#parse-link img').hide();
+                        $('#parse-link img').eq( $('.count-start').html() - 1).show();
+
+                        return false;
+                    });
+                    $('#parse-link a.prev').click(function(){
+                        if(parseInt($('.count-start').html())>1)
+                            $('.count-start').html(parseInt($('.count-start').html())-1);
+
+                        $('#parse-link img').hide();
+                        $('#parse-link img').eq( $('.count-start').html() - 1).show();
+
+                        return false;
+                    });
+                    $('#parse-link input[type=checkbox]').change(function(){
+                        if($(this).is(':checked'))
+                        {
+                            $('#parse-link img').hide();
+                            $('#parse-link table').addClass('void_image');
+                        }
+                        else
+                        {
+                            $('#parse-link img').eq( $('.count-start').html() - 1).show();
+                            $('#parse-link table').removeClass('void_image');
+                        }
+                    });
+                }
+            });
+        }
+    })
+    $('.marker-shadow').live('click',function(){
+        $('.shadow, .shadow-form-big-center-holder').show();
+        $('.shadow-form-big-center-holder .title').html('Map');
+        $('.shadow-form-big-center-holder .body-shadow').append('<div id="temp_map" style="height:480px;"></div>');
+
+        var myOptions =
+        {
+            zoom: parseInt($(this).parents('.post-media').find('input[name=zoom]').val()),
+            center: new google.maps.LatLng($(this).parents('.post-media').find('input[name=map_x]').val(), $(this).parents('.post-media').find('input[name=map_y]').val()),
+            disableDefaultUI: true,
+            zoomControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        var map = new google.maps.Map(document.getElementById("temp_map"), myOptions);
+        var marker = new google.maps.Marker({
+            position: myOptions.center,
+            map: map,
+            icon: 'http://www.outdoor-wear.ch/templates/i/marker.png'
+        });
+
+    })
+    $('#marker-shadow a').live('click',function(){
+        $(this).parents('.media-holder')
+            .remove();
+        $('.insert-news textarea').blur();
+        return false;
+    })
+    $('#save_mark').click(function(){
+        $('.media-holder-map').remove();
+        $('#media-holder').append(
+            '<div class="media-holder media-holder-map">\
+                <img align="text-top" width="180" height="70" src="http://maps.googleapis.com/maps/api/staticmap?center='+insertMap.marker.position.Ya+','+insertMap.marker.position.Za+'&zoom=13&size=180x70&sensor=false&language=en" />\
+            <div id="marker-shadow">\
+                <a href="#">Delete</a>\
+            </div>\
+            </div>'
+        );
+        window['fastTextareaFocus']();
+
+        $('.shadow, .shadow-form-center-holder').hide();
+
+        return false;
+    })
+    $('#add_mark').click(function(){
+        insertMap.geoCoder.geocode({
+            address: $('input[name=search-street]').val(),
+            partialmatch: true},insertMap.geocodeResult);
+    });
 })
 
 
