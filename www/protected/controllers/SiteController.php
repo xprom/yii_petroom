@@ -23,7 +23,7 @@ class SiteController extends Controller
 
     public function init()
     {
-        if(!empty($_POST['x1']) && !empty($_POST['x2']) && !empty($_POST['y1']) && !empty($_POST['y2']))
+        if(isset($_POST['x1']) && isset($_POST['x2']) && isset($_POST['y1']) && isset($_POST['y2']))
         {
             Photo::saveImage(
                 './photos/'.$_POST['image_1024'],

@@ -54,7 +54,8 @@ class Post
                 l.title,
                 l.description,
                 l.image,
-                i.image as image_news
+                i.image as image_news,
+                f.title as photo_folder_title
             from
             (
             select
@@ -96,6 +97,7 @@ class Post
             ) t
             left join {{post_link}} l on t.id=l.id_post
             left join {{photos}} i    on i.id=t.image
+            left join {{photos_folder}} f    on f.id=i.folder_id
 
         ");
         $list->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);

@@ -307,6 +307,14 @@
                     </div>
 
                     <a href="/profile/<?=trim($value['username']);?>"><b><?=trim($value['name']);?></b></a>
+
+                    <?
+                    if(!empty($value['image_news']) && $value['photo_folder_title']==Photo::PHOTO_THUMB_FOLDER_TITLE)
+                    {
+                        print 'hat Profilbild aktualisiert';
+                    }
+                    ?>
+
                     <br />
 
                     <div class="post-left post-text">

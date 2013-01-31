@@ -7,6 +7,26 @@ class Photo
     public static function saveImage($image,$folder_type = null,$size = null, $folder_id = null)
     {
         $new_file_name = 'big_'.md5(time()).'.'.strtolower(end(explode('.',$image)));
+
+        list($width,$height) = getimagesize($image);
+        $max_size = max($width,$height);
+        /**
+         * определяем максимальную пропорцию
+         */
+        $k = $max_size/534;
+        $w = ceil($width/$k);
+        $h = ceil($height/$k);
+        $size1 = min($w,$h)-100;
+
+
+        foreach($size as &$value)
+        {
+            $value = $value * $k;
+        }
+        unset($value);
+
+
+
         Yii::import("ext.EPhpThumb.EPhpThumb");
 
         $thumb=new EPhpThumb();
