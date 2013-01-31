@@ -49,6 +49,15 @@ class Post
         )
 
             select
+                t.*,
+                l.link,
+                l.title,
+                l.description,
+                l.image,
+                i.image as image_news
+            from
+            (
+            select
                 p.*,
                 u.image_50,
                 u.name,
@@ -84,6 +93,9 @@ class Post
                 u.username
             order by
                 case when p.lvl=1 then p.id else -1*p.id end desc
+            ) t
+            left join {{post_link}} l on t.id=l.id_post
+            left join {{photos}} i    on i.id=t.image
 
         ");
         $list->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
@@ -111,26 +123,50 @@ class Post
         return $return;
     }
 
-    public static function savePost($text,$parent_id)
+    public static function savePost($text,$parent_id,$image_id = null)
     {
         if(trim($text)==''
             && !(!empty($_GET['map_zoom']) && !empty($_GET['map_x']) && !empty($_GET['map_y']))
-            && !(!empty($_GET['link']) && isset($_GET['show_image']) && isset($_GET['image']) && isset($_GET['title']) && isset($_GET['desc']))
-
+            && !(!empty($_GET['url']) && isset($_GET['show_image']) && isset($_GET['image']) && isset($_GET['title']) && isset($_GET['desc']))
+            && empty($image_id)
         )
             return false;
+
+
 
         if(!empty($parent_id))
         {
             $insertPost = Yii::app()->db->createCommand("
-                insert into {{post}} (user_id,date,text,parent_id) values (:user_id,now(),:text,:parent_id) returning id
+                insert into {{post}} (
+                  user_id,
+                  date,
+                  text,
+                  parent_id
+                  ".($image_id?',image':'')."
+                ) values (
+                    :user_id,
+                    now(),
+                    :text,
+                    :parent_id
+                    ".($image_id?',:image':'')."
+                ) returning id
             ");
             $insertPost->bindParam(":parent_id",   $parent_id,PDO::PARAM_INT);
         }
         else
         {
             $insertPost = Yii::app()->db->createCommand("
-                insert into {{post}} (user_id,date,text) values (:user_id,now(),:text) returning id
+                insert into {{post}} (
+                  user_id,
+                  date,
+                  text
+                  ".($image_id?',image':'')."
+                ) values (
+                  :user_id,
+                  now(),
+                  :text
+                  ".($image_id?',:image':'')."
+                ) returning id
             ");
         }
 
@@ -144,6 +180,7 @@ class Post
 
         $insertPost->bindParam(":text",   $text,PDO::PARAM_STR);
         $insertPost->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $insertPost->bindParam(":image",  $image_id,PDO::PARAM_INT);
 
         if(!empty($_GET['map_zoom']) && !empty($_GET['map_x']) && !empty($_GET['map_y']))
         {
@@ -158,14 +195,14 @@ class Post
         /**
          * вставляем ссылку на ресурс
          */
-        if(!empty($_GET['link']) && isset($_GET['show_image']) && isset($_GET['image']) && isset($_GET['title']) && isset($_GET['desc']))
+        if(!empty($_GET['url']) && isset($_GET['show_image']) && isset($_GET['image']) && isset($_GET['title']) && isset($_GET['desc']))
         {
             $insetLink = Yii::app()->db->createCommand("
-                insert into {{post}} (id_post,link,title,description,image)
+                insert into {{post_link}} (id_post,link,title,description,image)
                 values (:id_post,:link,:title,:description,:image)
             ");
             $insetLink->bindParam(":id_post",$res[0]['id'],PDO::PARAM_INT);
-            $insetLink->bindParam(":link",$_GET['link'],PDO::PARAM_STR);
+            $insetLink->bindParam(":link",$_GET['url'],PDO::PARAM_STR);
             $insetLink->bindParam(":title",$_GET['title'],PDO::PARAM_STR);
             $insetLink->bindParam(":description",$_GET['desc'],PDO::PARAM_STR);
             if(empty($_GET['show_image']))

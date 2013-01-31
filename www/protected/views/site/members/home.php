@@ -326,6 +326,43 @@
                             </div>
                             <?
                         }
+
+                        if(!empty($value['image_news']))
+                        {
+                            ?>
+                            <img src="/photos/<?=$value['image_news'];?>" />
+                            <?
+                        }
+
+                        if(!empty($value['link']))
+                        {
+                            print '<div class="post-media"><div class="media-holder-link">';
+
+                            if(!empty($value['image']))
+                            {
+                                ?>
+                                <img src="<?=$value['image'];?>" />
+                                <?
+                            }
+
+                            ?>
+                                <table class="<?=empty($value['image'])?'void_image':'';?>">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <a target="_blank" href="<?=$value['link'];?>">
+                                                    <?=$value['title'];?>
+                                                </a><br />
+                                                <?=$value['description'];?>
+                                                <br />
+                                                <br />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div></div>
+                            <?
+                        }
                         ?>
                     </div>
 

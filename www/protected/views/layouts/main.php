@@ -28,6 +28,7 @@
 
 
     <script language="javascript" src="js/jquery-1.8.0.min.js"></script>
+    <script language="javascript" src="js/jquery.imgareaselect.pack.js"></script>
     <script language="javascript" src="js/jquery.func.js?v=2"></script>
 
     <!--<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAAEzaqyohIf7CKIpbLMpYPRRSxySEUo0SD7BB5qr-gNI7PlVxRXxSxAv7dtpRGQlOqWidII22v8YU5Qw" type="text/javascript"></script>-->
@@ -265,8 +266,6 @@
         </div>
     </div>
 
-
-
     <div class="shadow-form-big-center-holder shadow-form hidden">
         <div class="transparent-borders">
             <b class="cr t l png"></b>
@@ -289,5 +288,56 @@
             <b class="cr b r png"></b>
         </div>
     </div>
+
+    <div class="shadow-form-center-holder shadow-form-center-holder-main-photo shadow-form hidden">
+        <div class="transparent-borders">
+            <b class="cr t l png"></b>
+            <b class="cr t r png"></b>
+            <div class="sh-l">
+                <div class="sh-r png">
+                    <div class="inner-shadow">
+                        <div class="title-shadow">
+                            <a href="#" class="close">Close</a>
+                            <h2>Upload a new photo</h2>
+                            <br />
+                        </div>
+                        <div class="body-shadow">
+                            <div class="toglleHide">
+                            Please upload a real photo of yourself, so that friends can recognize you.
+                            We support JPG, GIF or PNG files.<br /><br /><br />
+                            </div>
+
+                            <div class="toglleHide hidden">
+                            Please select an area for your profile picture.
+                            You can rotate the image to position it properly.<br /><br />
+                            </div>
+
+                            <form action="/?mainPhoto=1" method="post" target="shadow-form-center-holder-main-photo" enctype="multipart/form-data">
+                                <input type="file" name="photo" value="" />
+                                <input type="submit" class="hidden" />
+                                <input type="reset" class="hidden" />
+                            </form>
+                            <iframe name="shadow-form-center-holder-main-photo" class="hidden" width="500" height="200"></iframe>
+                            <div id="shadow-form-center-holder-main-photo-slider"></div>
+
+                            <div class="toglleHide">
+                            <br /><br />
+                            If you have any problems with your upload, try using a smaller picture.
+                            </div>
+
+                            <div class="toglleHide hidden center">
+                                <br />
+                                <input type="button" class="submin-button submit-button-save" style="margin-right: 15px" value="Save and continue" />
+                                <input type="button" class="submin-button submit-button-back" style="margin-right: 15px" value="Back" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <b class="cr b l png"></b>
+            <b class="cr b r png"></b>
+        </div>
+    </div>
+
 </body>
 </html>

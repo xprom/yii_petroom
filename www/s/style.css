@@ -21,11 +21,59 @@ time, mark, audio, video {
     font-size: 100%;
     vertical-align: baseline;
 }
+.center {
+    text-align: center;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+
+/*
+image select area start
+*/
+.imgareaselect-border1 {
+    background: url('../i/border-anim-v.gif') repeat-y left top;
+}
+
+.imgareaselect-border2 {
+    background: url('../i/border-anim-h.gif') repeat-x left top;
+}
+
+.imgareaselect-border3 {
+    background: url('../i/border-anim-v.gif') repeat-y right top;
+}
+
+.imgareaselect-border4 {
+    background: url('../i/border-anim-h.gif') repeat-x left bottom;
+}
+
+.imgareaselect-border1, .imgareaselect-border2,
+.imgareaselect-border3, .imgareaselect-border4 {
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+
+.imgareaselect-handle {
+    background-color: #fff;
+    border: solid 1px #000;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+
+.imgareaselect-outer {
+    background-color: #000;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+
+.imgareaselect-selection {
+}
+/*
+image select area end
+*/
+
 html {
     overflow-y: scroll;
 }
@@ -1378,6 +1426,9 @@ ul.form-errors > li {
     #insert-map {
         display: block;
     }
+    #insert-post-attache a#insert-news {
+        visibility: hidden;
+    }
     #insert-post-attache {
         width: 156px;
         height: 34px;
@@ -1448,6 +1499,9 @@ ul.form-errors > li {
         float: left;
         margin-right: 15px;
     }
+        .post-text .media-holder-link img {
+            margin-top: 0 !important;
+        }
     #parse-link table, .media-holder-link table {
         margin-top: 6px;
         margin-left: 120px;
@@ -1461,3 +1515,23 @@ ul.form-errors > li {
         .media-holder {
             padding-right: 25px;
         }
+        .slider {
+            margin: auto;
+            height: 25px;
+            overflow: hidden;
+            width:300px;
+            border: solid 1px #00ADE0;
+
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+        }
+            .slider .progress-line {
+                width: 1px;
+                height: 25px;
+                background: #00ADE0;
+            }
+    .photo-thumb-choose > img {
+        max-width: 534px;
+        max-height: 534px;
+    }

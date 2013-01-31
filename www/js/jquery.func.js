@@ -376,6 +376,10 @@ $(document).ready(function(){
         var map_html = '';
         var link_html = '';
 
+        var text = $('.insert-news textarea').val();
+        if($.trim(text)=='Teile hier etwas')
+            text = '';
+
         var send_data = {
             text:$('.insert-news textarea').val()
         }
@@ -396,6 +400,7 @@ $(document).ready(function(){
                                 <img align="text-top" width="180" height="70" src="http://maps.googleapis.com/maps/api/staticmap?center='+insertMap.marker.position.lat()+','+insertMap.marker.position.lng()+'&amp;zoom='+insertMap.zoom+'&amp;size=180x70&amp;sensor=false&amp;language=en">\
                                 <div class="marker-shadow"></div>\
                             </div>';
+            $('#media-holder .media-holder-map').remove();
         }
 
         /**
@@ -404,18 +409,18 @@ $(document).ready(function(){
         if($('#media-holder .media-holder-link').size()==1)
         {
             var data = $('.media-holder-link').data('link_data');
-            send_data.link = data.link;
-            send_data.show_image = !$('#media-holder .media-holder-link table').hasClass('void_image');
+            send_data.url = data.url;
+            send_data.show_image = !$('#media-holder .media-holder-link table').hasClass('void_image')?1:0;
             send_data.image = $('#media-holder .media-holder-link img:visible').attr('src');
             send_data.title = data.title;
             send_data.desc = data.description;
 
-            console.log($('.media-holder-link').data('link_data'));
 
             $('#media-holder .media-holder-link br.clear').remove();
             link_html = '<div class="post-media"><div class="media-holder-link">\
                                 '+$('#media-holder .media-holder-link').html()+'\
                             </div></div>';
+            $('#media-holder .media-holder-link').remove();
         }
 
 
@@ -936,6 +941,26 @@ $(document).ready(function(){
         $(this).hide();
     })
 
+    $('.logo .pancel').click(function(){
+        $('.shadow-form-center-holder-main-photo form').show();
+        $('.shadow-form-center-holder-main-photo input[type=reset]').click();
+
+        $('.shadow-form-center-holder-main-photo .toglleHide').show();
+        $('.shadow-form-center-holder-main-photo .toglleHide.hidden').hide();
+
+        $('#shadow-form-center-holder-main-photo-slider').empty();
+        $('.shadow, .shadow-form-center-holder-main-photo').show();
+
+
+        return false;
+    })
+    $('.shadow-form-center-holder-main-photo input[type=file]').change(function(){
+        $('.shadow-form-center-holder-main-photo form input[type=submit]').click();
+        $('.shadow-form-center-holder-main-photo form').hide();
+        slider.init($('#shadow-form-center-holder-main-photo-slider'));
+        slider.start();
+    })
+
     $('.shadow, .inner-shadow .close').click(function(){
         $('.shadow, .shadow-form').hide();
         return false;
@@ -1085,7 +1110,30 @@ $(document).ready(function(){
             });
         }
     };
+
+    slider = {
+        slider:'',
+        init:function(holder){
+            holder.html('<div class="slider">\
+                <div class="progress-line"></div>\
+            </div>');
+            this.slider = holder;
+        },
+        start:function(){
+            this.slider
+                .find('.progress-line')
+                .animate({
+                    width:'300px'
+                },4000)
+        }
+    }
+
     $('#insert-map').click(function(){
+        if($('.insert-news textarea').height()>20)
+        {
+            $('.insert-news textarea').stop();
+            window['fastTextareaFocus']();
+        }
         $('.shadow, .shadow-form-center-holder-map').show();
         insertMap.init();
         return false;
@@ -1094,6 +1142,11 @@ $(document).ready(function(){
 
     $('#insert-link').click(function(){
         $('.shadow, .shadow-form-center-holder-link').show();
+        if($('.insert-news textarea').height()>20)
+        {
+            $('.insert-news textarea').stop();
+            window['fastTextareaFocus']();
+        }
         return false;
     })
     $('input[name=search-street]').keyup(function(e){
@@ -1167,10 +1220,10 @@ $(document).ready(function(){
                     ~function(res){
                     window['append_link'] = function(){
 
-                        $('#confirm_link, #parse-link label').remove();
+                        $('#confirm_link, #parse-link label, #confirm_link img:hidden').remove();
                         var content = $('#parse-link').html();
 
-                        $('.media-holder-link').remove();
+                        $('#parse-link .media-holder-link').remove();
                         $('#media-holder').append(
                             '<div class="media-holder media-holder-link">\
                                     '+content+'\

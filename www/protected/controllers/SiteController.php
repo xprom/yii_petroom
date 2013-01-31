@@ -23,12 +23,54 @@ class SiteController extends Controller
 
     public function init()
     {
+        if(!empty($_POST['x1']) && !empty($_POST['x2']) && !empty($_POST['y1']) && !empty($_POST['y2']))
+        {
+            Photo::saveImage(
+                './photos/'.$_POST['image_1024'],
+                Photo::PHOTO_AVATAR,
+                array(
+                    'x1'=>$_POST['x1'],
+                    'x2'=>$_POST['x2'],
+                    'y1'=>$_POST['y1'],
+                    'y2'=>$_POST['y2'],
+                )
+            );
+        }
+
         try
         {
-            if(!empty($_GET['save_status']))
+            /**
+             * фактическое сохранение аватарки
+             * и обновляем текущую аватарку пользователя
+             */
+
+
+            /**
+             * update main photo
+             */
+            if(!empty($_GET['mainPhoto']))
             {
-                User::saveStatus($_GET['text']);
-                exit();
+                if(is_file($_FILES['photo']['tmp_name']))
+                {
+                    $new_file_name = 'big_'.md5(time()).'.'.strtolower(end(explode('.',$_FILES['photo']['name'])));
+                    Yii::import("ext.EPhpThumb.EPhpThumb");
+
+                    $thumb=new EPhpThumb();
+                    $thumb->init();
+
+                    $new_file_name_1024 = '1024_'.md5(time()).'.'.strtolower(end(explode('.',$_FILES['photo']['name'])));
+                    $thumb=new EPhpThumb();
+                    $thumb->init();
+                    $thumb->create($_FILES['photo']['tmp_name'])
+                        ->adaptiveResize(1024,768)
+                        ->save('./photos/'.$new_file_name_1024);
+
+
+                    $this->renderPartial('ajax/update_photo',array(
+                        'new_file_name_1024'  => $new_file_name_1024,
+                    ));
+                    exit();
+                }
             }
 
             /**
@@ -37,6 +79,13 @@ class SiteController extends Controller
             if(isset($_GET['savePost']))
             {
                 Post::savePost($_GET['text'],$_GET['parent_id']);
+                exit();
+            }
+
+
+            if(!empty($_GET['save_status']))
+            {
+                User::saveStatus($_GET['text']);
                 exit();
             }
 
