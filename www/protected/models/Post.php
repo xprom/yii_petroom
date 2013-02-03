@@ -11,7 +11,7 @@
  */
 class Post
 {
-    public static function getTimeLineList()
+    public static function getTimeLineList($post_id = null)
     {
         $list = Yii::app()->db->createCommand("
         with recursive  postList  (
@@ -24,6 +24,7 @@ class Post
                     {{post}}
                 where
                     parent_id is null and deleted=0
+                    ".((!empty($post_id))?'and id=:post_id':'')."
              ) t
 
             union all
@@ -55,22 +56,57 @@ class Post
                 l.description,
                 l.image,
                 i.image as image_news,
+                i.image_1024 as image_1024_news,
                 f.title as photo_folder_title
             from
             (
             select
                 p.*,
-                u.image_50,
+
+
+                coalesce((
+                    select
+                        image_50
+                    from
+                        {{photos}} ii, {{photos_folder}} ff
+                    where
+                        ff.title=:thumb_title and
+                        ii.folder_id=ff.id and
+                        ff.user_id=:user_id
+                    order by ii.id desc
+                    limit 1
+                ),u.image_50)
+                image_50,
+
+
+
                 u.name,
                 u.username,
                 (select count(0) from {{like}} where user_id=:user_id and post_id=p.id) like_active,
                 (select count(0) from {{like}} where post_id=p.id) like_count,
-                array_to_string(ARRAY(select lu.username||'||'||lu.image_31
-                from {{user}} lu, {{like}} li
-                where li.user_id=lu.id and li.post_id=p.id
-                order by
-                    case when user_id=:user_id then 1 else 0 end desc
-                limit 5),'//') like_images
+
+                array_to_string(ARRAY(
+                    select
+                        lu.username||'||'||coalesce((
+                                                        select
+                                                            image_31
+                                                        from
+                                                            {{photos}} ii, {{photos_folder}} ff
+                                                        where
+                                                            ff.title=:thumb_title and
+                                                            ii.folder_id=ff.id and
+                                                            ff.user_id=li.user_id
+                                                        order by ii.id desc
+                                                        limit 1
+                                                    ),lu.image_31)
+                    from
+                        {{user}} lu, {{like}} li
+                    where
+                        li.user_id=lu.id and
+                        li.post_id=p.id
+                    order by
+                        case when user_id=:user_id then 1 else 0 end desc
+                    limit 5),'//') like_images
             from
                 postList p,
                 {{user}} u
@@ -101,6 +137,10 @@ class Post
 
         ");
         $list->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $list->bindParam(":thumb_title",$title = Photo::PHOTO_THUMB_FOLDER_TITLE,PDO::PARAM_STR);
+        if(!empty($post_id))
+            $list->bindParam(":post_id",$post_id,PDO::PARAM_INT);
+
         $list =  $list->queryAll();
         $return = array();
 
@@ -182,7 +222,9 @@ class Post
 
         $insertPost->bindParam(":text",   $text,PDO::PARAM_STR);
         $insertPost->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
-        $insertPost->bindParam(":image",  $image_id,PDO::PARAM_INT);
+
+        if(!empty($image_id))
+            $insertPost->bindParam(":image",  $image_id,PDO::PARAM_INT);
 
         if(!empty($_GET['map_zoom']) && !empty($_GET['map_x']) && !empty($_GET['map_y']))
         {

@@ -23,27 +23,45 @@ class SiteController extends Controller
 
     public function init()
     {
-        if(isset($_POST['x1']) && isset($_POST['x2']) && isset($_POST['y1']) && isset($_POST['y2']))
+        /**
+         * добавлние поста
+         */
+        if(isset($_GET['savePost']))
         {
-            Photo::saveImage(
-                './photos/'.$_POST['image_1024'],
-                Photo::PHOTO_AVATAR,
-                array(
-                    'x1'=>$_POST['x1'],
-                    'x2'=>$_POST['x2'],
-                    'y1'=>$_POST['y1'],
-                    'y2'=>$_POST['y2'],
-                )
-            );
+            Post::savePost($_GET['text'],$_GET['parent_id']);
+            exit();
         }
 
         try
         {
             /**
+             * получение подробноей информации о фотографии
+             */
+            if(isset($_GET['getImageContent']))
+            {
+                $photoContent = Photo::getImageContent(intval($_GET['postId']));
+                $this->renderPartial('ajax/photo_info',$photoContent);
+                exit();
+            }
+
+
+            /**
              * фактическое сохранение аватарки
              * и обновляем текущую аватарку пользователя
              */
-
+            if(isset($_POST['x1']) && isset($_POST['x2']) && isset($_POST['y1']) && isset($_POST['y2']))
+            {
+                Photo::saveImage(
+                    './photos/'.$_POST['image_1024'],
+                    Photo::PHOTO_AVATAR,
+                    array(
+                        'x1'=>$_POST['x1'],
+                        'x2'=>$_POST['x2'],
+                        'y1'=>$_POST['y1'],
+                        'y2'=>$_POST['y2'],
+                    )
+                );
+            }
 
             /**
              * update main photo
@@ -73,14 +91,7 @@ class SiteController extends Controller
                 }
             }
 
-            /**
-             * добавлние поста
-             */
-            if(isset($_GET['savePost']))
-            {
-                Post::savePost($_GET['text'],$_GET['parent_id']);
-                exit();
-            }
+
 
 
             if(!empty($_GET['save_status']))

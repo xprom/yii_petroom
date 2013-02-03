@@ -74,6 +74,11 @@ function uploadFinish(){
             $('.shadow-form-center-holder-main-photo .close').click();
             return false;
         });
+
+        $('.shadow, .inner-shadow .close').click(function(){
+            if($('.shadow-form-center-holder-main-photo .photo-thumb-choose img').size()==1)
+                $('.shadow-form-center-holder-main-photo .photo-thumb-choose img').imgAreaSelect({remove:true});
+        })
     }
 
     return false;

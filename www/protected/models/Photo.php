@@ -61,13 +61,7 @@ class Photo
             ->adaptiveResize(31,31)
             ->save('./photos/'.$new_file_name_31);
 
-        $new_file_name_1024 = '1024_'.md5(time()).'.'.strtolower(end(explode('.',$image)));
-        $thumb=new EPhpThumb();
-        $thumb->init();
-        $thumb->create($image)
-            ->crop(intval($size['x1']),intval($size['y1']),intval($size['x2']-$size['x1']),intval($size['y2']-$size['y1']))
-            ->adaptiveResize(1024,768)
-            ->save('./photos/'.$new_file_name_1024);
+        $new_file_name_1024 = str_replace('./photos/','',$image);
 
 
         if(empty($folder_id))
@@ -124,6 +118,18 @@ class Photo
          * вставляем новостное сообщение
          */
         Post::savePost('','',$photo_id);
+
+        /**
+         * если заявлена на обновление аватарки
+         */
+        if($folder_type==self::PHOTO_AVATAR)
+        {
+            $_SESSION['MEMBERS']['image'] = $new_file_name;
+            $_SESSION['MEMBERS']['image_thumb'] = $new_file_name_thumb;
+            $_SESSION['MEMBERS']['image_50'] = $new_file_name_50;
+            $_SESSION['MEMBERS']['image_31'] = $new_file_name_31;
+            $_SESSION['MEMBERS']['image_1024'] = $new_file_name_1024;
+        }
     }
 
     public static function addFolder($title)
@@ -140,4 +146,74 @@ class Photo
         return $new_folder[0]['id'];
     }
 
+    /**
+     * получение контента для подробной информации о изображении
+     */
+    public static function getImageContent($post_id)
+    {
+        /**
+         * получаем id и имя пользователя
+         */
+        $new_folder = Yii::app()->db->createCommand("
+            select
+
+                (select count(0) from {{like}} where user_id=:user_id and post_id=:post_id) like_active,
+                (select count(0) from {{like}} where post_id=:post_id) like_count,
+                array_to_string(ARRAY(
+                    select
+                        lu.username||'||'||coalesce((
+                                                        select
+                                                            image_31
+                                                        from
+                                                            {{photos}} ii, {{photos_folder}} ff
+                                                        where
+                                                            ff.title=:thumb_title and
+                                                            ii.folder_id=ff.id and
+                                                            ff.user_id=li.user_id
+                                                        order by ii.id desc
+                                                        limit 1
+                                                    ),lu.image_31)
+                    from
+                        {{user}} lu, {{like}} li
+                    where
+                        li.user_id=lu.id and
+                        li.post_id=p.id
+                    order by
+                        case when user_id=:user_id then 1 else 0 end desc
+                    limit 5),'//') like_images,
+
+                p.date,
+                u.name,
+                u.username,
+                ff.id folder_id
+            from
+                {{post}} p, {{user}} u, {{photos}} f, {{photos_folder}} ff
+            where
+                p.id=:post_id and
+                u.id=p.user_id and
+                f.folder_id=ff.id and
+                p.image=f.id
+        ");
+        $new_folder->bindParam(":post_id",intval($post_id),PDO::PARAM_INT);
+        $new_folder->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $new_folder->bindParam(":thumb_title",$t = Photo::PHOTO_THUMB_FOLDER_TITLE,PDO::PARAM_STR);
+        $member =  $new_folder->queryAll();
+
+        $return['post_id'] = intval($post_id);
+        $return['like_active'] = $member[0]['like_active'];
+        $return['like_count'] = $member[0]['like_count'];
+        $return['like_images'] = $member[0]['like_images'];
+
+        $return['time'] = Post::timeFormat(strtotime($member[0]['date']));
+        $return['name'] = $member[0]['name'];
+        $return['username'] = $member[0]['username'];
+        $return['folder_id'] = $member[0]['folder_id'];
+
+        $return['post_list'] = Post::getTimeLineList(intval($post_id));
+        print '<pre>';
+        print_r($return['post_list']);
+        exit();
+
+        return $return;
+    }
 }

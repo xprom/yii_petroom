@@ -141,7 +141,9 @@
 
     <div class="logo-holder">
         <div class="logo">
-            <img src="/photos/<?=$_SESSION['MEMBERS']['image_thumb'];?>" class="thumb" />
+            <a class="fancy_feed_photo" href="/photos/<?=$_SESSION['MEMBERS']['image_1024'];?>">
+                <img src="/photos/<?=$_SESSION['MEMBERS']['image_thumb'];?>" class="thumb" />
+            </a>
             <input type="hidden" name="image_50" value="<?=trim($_SESSION['MEMBERS']['image_50']);?>" />
             <input type="hidden" name="image_31" value="<?=trim($_SESSION['MEMBERS']['image_31']);?>" />
             <input type="hidden" name="members_name" value="<?=trim($_SESSION['MEMBERS']['name']);?>" />
@@ -338,7 +340,7 @@
                         if(!empty($value['image_news']))
                         {
                             ?>
-                            <img src="/photos/<?=$value['image_news'];?>" />
+                            <a class="fancy_feed_photo" title="Loading..." post-id="<?=$value['id'];?>" href="/photos/<?=$value['image_1024_news'];?>"><img src="/photos/<?=$value['image_news'];?>" /></a>
                             <?
                         }
 
@@ -349,7 +351,7 @@
                             if(!empty($value['image']))
                             {
                                 ?>
-                                <img src="<?=$value['image'];?>" />
+                                </a><img src="<?=$value['image'];?>" />
                                 <?
                             }
 
@@ -376,7 +378,7 @@
 
 
                     <div class="post-date post-left">
-                        <div image-arr="<?=$value['like_images'];?>" class="like <?=!empty($value['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($value['like_count']);?></span></div>
+                        <div image-arr="<?=$value['like_images'];?>" class="like-<?=$value['id'];?> like <?=!empty($value['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($value['like_count']);?></span></div>
                         <span class="time_needs_update" timestamp="<?=intval($value['date']);?>" abs_time="<?=Post::timeFormat($value['date']);?>"><?=Post::timeFormatFeed($value['date']);?></span>
                         | <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>
                         <?
@@ -430,7 +432,7 @@
                             </div>
 
                             <div class="post-date post-left">
-                                <div image-arr="<?=$v['like_images'];?>" class="like <?=!empty($v['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($v['like_count']);?></span></div>
+                                <div image-arr="<?=$v['like_images'];?>" class="like-<?=$v['id'];?> like <?=!empty($v['like_active'])?'like-active':'';?>"><span>mir gefällt</span><span class="counter"><?=intval($v['like_count']);?></span></div>
                                 <span class="time_needs_update" timestamp="<?=intval($v['date']);?>" abs_time="<?=Post::timeFormat($v['date']);?>"><?=Post::timeFormatFeed($v['date']);?></span>
                                 <?
                                 if($v['user_id']==$_SESSION['MEMBERS']['ID'])

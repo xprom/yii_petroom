@@ -156,6 +156,35 @@ class User extends CActiveRecord
         $data->bindParam(":id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
         $data = $data->queryAll();
         $_SESSION['MEMBERS']['status'] = $data[0]['text'];
+
+        /**
+         * смотрим есть ли фотографии в альбомах для аватарки
+         */
+        $data = Yii::app()->db->createCommand("
+            select
+              p.*
+            from
+              {{photos}} p, {{photos_folder}} f
+            where
+              p.folder_id=f.id and
+              f.user_id=:user_id and
+              f.title=:title
+            order by
+              p.id desc
+            limit 1
+        ");
+        $data->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $data->bindParam(":title", $title = Photo::PHOTO_THUMB_FOLDER_TITLE,PDO::PARAM_STR);
+        $data = $data->queryAll();
+
+        if(!empty($data[0]['image']))
+        {
+            $_SESSION['MEMBERS']['image']       = $data[0]['image'];
+            $_SESSION['MEMBERS']['image_thumb'] = $data[0]['image_thumb'];
+            $_SESSION['MEMBERS']['image_50']    = $data[0]['image_50'];
+            $_SESSION['MEMBERS']['image_31']    = $data[0]['image_31'];
+            $_SESSION['MEMBERS']['image_1024']  = $data[0]['image_1024'];
+        }
     }
 
     public static function saveStatus($text)

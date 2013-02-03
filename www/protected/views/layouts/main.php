@@ -29,6 +29,7 @@
 
     <script language="javascript" src="js/jquery-1.8.0.min.js"></script>
     <script language="javascript" src="js/jquery.imgareaselect.pack.js"></script>
+    <script language="javascript" src="js/jquery.fancybox.js"></script>
     <script language="javascript" src="js/jquery.func.js?v=2"></script>
 
     <!--<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAAEzaqyohIf7CKIpbLMpYPRRSxySEUo0SD7BB5qr-gNI7PlVxRXxSxAv7dtpRGQlOqWidII22v8YU5Qw" type="text/javascript"></script>-->
@@ -338,6 +339,8 @@
             <b class="cr b r png"></b>
         </div>
     </div>
+
+
 
 </body>
 </html>

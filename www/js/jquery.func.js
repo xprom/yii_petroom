@@ -48,17 +48,22 @@ $(document).ready(function(){
         $(this).addClass('focus');
     });
 
-    $('.like ').live('click',function(){
+    $('.like').live('click',function(){
         $(this).toggleClass('like-active');
+        var post_id = $(this).parents('.post')
+            .find('input.post-id')
+            .val() || $(this).parents('.photo_post')
+            .find('input.post-id')
+            .val();
+
         if( $(this).hasClass('like-active'))
         {
-            $(this).find('span.counter').html( parseInt($(this).find('span.counter').html())+1 );
+            $('.like-'+post_id).find('span.counter').html( parseInt($(this).find('span.counter').html())+1 );
+            $('.like-'+post_id).addClass('like-active');
             $.ajax({
                 url:'/?makeLike=1',
                 data: {
-                    postId:$(this).parents('.post')
-                                  .find('input.post-id')
-                                  .val()
+                    postId:post_id
                 }
             });
             $(this).mouseenter();
@@ -70,7 +75,10 @@ $(document).ready(function(){
             else
                 image_arr = like_string + '//' + image_arr;
 
-            $(this).attr('image-arr',image_arr);
+            /**
+             * обновляем все лайки этой новости
+             */
+            $('.like-'+post_id).attr('image-arr',image_arr);
 
             $('#'+hover_id).find('.tool-tip-count-holder')
                            .html(like_count_string(parseInt($(this).find('span.counter').html())));
@@ -85,7 +93,9 @@ $(document).ready(function(){
         }
         else
         {
-            $(this).find('span.counter').html( parseInt($(this).find('span.counter').html())-1 );
+            $('.like-'+post_id).find('span.counter').html( parseInt($(this).find('span.counter').html())-1 );
+            $('.like-'+post_id).removeClass('like-active');
+
             var current_count = parseInt($(this).find('span.counter').html());
             $(this).mouseenter();
 
@@ -95,7 +105,7 @@ $(document).ready(function(){
             image_arr = image_arr.replace(like_string,'');
             image_arr = image_arr.replace('////','');
 
-            $(this).attr('image-arr',image_arr);
+            $('.like-'+post_id).attr('image-arr',image_arr);
 
 
             $('#'+hover_id).find('.line')
@@ -464,7 +474,7 @@ $(document).ready(function(){
         $(el).parents('.post').find('.insert-comment textarea').focus();
     }
 
-    $('.post .insert-comment textarea').live('focus',function(){
+    $('.insert-comment textarea').live('focus',function(){
 
         if( $(this).parents('.insert-comment').find('.submin-button').size()==0 )
         {
@@ -473,13 +483,22 @@ $(document).ready(function(){
             $(this).parents('.insert-comment')
                    .addClass('insert-comment-focus')
                    .show();
+
+            /**
+             * если форма добавления комметария находится на просмотре фотографии
+             * то скроллим страницу вних
+             */
+            if( $(this).parents('.photo_post').size()==1 )
+            {
+                $('.fancybox-overlay').scrollTop(999999);
+            }
         }
 
         if($(this).val()=='Schreib hier dein Kommentar')
             $(this).val('');
     });
 
-    $('.post .insert-comment textarea').live('blur',function(){
+    $('.insert-comment textarea').live('blur',function(){
 
         !function(self){
             window['comment_timer'] = window.setTimeout(function(){
@@ -495,8 +514,12 @@ $(document).ready(function(){
                            .find('.sub-post')
                            .size()==0 )
                 {
-                    $(self).parents('.insert-comment')
-                           .hide();
+                    /**
+                     * только кроме лучаев когда форма добавление комментари находится на страницу фотографии
+                     */
+                    if( $(self).parents('.photo_post').size()==0 )
+                        $(self).parents('.insert-comment')
+                               .hide();
                 }
 
                 if($.trim($(self).val())=='')
@@ -568,69 +591,79 @@ $(document).ready(function(){
     /**
      * лайк новостей
      */
-    $('.like').hover(function(){
+    $(".like").live({
+            mouseenter:
+                function()
+                {
+                    var count = parseInt($(this).find('span.counter').html());
+                    if(count==0)
+                        return false;
 
-        var count = parseInt($(this).find('span.counter').html());
-        if(count==0)
-            return false;
+                    count = like_count_string(count);
+                    if($(this).hasClass('hover'))
+                    {
+                        var hover_id = $(this).data('hover_id');
+                        clearTimeout(window['close_tip' + hover_id]);
+                        var tip = $('#'+hover_id);
+                        tip.stop();
+                        tip.css('visibility','visible');
+                        if($('.ie7').size()==0)
+                            tip.animate({opacity:0.8},100);
 
-        count = like_count_string(count);
-        if($(this).hasClass('hover'))
-        {
-            var hover_id = $(this).data('hover_id');
-            clearTimeout(window['close_tip' + hover_id]);
-            var tip = $('#'+hover_id);
-            tip.stop();
-            tip.css('visibility','visible');
-            if($('.ie7').size()==0)
-                tip.animate({opacity:0.8},100);
+                        return false;
+                    }
 
-            return false;
+                    $(this).addClass('hover');
+                    var hover_id = 'hover'+new Date().getTime();
+                    $(this).data('hover_id',hover_id);
+                    $(this).attr('id','like'+hover_id);
+
+                    var image_string = $(this).attr('image-arr');
+                    var image_arr = image_string.split('//');
+                    var tip_img_str = '';
+                    for(x in image_arr)
+                    {
+                        var s = image_arr[x].split('||');
+                        if(typeof(s[1])!='undefined')
+                            tip_img_str += '<a href="/profile/'+ s[0] +'"><img align="absmiddle" class="thumb" src="/photos/'+ s[1] +'"></a>';
+                    }
+
+                    tip = $('<div class="tool-tip" id="'+hover_id+'"><span class="tool-tip-count-holder">'+count +'</span><br /><div class="line-holder"><div class="line">' +
+                        tip_img_str +
+                        '</div></div><div class="tr">&nbsp;</div></div>');
+
+                    var offset = $(this).offset();
+
+                    if( $(this).parents('.photo_post').size()==1 )
+                        tip.css('marginLeft','-24px');
+
+                    tip.appendTo( $('body') );
+                    tip.css({ top: offset.top - 80 + 'px', visibility: 'hidden' });
+
+
+                    //tip.css({marginTop:'-'+ ( $(tip).height() + 19 ) +'px'})
+                    //   .css({marginLeft:'-'+Math.round(0.5*($(tip).width()+25)) +'px'});
+                    tip.css('visibility','visible');
+                    if($('.ie7').size()==0)
+                        tip.animate({opacity:0.8},100);
+                },
+            mouseleave:
+                function()
+                {
+                    ~function(self){
+                        var hover_id = $(self).data('hover_id');
+                        window['close_tip' + hover_id] = window.setTimeout(function(){
+                            var tip = $('#'+hover_id);
+                            tip.animate({opacity:0},250,function(){
+                                $(this).remove();
+                                $(self).removeClass('hover')
+                                    .removeData('hover_id');
+                            });
+                        },400);
+                    }(this);
+                }
         }
-
-        $(this).addClass('hover');
-        var hover_id = 'hover'+new Date().getTime();
-        $(this).data('hover_id',hover_id);
-        $(this).attr('id','like'+hover_id);
-
-        var image_string = $(this).attr('image-arr');
-        var image_arr = image_string.split('//');
-        var tip_img_str = '';
-        for(x in image_arr)
-        {
-            var s = image_arr[x].split('||');
-            if(typeof(s[1])!='undefined')
-                tip_img_str += '<a href="/profile/'+ s[0] +'"><img align="absmiddle" class="thumb" src="/photos/'+ s[1] +'"></a>';
-        }
-
-        tip = $('<div class="tool-tip" id="'+hover_id+'"><span class="tool-tip-count-holder">'+count +'</span><br /><div class="line-holder"><div class="line">' +
-            tip_img_str +
-            '</div></div><div class="tr">&nbsp;</div></div>');
-
-        var offset = $(this).offset();
-
-        tip.appendTo( $('body') );
-        tip.css({ top: offset.top - 80 + 'px', visibility: 'hidden' });
-
-
-        //tip.css({marginTop:'-'+ ( $(tip).height() + 19 ) +'px'})
-//           .css({marginLeft:'-'+Math.round(0.5*($(tip).width()+25)) +'px'});
-        tip.css('visibility','visible');
-        if($('.ie7').size()==0)
-            tip.animate({opacity:0.8},100);
-    },function(){
-        ~function(self){
-            var hover_id = $(self).data('hover_id');
-            window['close_tip' + hover_id] = window.setTimeout(function(){
-                var tip = $('#'+hover_id);
-                tip.animate({opacity:0},250,function(){
-                    $(this).remove();
-                    $(self).removeClass('hover')
-                           .removeData('hover_id');
-                });
-            },400);
-        }(this);
-    });
+    );
 
     $(".tool-tip").live({
         mouseenter:
@@ -1329,6 +1362,30 @@ $(document).ready(function(){
             address: $('input[name=search-street]').val(),
             partialmatch: true},insertMap.geocodeResult);
     });
+
+    $('.fancy_feed_photo').fancybox({
+        autoSize: false,
+        autoResize: false,
+        autoCenter: false,
+        width: 800,
+        minWidth: 800,
+        helpers : {
+            title : {
+                type : 'inside'
+            }
+        },
+        afterShow: function(obj){
+            $.ajax({
+                url:'/?getImageContent=1',
+                data: {
+                    postId: obj.element.attr('post-id')
+                },
+                context: this,
+                success:function(content){
+                    $('.fancybox-title').html(content);
+                }
+            })
+
+        }
+    });
 })
-
-
