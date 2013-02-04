@@ -296,7 +296,7 @@
             foreach($wall as $key => $value)
             {
                 ?>
-                <div class="post <?=count($wall)!=++$key?'border-bottom':'';?>">
+                <div class="post post-<?=$value['id'];?> <?=count($wall)!=++$key?'border-bottom':'';?>">
                     <input type="hidden" name="post[<?=$value['id'];?>]" class="post-id" value="<?=$value['id'];?>" />
                     <div class="post-logo">
                         <span class="online"></span>
@@ -413,13 +413,13 @@
                         }
 
                         ?>
-                        <div class="post sub-post <?=$hidden;?> <?=count($value['comment'])!=++$k?'border-bottom':'';?>" post-text">
+                        <div class="post post-<?=$v['id'];?> sub-post <?=$hidden;?> <?=count($value['comment'])!=++$k?'border-bottom':'';?>" post-text">
                             <input type="hidden" name="post[<?=$v['id'];?>]" class="post-id" value="<?=$v['id'];?>" />
                             <div class="post-logo">
                                 <span class="online"></span>
 
                                 <a href="/profile/<?=trim($v['username']);?>">
-                                    <img class="thumb" src="/photos/<?=trim($value['image_50']);?>" />
+                                    <img class="thumb" src="/photos/<?=trim($v['image_50']);?>" />
                                 </a>
                                 Online
                             </div>

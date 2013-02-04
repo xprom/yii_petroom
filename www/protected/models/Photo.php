@@ -209,11 +209,8 @@ class Photo
         $return['username'] = $member[0]['username'];
         $return['folder_id'] = $member[0]['folder_id'];
 
-        $return['post_list'] = Post::getTimeLineList(intval($post_id));
-        print '<pre>';
-        print_r($return['post_list']);
-        exit();
-
+        $return['post_list'] = array_pop(Post::getTimeLineList(intval($post_id)));
+        $return['post_list'] = $return['post_list']['comment'];
         return $return;
     }
 }

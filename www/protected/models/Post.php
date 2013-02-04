@@ -255,6 +255,8 @@ class Post
             $insetLink->bindParam(":image",$_GET['image'],PDO::PARAM_STR);
             $insetLink->queryAll();
         }
+
+        return $res[0]['id'];
     }
 
     public static function like($postId)

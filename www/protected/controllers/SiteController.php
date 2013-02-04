@@ -23,17 +23,21 @@ class SiteController extends Controller
 
     public function init()
     {
-        /**
-         * добавлние поста
-         */
-        if(isset($_GET['savePost']))
-        {
-            Post::savePost($_GET['text'],$_GET['parent_id']);
-            exit();
-        }
-
         try
         {
+            /**
+             * добавлние поста
+             */
+            if(isset($_GET['savePost']))
+            {
+                $post_id = Post::savePost($_GET['text'],$_GET['parent_id']);
+                print json_encode(array(
+                    'class'=>'post-'.$post_id,
+                    'id'=> $post_id,
+                ));
+                exit();
+            }
+
             /**
              * получение подробноей информации о фотографии
              */

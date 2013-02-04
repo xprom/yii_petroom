@@ -489,9 +489,7 @@ $(document).ready(function(){
              * то скроллим страницу вних
              */
             if( $(this).parents('.photo_post').size()==1 )
-            {
                 $('.fancybox-overlay').scrollTop(999999);
-            }
         }
 
         if($(this).val()=='Schreib hier dein Kommentar')
@@ -528,10 +526,11 @@ $(document).ready(function(){
         }(this);
     });
 
-    $('.post .insert-comment input[type=button]').live('click',function(){
+    $('.insert-comment input[type=button]').live('click',function(){
         clearTimeout(window['comment_timer']);
 
         var text = $(this).parents('.insert-comment').find('textarea');
+
         if($.trim(text.val())=='' || $.trim(text.val())=='Schreib hier dein Kommentar')
         {
             text.focus();
@@ -540,15 +539,10 @@ $(document).ready(function(){
         else
         {
             var insertComment = $(this).parents('.insert-comment');
+            var random_class = 'post_temp_'+Math.ceil((Math.random()*100000000));
 
-            /**
-             * делаем предыдущий комментарий с рамкой снизу
-             */
-            if(insertComment.prev('.post')
-                .hasClass('sub-post'))
-                insertComment.prev('.post').addClass('border-bottom');
-
-            insertComment.before('<div class="post sub-post post-text">\
+            postString = '<div class="post sub-post post-text '+random_class+'">\
+                <input type="hidden" value="" class="post-id" name="">\
                 <div class="post-logo">\
                     <span class="online"></span>\
                     <a href="/profile/'+$('input[name=members_home]').val()+'"><img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'"></a>\
@@ -563,17 +557,57 @@ $(document).ready(function(){
                     <span class="time_needs_update" timestamp="'+petroomNow()+'" abs_time="'+dateString()+'">A few seconds ago</span>\
                     | <a href="#" class="comment" onclick="delete_comment(this); return false;">Delete</a>\
                 </div>\
-            </div>');
+            </div>';
 
-            $.ajax({
-                url:'?savePost=1',
-                data:{
-                    text:$.trim(text.val()),
-                    parent_id:$(this).parents('.post')
-                                     .find('input.post-id')
-                                     .val()
-                }
-            });
+            var parent_id = $(this).parents('.post')
+                .find('input.post-id')
+                .val() || $(this).parents('.photo_post')
+                .find('input.post-id')
+                .val();
+
+            if(typeof(parent_id)!='undefined')
+            {
+                $('.post-'+parent_id).each(function(){
+                    /**
+                     * делаем предыдущий комментарий с рамкой снизу
+                     */
+                    $(this).find('.post').addClass('border-bottom');
+                    $(this).find('.insert-comment')
+                        .before(postString);
+                });
+
+
+            }
+            else
+            {
+                insertComment.before(postString);
+
+                /**
+                 * делаем предыдущий комментарий с рамкой снизу
+                 */
+                if(insertComment.prev('.post')
+                    .hasClass('sub-post'))
+                    insertComment.prev('.post').addClass('border-bottom');
+            }
+
+            ~function(random_class){
+                $.ajax({
+                    url:'?savePost=1',
+                    data:{
+                        text:$.trim(text.val()),
+                        parent_id:parent_id
+                    },
+                    dataType:'json',
+                    success: function(r){
+                        $('.'+random_class).addClass(r.class);
+                        $('.'+random_class).each(function(){
+                            $(this).find('input.post-id')
+                                .attr('name','post['+r.id+']')
+                                .val(r.id)
+                        })
+                    }
+                });
+            }(random_class);
 
             text.val('Schreib hier dein Kommentar');
             text.blur();
@@ -581,7 +615,7 @@ $(document).ready(function(){
         }
     });
 
-    $('.post .insert-comment textarea').live('blur',function(){
+    $('.insert-comment textarea').live('blur',function(){
 
         if($(this).val()=='')
             $(this).val('Schreib hier dein Kommentar');
@@ -769,18 +803,22 @@ $(document).ready(function(){
 
     window['delete_comment'] = function(el){
 
+        var post_id = $(el).parents('.post')
+            .first()
+            .find('input.post-id')
+            .val();
+
         $.ajax({
             url:'?deletePost=1',
             data:{
-                postId:$(el).parents('.post')
-                    .find('input.post-id')
-                    .val()
+                postId:post_id
             }
         });
 
-        $(el).parents('.post')
-             .data('html',$(el).parents('.post').html())
-             .html('Post deleted. <a href="#" onclick="undelete_comment(this); return false;" class="undo-delete">Undo</a>');
+        $('.post-'+post_id).each(function(){
+            $(this).data('html',$(this).html())
+                    .html('Post deleted. <a href="#" onclick="undelete_comment(this); return false;" class="undo-delete">Undo</a>');
+        })
     }
 
     window['undelete_comment'] = function(el){
@@ -804,12 +842,23 @@ $(document).ready(function(){
     /**`
      * показывае все комментарии
      */
-    $('.post .comment-count').click(function(){
+    $('.comment-count').live('click',function(){
+
+        if($(this).parents('.photo_post').size()==1)
+        {
+            $(this).parents('.photo_post')
+                .find('.post')
+                .show();
+            $(this).hide();
+            return false;
+        }
+
         $(this).parents('.post')
                .find('.post')
                .show();
         $(this).hide();
         return false;
+
     })
 
     /**

@@ -1,4 +1,4 @@
-<table width="100%" class="photo_post">
+<table width="100%" class="photo_post post-<?=$post_id;?>">
     <tr>
         <td>
             <div style="padding-bottom:10px;" class="border-bottom">
@@ -12,25 +12,34 @@
             </div>
 
             <?
-            foreach((array)$comment as $k => $v)
+            if(count((array)$post_list)>10)
+            {
+                ?>
+                <div class="comment-count post-left">Alle <?=count((array)$post_list);?> Kommentare anzeigen</div>
+                <?
+            }
+            ?>
+
+            <?
+            foreach((array)$post_list as $k => $v)
             {
                 $hidden = '';
-                if(count((array)$value['comment'])>10)
+                if(count((array)$post_list)>10)
                 {
-                    if($k<count((array)$value['comment'])-5)
+                    if($k<count((array)$post_list)-5)
                     {
                         $hidden = 'hidden';
                     }
                 }
 
                 ?>
-                    <div class="post sub-post <?=$hidden;?> <?=count($value['comment'])!=++$k?'border-bottom':'';?>" post-text">
+                    <div class="post post-<?=$v['id'];?> sub-post <?=$hidden;?> <?=count($post_list)!=++$k?'border-bottom':'';?>" post-text">
                         <input type="hidden" name="post[<?=$v['id'];?>]" class="post-id" value="<?=$v['id'];?>" />
                         <div class="post-logo">
                             <span class="online"></span>
 
                             <a href="/profile/<?=trim($v['username']);?>">
-                                <img class="thumb" src="/photos/<?=trim($value['image_50']);?>" />
+                                <img class="thumb" src="/photos/<?=trim($v['image_50']);?>" />
                             </a>
                             Online
                         </div>

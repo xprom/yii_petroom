@@ -1106,7 +1106,7 @@ table {
                     .inner-content .post .like:hover span.counter, .photo_post .like:hover span.counter {
                         background: url("../i/sprite.png") no-repeat scroll -210px -75px transparent;
                     }
-                .inner-content .post .comment-count {
+                .comment-count {
                     color: #00ADE0;
                     text-align: center;
                     background: #eae8e8;
@@ -1119,6 +1119,9 @@ table {
                     margin-left: 65px;
                     cursor: pointer;
                 }
+                    .photo_post .comment-count {
+                        margin-left: 0;
+                    }
             .inner-content .post .sub-post img {
                 margin: 0;
                 border: none;
