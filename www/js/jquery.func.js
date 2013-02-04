@@ -58,7 +58,7 @@ $(document).ready(function(){
 
         if( $(this).hasClass('like-active'))
         {
-            $('.like-'+post_id).find('span.counter').html( parseInt($(this).find('span.counter').html())+1 );
+            $('.like-'+post_id).find('span.counter').html( parseInt($('.like-'+post_id).find('span.counter').html())+1 );
             $('.like-'+post_id).addClass('like-active');
             $.ajax({
                 url:'/?makeLike=1',
@@ -93,7 +93,7 @@ $(document).ready(function(){
         }
         else
         {
-            $('.like-'+post_id).find('span.counter').html( parseInt($(this).find('span.counter').html())-1 );
+            $('.like-'+post_id).find('span.counter').html( parseInt($('.like-'+post_id).find('span.counter').html())-1 );
             $('.like-'+post_id).removeClass('like-active');
 
             var current_count = parseInt($(this).find('span.counter').html());
@@ -440,8 +440,10 @@ $(document).ready(function(){
             data:send_data
         })
 
+        var random_class = 'post_temp_'+Math.ceil((Math.random()*100000000));
 
-        $('.insert-news').after('<div class="post border-bottom">\
+        $('.insert-news').after('<div class="post border-bottom '+random_class+'">\
+            <input type="hidden" value="" class="post-id" name="">\
             <div class="post-logo">\
             <span class="online"></span>\
             <a href="/profile/'+$('input[name=members_home]').val()+'"><img class="thumb" src="/photos/'+$('input[name=image_50]').val()+'"></a>\
@@ -451,7 +453,7 @@ $(document).ready(function(){
             <div class="post-left post-text">\
             '+$('.insert-news textarea').val().replace(/\n/g,"<br>")+'\
             '+map_html+ link_html + '</div>\
-        <div class="post-date post-left"><div class="like "><span>mir gefällt</span><span class="counter">0</span></div>\
+        <div class="post-date post-left"><div class="like " image-arr=""><span>mir gefällt</span><span class="counter">0</span></div>\
             <span class="time_needs_update" timestamp="'+petroomNow()+'" abs_time="'+dateString()+'">A few seconds ago</span>\ | \
             \
             <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>\
@@ -553,7 +555,7 @@ $(document).ready(function(){
                         ' + $.trim(text.val()).replace(/\n/g,"<br>") + '\
                         </div>\
                     <div class="post-date post-left">\
-                    <div class="like"><span>mir gefällt</span><span class="counter">0</span></div>\
+                    <div class="like" image-arr=""><span>mir gefällt</span><span class="counter">0</span></div>\
                     <span class="time_needs_update" timestamp="'+petroomNow()+'" abs_time="'+dateString()+'">A few seconds ago</span>\
                     | <a href="#" class="comment" onclick="delete_comment(this); return false;">Delete</a>\
                 </div>\
@@ -600,10 +602,12 @@ $(document).ready(function(){
                     dataType:'json',
                     success: function(r){
                         $('.'+random_class).addClass(r.class);
+                        $('.'+random_class).addClass(r.class);
                         $('.'+random_class).each(function(){
                             $(this).find('input.post-id')
                                 .attr('name','post['+r.id+']')
                                 .val(r.id)
+                            $(this).find('.like').addClass('like-'+r.id);
                         })
                     }
                 });
