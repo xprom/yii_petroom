@@ -217,7 +217,10 @@ class SiteController extends Controller
         if(!empty($_SESSION['MEMBERS']['ID']))
             $this->render('members/home',$data);
         else
+        {
+            $this->layout='//layouts/intro';
 		    $this->render('index',$data);
+        }
 	}
 
 	/**
@@ -283,6 +286,7 @@ class SiteController extends Controller
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
+
 		$this->render('login',array('model'=>$model));
 	}
 

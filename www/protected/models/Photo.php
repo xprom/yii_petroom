@@ -213,4 +213,24 @@ class Photo
         $return['post_list'] = $return['post_list']['comment'];
         return $return;
     }
+
+    /**
+     * получаем список альбомов
+     *
+     * @param $user_id
+     */
+    public static function getFolderList($user_id)
+    {
+        $new_folder = Yii::app()->db->createCommand("
+            select
+                f.id, f.title
+            from
+                {{photos_folder}} f
+            where
+                f.user_id=:user_id
+        ");
+
+        $new_folder->bindParam(":user_id",$user_id,PDO::PARAM_INT);
+        return  $new_folder->queryAll();
+    }
 }

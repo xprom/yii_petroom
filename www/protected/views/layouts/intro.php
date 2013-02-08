@@ -1,7 +1,5 @@
-
-
 <?php
-    $this->beginContent('//layouts/main');
+$this->beginContent('//template/intro');
 ?>
 <div id="content">
 

@@ -435,11 +435,6 @@ $(document).ready(function(){
 
 
 
-        $.ajax({
-            url:'?savePost',
-            data:send_data
-        })
-
         var random_class = 'post_temp_'+Math.ceil((Math.random()*100000000));
 
         $('.insert-news').after('<div class="post border-bottom '+random_class+'">\
@@ -459,6 +454,24 @@ $(document).ready(function(){
             <a href="#" class="comment" onclick="show_comment_form(this); return false;">Kommentieren</a>\
             | <a href="#" class="comment" onclick="delete_comment(this); return false;">Delete</a></div>\
         </div>');
+
+        ~function(random_class){
+            $.ajax({
+                url:'?savePost=1',
+                data:send_data,
+                dataType:'json',
+                success: function(r){
+                    $('.'+random_class).addClass(r.class);
+                    $('.'+random_class).addClass(r.class);
+                    $('.'+random_class).each(function(){
+                        $(this).find('input.post-id')
+                            .attr('name','post['+r.id+']')
+                            .val(r.id)
+                        $(this).find('.like').addClass('like-'+r.id);
+                    })
+                }
+            });
+        }(random_class);
 
         $('.insert-news textarea').val('');
         $('.insert-news textarea').blur();

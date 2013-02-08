@@ -186,6 +186,7 @@ class MembersController extends Controller
             exit();
         }
 
+        $this->layout='//layouts/intro';
         if(empty($_SESSION['SIGNUP_STEP']))
 		    $this->render('signup',array('error' => $error));
         elseif($_SESSION['SIGNUP_STEP']==1)
@@ -257,7 +258,7 @@ class MembersController extends Controller
 
         }
 
-
+        $this->layout='//layouts/intro';
         $this->render('signin',array('error' => $error));
     }
 

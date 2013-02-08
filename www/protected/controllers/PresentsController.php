@@ -1,6 +1,6 @@
 <?php
 
-class PhotosController extends Controller
+class PresentsController extends Controller
 {
     /**
      * Declares class-based actions.
@@ -10,10 +10,15 @@ class PhotosController extends Controller
         return;
     }
 
+    /**
+     * регистрация пользователя
+     */
     public function actionIndex()
     {
-        $content['folder'] = Photo::getFolderList($_SESSION['MEMBERS']['ID']);
+        $content = array();
+        $content['presentList'] = Present::getPresentList();
 
         $this->render('index',$content);
     }
+
 }

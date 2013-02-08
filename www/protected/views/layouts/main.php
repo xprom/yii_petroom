@@ -94,8 +94,16 @@
 
         </div>
 
+        <?
+        include __DIR__.'/left.php';
+        ?>
+
+
         <?php echo $content; ?>
 
+
+        <div class="clear"></div>
+        </div>
     </div>
 
     <div id="footer">
