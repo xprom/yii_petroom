@@ -1,5 +1,4 @@
 <div class="page-content">
-
 <div class="aside">
     <div class="status border-bottom">
         <div><?=CHtml::encode($_SESSION['MEMBERS']['name']);?>’s Status:<a href="#" class="pancel"></a></div>
@@ -66,29 +65,29 @@
 
     <?
     $hidden_friend_list = '';
-    if(count($myFriend)==0)
+    if(count($this->myFriend)==0)
     {
         $hidden_friend_list = 'hidden';
     }
     ?>
     <div class="friends add-friend-section-show border-none <?=$hidden_friend_list;?>">
-        <a class="title">Gemeinsame Freunde (<span><?=count($myFriend);?></span>):</a>
+        <a class="title">Gemeinsame Freunde (<span><?=count($this->myFriend);?></span>):</a>
 
         <?
-        foreach((array)$myFriend as $value)
+        foreach((array)$this->myFriend as $value)
         {
             $hidden = '';
-            if($k>8 && count($myFriend)>10)
+            if($k>8 && count($this->myFriend)>10)
                 $hidden = 'hidden';
 
             ?>
-            <a target="_blank" href="/profile/<?=trim($value['username']);?>" class="fried">
+            <a href="/profile/<?=trim($value['username']);?>" class="fried">
                 <img class="thumb" src="/photos/<?=trim($value['image_31']);?>" align="absmiddle" />
             </a>
             <?
         }
 
-        if(count($myFriend)>10)
+        if(count($this->myFriend)>10)
         {
             ?>
             <a href="#" class="show-all">Alle ›</a>
@@ -191,7 +190,7 @@
         <table class="counter-table" width="100%">
             <tr>
                 <td width="33%">
-                    <span><?=count($myFriend);?></span><br />
+                    <span><?=count($this->myFriend);?></span><br />
                     Freunde
                 </td>
                 <td width="33%" class="middle">

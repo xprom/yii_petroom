@@ -10,7 +10,7 @@ session_start();
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'My social petroom',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -32,7 +32,13 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
-		// uncomment the following to use a MySQL database
+        'urlManager'=>array(
+            'urlFormat' =>'path',
+            'showScriptName' => false,
+            'rules' => array(
+                'profile/<member>' => 'profile/index'
+            )
+        ),
 		'db'=>array(
             'class'=>'CDbConnection',
 			'connectionString' => 'pgsql:host=localhost;port=5432;dbname=postgres',

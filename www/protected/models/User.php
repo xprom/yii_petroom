@@ -222,7 +222,7 @@ class User extends CActiveRecord
      *
      * @return mixed массив друзей
      */
-    public static  function getFriendList($limit=6,$random=false,$status=2)
+    public static  function getFriendList($user_id,$limit=6,$random=false,$status=2)
     {
         $query = "
             select
@@ -241,9 +241,9 @@ class User extends CActiveRecord
             $query .= ' and f.status=:status';
         }
 
-        if(!empty($linit))
+        if(!empty($limit))
         {
-            $query .= ' limit '.intval($linit);
+            $query .= ' limit '.intval($limit);
         }
 
         if($random)
@@ -253,7 +253,7 @@ class User extends CActiveRecord
 
 
         $list = Yii::app()->db->createCommand($query);
-        $list->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $list->bindParam(":user_id",$user_id,PDO::PARAM_INT);
         $list->bindParam(":status",intval($status),PDO::PARAM_INT);
         $r = $list->queryAll();
 
@@ -287,5 +287,35 @@ class User extends CActiveRecord
         $updateStatus->bindParam(":friend_user_id",intval($friendId),PDO::PARAM_INT);
         $updateStatus->bindParam(":status",intval($status),PDO::PARAM_INT);
         $updateStatus->queryAll();
+    }
+
+    /**
+     * получение инофрмации для домашней станицы
+     */
+    public static function getHomeData($username)
+    {
+        /**
+         * сотрим id по
+         */
+        $user_id = Yii::app()->db->createCommand('
+            select id from {{user}} where username=:username
+        ');
+        $user_id->bindParam(":username",trim($username),PDO::PARAM_STR);
+        $user_id = $user_id->queryAll();
+        $user_id = $user_id[0]['id'];
+
+
+        $data['wall'] = Post::getTimeLineList($user_id);
+
+        /**
+         * новые заявки в друзья
+         */
+        $data['newFriend'] = User::getFriendList($user_id,6,false,User::FRIEND_STATUS_NEW);
+
+        /**
+         * мои взаимные друзья
+         */
+        $data['myFriend'] = User::getFriendList($user_id,10,false,User::FRIEND_STATUS_CONFIRM);
+        return $data;
     }
 }

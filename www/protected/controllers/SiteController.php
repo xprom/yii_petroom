@@ -198,17 +198,7 @@ class SiteController extends Controller
          */
         if(!empty($_SESSION['MEMBERS']['ID']))
         {
-            $data['wall'] = Post::getTimeLineList();
 
-            /**
-             * новые заявки в друзья
-             */
-            $data['newFriend'] = User::getFriendList(6,false,User::FRIEND_STATUS_NEW);
-
-            /**
-             * мои взаимные друзья
-             */
-            $data['myFriend'] = User::getFriendList(10,false,User::FRIEND_STATUS_CONFIRM);
         }
 
 

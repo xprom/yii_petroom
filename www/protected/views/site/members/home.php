@@ -18,7 +18,7 @@
                 </div>
             </div>
             <?php
-            foreach($wall as $key => $value)
+            foreach((array)$wall as $key => $value)
             {
                 ?>
                 <div class="post post-<?=$value['id'];?> <?=count($wall)!=++$key?'border-bottom':'';?>">

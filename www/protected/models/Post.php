@@ -11,7 +11,7 @@
  */
 class Post
 {
-    public static function getTimeLineList($post_id = null)
+    public static function getTimeLineList($user_id, $post_id = null)
     {
         $list = Yii::app()->db->createCommand("
         with recursive  postList  (
@@ -136,7 +136,7 @@ class Post
             left join {{photos_folder}} f    on f.id=i.folder_id
 
         ");
-        $list->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $list->bindParam(":user_id",$user_id,PDO::PARAM_INT);
         $list->bindParam(":thumb_title",$title = Photo::PHOTO_THUMB_FOLDER_TITLE,PDO::PARAM_STR);
         if(!empty($post_id))
             $list->bindParam(":post_id",$post_id,PDO::PARAM_INT);
@@ -221,7 +221,7 @@ class Post
         }
 
         $insertPost->bindParam(":text",   $text,PDO::PARAM_STR);
-        $insertPost->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
+        $insertPost->bindParam(":user_id",$user_id,PDO::PARAM_INT);
 
         if(!empty($image_id))
             $insertPost->bindParam(":image",  $image_id,PDO::PARAM_INT);
