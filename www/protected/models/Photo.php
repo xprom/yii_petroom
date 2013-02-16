@@ -61,6 +61,15 @@ class Photo
             ->adaptiveResize(31,31)
             ->save('./photos/'.$new_file_name_31);
 
+        
+        $new_file_name_145 = '145_'.md5(time()).'.'.strtolower(end(explode('.',$image)));
+        $thumb=new EPhpThumb();
+        $thumb->init();
+        $thumb->create($image)
+            ->resize(145,115)
+            ->save('./photos/'.$new_file_name_145);
+
+        
         $new_file_name_1024 = str_replace('./photos/','',$image);
 
 
@@ -100,8 +109,8 @@ class Photo
          * вставка самой фтографии
          */
         $new_photo = Yii::app()->db->createCommand("
-            insert into {{photos}} (folder_id,image,image_thumb,image_50,image_31,image_1024,user_id)
-            values (:folder_id,:image,:image_thumb,:image_50,:image_31,:image_1024,:user_id)
+            insert into {{photos}} (folder_id,image,image_thumb,image_50,image_31,image_1024,user_id,image_145)
+            values (:folder_id,:image,:image_thumb,:image_50,:image_31,:image_1024,:user_id,:image_145)
             returning id
         ");
         $new_photo->bindParam(":user_id",     $_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
@@ -111,6 +120,7 @@ class Photo
         $new_photo->bindParam(":image_50",    $new_file_name_50,PDO::PARAM_STR);
         $new_photo->bindParam(":image_31",    $new_file_name_31,PDO::PARAM_STR);
         $new_photo->bindParam(":image_1024",  $new_file_name_1024,PDO::PARAM_STR);
+        $new_photo->bindParam(":image_145",   $new_file_name_145,PDO::PARAM_STR);
         $photo_id = $new_photo->queryAll();
         $photo_id = $photo_id[0]['id'];
 
@@ -223,14 +233,36 @@ class Photo
     {
         $new_folder = Yii::app()->db->createCommand("
             select
-                f.id, f.title
+                f.id, f.title,
+                (select image from {{photos}} where folder_id=f.id order by id limit 1) image_thumb
             from
                 {{photos_folder}} f
             where
                 f.user_id=:user_id
+
         ");
 
         $new_folder->bindParam(":user_id",$user_id,PDO::PARAM_INT);
         return  $new_folder->queryAll();
+    }
+
+    /**
+     * получаем список фотографий в альбоме
+     *
+     * @param $folder_id
+     */
+    public static function getPhotoList($folder_id)
+    {
+        $data = Yii::app()->db->createCommand("
+            select
+                *
+            from
+                {{photos}}
+            where
+                folder_id=:folder_id
+        ");
+
+        $data->bindParam(":folder_id",$folder_id,PDO::PARAM_INT);
+        return $data->queryAll();
     }
 }

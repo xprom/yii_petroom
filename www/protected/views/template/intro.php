@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
     <link rel="icon" href="/favicon.png" type="image/x-icon" />
 
-    <link rel="stylesheet" href=/"s/style.css?v=1" media="screen" type="text/css" />
+    <link rel="stylesheet" href="/s/style.css?v=1" media="screen" type="text/css" />
     <!--<link rel="stylesheet" href="/templates/s/jquery.fancybox-1.3.4.css" media="screen" type="text/css" />-->
 
     <!--[if lt IE 9]>

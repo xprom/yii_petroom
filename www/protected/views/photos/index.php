@@ -17,10 +17,16 @@
         foreach($folder as $value)
         {
             ?>
-            <a href="" class="folder_id">
-                <img src="<?=$value['img'];?>" />
+            <a href="/photos/folder/<?=$value['id'];?>/" class="folder_id">
+                <img src="<?=$value['image_thumb'];?>" />
                 <span>
+                <span>
+                    <?php
+                    if($value['title']==Photo::PHOTO_THUMB_FOLDER_TITLE)
+                        $value['title'] = 'My profile photos';
+                    ?>
                     <?=$value['title'];?>
+                </span>
                 </span>
             </a>
             <?

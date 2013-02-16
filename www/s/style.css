@@ -1823,3 +1823,52 @@ ul.form-errors > li {
 .photo_folder_list .folder_id {
 
 }
+.photo_folder_list {
+    padding: 20px 0 34px 37px;
+}
+.photo_list {
+    padding: 10px 0 20px 20px;
+}
+    .photo_folder_list img, .photo_list img {
+        display: block;
+    }
+    .photo_folder_list .folder_id > span {
+        display: block;
+        margin-top: -100%;
+        position: relative;
+        line-height: 20px;
+        padding: 14px 11px;
+    }
+        .photo_folder_list .folder_id > span > span {
+            background: none repeat scroll 0 0 #00ADE0;
+            font-size: 14px;
+            padding: 6px 10px;
+            color: white;
+        }
+        .photo_folder_list .folder_id {
+            float: left;
+            margin-right: 39px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            height: 200px;
+            width: 200px;
+        }
+        .photo_list .folder_id {
+            border: 1px dotted #D5D0D0;
+            float: left;
+            height: 104px;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            overflow: hidden;
+            padding: 0;
+            text-align: center;
+            width: 143px;
+        }
+            .photo_list p {
+                margin-bottom: 5px;
+            }
+            .photo_list .folder_id img {
+                max-width: 145px;
+                max-height: 115px;
+                display: inline;
+            }

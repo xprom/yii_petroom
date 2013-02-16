@@ -187,6 +187,59 @@ class User extends CActiveRecord
         }
     }
 
+    /**
+     * получение информации о пользователе
+     * @param $id
+     */
+    public static function getMemberInformation($id)
+    {
+        $data = Yii::app()->db->createCommand("select * from {{user}} where id=:id");
+        $data->bindParam(":id",$id,PDO::PARAM_INT);
+        $return = $data->queryRow();
+
+        /**
+         * получаем текущий статус пользователя
+         */
+        $data = Yii::app()->db->createCommand("select text from {{status}} where user_id=:id order by id desc limit 1");
+        $data->bindParam(":id",$id,PDO::PARAM_INT);
+        $data = $data->queryAll();
+        $return['status'] = $data[0]['text'];
+
+        /**
+         * смотрим есть ли фотографии в альбомах для аватарки
+         */
+        $data = Yii::app()->db->createCommand("
+            select
+              p.*
+            from
+              {{photos}} p, {{photos_folder}} f
+            where
+              p.folder_id=f.id and
+              f.user_id=:user_id and
+              f.title=:title
+            order by
+              p.id desc
+            limit 1
+        ");
+        $data->bindParam(":user_id",$id,PDO::PARAM_INT);
+        $data->bindParam(":title", $title = Photo::PHOTO_THUMB_FOLDER_TITLE,PDO::PARAM_STR);
+        $data = $data->queryAll();
+
+        if(!empty($data[0]['image']))
+        {
+            $return['image']       = $data[0]['image'];
+            $return['image_thumb'] = $data[0]['image_thumb'];
+            $return['image_50']    = $data[0]['image_50'];
+            $return['image_31']    = $data[0]['image_31'];
+            $return['image_1024']  = $data[0]['image_1024'];
+        }
+
+        if(empty($return['image_thumb']))
+            $return['image_thumb'] = 'nophoto-70.png';
+
+        return $return;
+    }
+
     public static function saveStatus($text)
     {
         $insertMember = Yii::app()->db->createCommand("
@@ -227,7 +280,19 @@ class User extends CActiveRecord
         $query = "
             select
                 u.username,
-                u.image_31,
+                coalesce((
+                    select
+                        image_31
+                    from
+                        {{photos}} ii, {{photos_folder}} ff
+                    where
+                        ff.title=:thumb_title and
+                        ii.folder_id=ff.id and
+                        ff.user_id=u.id
+                    order by ii.id desc
+                    limit 1
+                ),u.image_31)
+                image_31,
                 u.name,
                 u.id
             from
@@ -254,6 +319,7 @@ class User extends CActiveRecord
 
         $list = Yii::app()->db->createCommand($query);
         $list->bindParam(":user_id",$user_id,PDO::PARAM_INT);
+        $list->bindParam(":thumb_title",$t = Photo::PHOTO_THUMB_FOLDER_TITLE,PDO::PARAM_STR);
         $list->bindParam(":status",intval($status),PDO::PARAM_INT);
         $r = $list->queryAll();
 
@@ -310,12 +376,18 @@ class User extends CActiveRecord
         /**
          * новые заявки в друзья
          */
-        $data['newFriend'] = User::getFriendList($user_id,6,false,User::FRIEND_STATUS_NEW);
+        $data['newFriend'] = self::getFriendList($user_id,6,false,User::FRIEND_STATUS_NEW);
 
         /**
          * мои взаимные друзья
          */
-        $data['myFriend'] = User::getFriendList($user_id,10,false,User::FRIEND_STATUS_CONFIRM);
+        $data['myFriend'] = self::getFriendList($user_id,10,false,User::FRIEND_STATUS_CONFIRM);
+
+        /**
+         * информация о пользователе
+         */
+        $data['member'] = self::getMemberInformation($user_id);
+
         return $data;
     }
 }

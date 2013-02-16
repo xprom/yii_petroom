@@ -72,7 +72,7 @@ class Post
                     where
                         ff.title=:thumb_title and
                         ii.folder_id=ff.id and
-                        ff.user_id=:user_id
+                        ff.user_id=u.id
                     order by ii.id desc
                     limit 1
                 ),u.image_50)
@@ -109,9 +109,27 @@ class Post
                     limit 5),'//') like_images
             from
                 postList p,
-                {{user}} u
+                (
+                    select
+                        *
+                    from
+                        {{user}}
+                    where
+                        id=:user_id
+
+                    union
+
+                    select
+                        u_.*
+                    from
+                        {{friends}} f_, {{user}} u_
+                    where
+                        f_.user_id=:user_id and
+                        u_.id=f_.friend_user_id and
+                        f_.status=:friend_status
+                ) u
+
             where
-                p.user_id=:user_id and
                 p.user_id=u.id
             group by
                 p.map_x,
@@ -127,22 +145,26 @@ class Post
                 p.user_id,
                 u.image_50,
                 u.name,
+                u.id,
                 u.username
-            order by
-                case when p.lvl=1 then p.id else -1*p.id end desc
             ) t
             left join {{post_link}} l on t.id=l.id_post
             left join {{photos}} i    on i.id=t.image
             left join {{photos_folder}} f    on f.id=i.folder_id
 
+            order by
+                case when t.lvl=1 then t.id else -1*t.id end desc
         ");
         $list->bindParam(":user_id",$user_id,PDO::PARAM_INT);
+        $list->bindParam(":friend_status",$s = User::FRIEND_STATUS_CONFIRM,PDO::PARAM_INT);
+
         $list->bindParam(":thumb_title",$title = Photo::PHOTO_THUMB_FOLDER_TITLE,PDO::PARAM_STR);
         if(!empty($post_id))
             $list->bindParam(":post_id",$post_id,PDO::PARAM_INT);
 
         $list =  $list->queryAll();
         $return = array();
+
 
         /**
          * группируем комментарии
@@ -221,7 +243,7 @@ class Post
         }
 
         $insertPost->bindParam(":text",   $text,PDO::PARAM_STR);
-        $insertPost->bindParam(":user_id",$user_id,PDO::PARAM_INT);
+        $insertPost->bindParam(":user_id",$_SESSION['MEMBERS']['ID'],PDO::PARAM_INT);
 
         if(!empty($image_id))
             $insertPost->bindParam(":image",  $image_id,PDO::PARAM_INT);

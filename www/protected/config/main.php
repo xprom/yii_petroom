@@ -36,7 +36,8 @@ return array(
             'urlFormat' =>'path',
             'showScriptName' => false,
             'rules' => array(
-                'profile/<member>' => 'profile/index'
+                'profile/<member>' => 'profile/index',
+                'photos/folder/<id>/' => 'photos/folder',
             )
         ),
 		'db'=>array(

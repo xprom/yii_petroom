@@ -1,15 +1,53 @@
 <div class="page-content">
 <div class="aside">
-    <div class="status border-bottom">
-        <div><?=CHtml::encode($_SESSION['MEMBERS']['name']);?>’s Status:<a href="#" class="pancel"></a></div>
-        <a void-text="set status message" href="#" <?=trim($_SESSION['MEMBERS']['status'])==''?'class="text-status void-status"':'class="text-status"';?>>
-            <?php
-            if(trim($_SESSION['MEMBERS']['status'])!='')
-                print CHtml::encode($_SESSION['MEMBERS']['status']);
-            else
-                print 'set status message';
+    <div class="status border-bottom <?
+    if($this->member['id']!=$_SESSION['MEMBERS']['ID'] && trim($this->member['status'])=='')
+    {
+        print 'hidden';
+    }
+?>">
+        <div>
+            <?
+            if($this->member['id']==$_SESSION['MEMBERS']['ID'] || trim($this->member['status'])!='')
+            {
+                ?>
+                <?=CHtml::encode($this->member['name']);?>’s Status:
+                <?
+            }
             ?>
-        </a>
+
+            <?
+            if($this->member['id']==$_SESSION['MEMBERS']['ID'])
+            {
+                ?>
+                <a href="#" class="pancel"></a>
+                <?
+            }
+            ?>
+        </div>
+
+        <?
+        if($this->member['id']==$_SESSION['MEMBERS']['ID'])
+        {
+            ?>
+            <a void-text="set status message" href="#" <?=trim($this->member['status'])==''?'class="text-status void-status"':'class="text-status"';?>>
+                <?php
+                if(trim($this->member['status'])!='')
+                    print CHtml::encode($this->member['status']);
+                else
+                    print 'set status message';
+                ?>
+            </a>
+            <?
+        }
+        else
+        {
+            if(trim($this->member['status'])!='')
+                print CHtml::encode($this->member['status']);
+        }
+        ?>
+
+
     </div>
     <div class="share border-bottom">
         <a href="#" class="button button-big button-big-find"></a>
@@ -20,14 +58,14 @@
     /**
      * новые заявки в друзья
      */
-    if(count($newFriend)>0)
+    if(count($this->newFriend)>0)
     {
         ?>
         <div class="friends border-bottom" id="friend-new-list">
             <a class="title">Vorschläge:</a>
             <div class="add-friends-holder">
                 <?
-                foreach($newFriend as $k => $value)
+                foreach($this->newFriend as $k => $value)
                 {
                     $hidden = '';
                     if($k>2)
@@ -50,7 +88,7 @@
                     <?
                 }
 
-                if(count($newFriend)>3)
+                if(count($this->newFriend)>3)
                 {
                     ?>
                     <a href="#" class="show_all_new_friend">Mehr Vorschläge ›</a>
@@ -107,21 +145,21 @@
     <div class="groups border-bottom">
         <a class="title">Meine Veranstaltungen (12):</a>
         <div class="group-row">
-            <img src="i/group-fish.png" />
+            <img src="/i/group-fish.png" />
             <a href=""><b>Workshop Spiel<br>
                 und Spass</b></a><br />
             <a href="#" class="location">Gockhausen, ZH</a><br />
             <span class="time">Sa, 20.02.12</span>
         </div>
         <div class="group-row">
-            <img src="i/group-fish.png" />
+            <img src="/i/group-fish.png" />
             <a href=""><b>Workshop Spiel<br>
                 und Spass</b></a><br />
             <a href="#" class="location">Gockhausen, ZH</a><br />
             <span class="time">Sa, 20.02.12</span>
         </div>
         <div class="group-row">
-            <img src="i/group-fish.png" />
+            <img src="/i/group-fish.png" />
             <a href=""><b>Workshop Spiel<br>
                 und Spass</b></a><br />
             <a href="#" class="location">Gockhausen, ZH</a><br />
@@ -133,24 +171,46 @@
         <div class="ads-holder">
             <span class="pick"></span>
             Anzeige
-            <img src="i/ads.png" />
+            <img src="/i/ads.png" />
         </div>
     </div>
 </div>
 
 <div class="logo-holder">
     <div class="logo">
-        <a class="fancy_feed_photo" href="/photos/<?=$_SESSION['MEMBERS']['image_1024'];?>">
-            <img src="/photos/<?=$_SESSION['MEMBERS']['image_thumb'];?>" class="thumb" />
-        </a>
+        <?
+        if($this->member['image_1024']!='')
+        {
+            ?>
+            <a class="fancy_feed_photo" href="/photos/<?=$this->member['image_1024'];?>">
+                <img src="/photos/<?=$this->member['image_thumb'];?>" class="thumb" />
+            </a>
+            <?
+        }
+        else
+        {
+            ?>
+            <img src="/photos/<?=$this->member['image_thumb'];?>" class="thumb" />
+            <?
+        }
+        ?>
+
+
         <input type="hidden" name="image_50" value="<?=trim($_SESSION['MEMBERS']['image_50']);?>" />
         <input type="hidden" name="image_31" value="<?=trim($_SESSION['MEMBERS']['image_31']);?>" />
         <input type="hidden" name="members_name" value="<?=trim($_SESSION['MEMBERS']['name']);?>" />
         <input type="hidden" name="members_home" value="<?=trim($_SESSION['MEMBERS']['username']);?>" />
-        <a href="#" class="pancel"></a>
+        <?
+        if($this->member['id']==$_SESSION['MEMBERS']['ID'])
+        {
+            ?>
+            <a href="#" class="pancel"></a>
+            <?
+        }
+        ?>
     </div>
 
-    <h1><?=$_SESSION['MEMBERS']['name'];?></h1>
+    <h1><a href="/profile/<?=$this->member['username'];?>"><?=$this->member['name'];?></a></h1>
     <div class="status-line">
         <span>Tierart:</span> Katze; <span>Rasse:</span> Exotic Shorthair; <span>Geboren:</span> 31. August 2006; <span>Wohnort:</span> 6003, Luzern ... <a href="#">bearbeiten</a> <a href="#" class="pancel"></a>
     </div>
@@ -210,10 +270,16 @@
                 <a href="<?=CHtml::normalizeUrl(array('profile/'.$_SESSION['MEMBERS']['username']));?>">Info</a>
             </li>
             <li>
-                <a href="<?=CHtml::normalizeUrl(array('/wall'));?>"><span>457</span>Pinnwand</a>
+                <a href="<?=CHtml::normalizeUrl(array('/wall'));?>">
+<!--                    <span>457</span>-->
+                    Pinnwand
+                </a>
             </li>
             <li>
-                <a href="<?=CHtml::normalizeUrl(array('photos/index'));?>"><span>457</span>Fotos</a>
+                <a href="<?=CHtml::normalizeUrl(array('photos/index'));?>">
+<!--                    <span>457</span>-->
+                    Fotos
+                </a>
             </li>
             <li>
                 <a href="#">Videos</a>
@@ -266,7 +332,7 @@
     <div class="border-bottom ads">
         <a><b>Innovative Weiterbildung</b></a><br />
         <b><span>hslu.ch/weiterbildung</span></b>
-        <img src="i/left-ads.png" />
+        <img src="/i/left-ads.png" />
         Machen Sie mehr aus sich.
         Mit einer Weiterbildung an
         der Hochschule Luzern. Jetzt

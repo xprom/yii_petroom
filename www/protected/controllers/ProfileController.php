@@ -20,6 +20,8 @@ class ProfileController extends Controller
     {
         $data = User::getHomeData($_GET['member']);
         $this->myFriend = $data['myFriend'];
+        $this->newFriend = $data['newFriend'];
+        $this->member   = $data['member'];
 
         $this->render('//site/members/home',$data);
     }

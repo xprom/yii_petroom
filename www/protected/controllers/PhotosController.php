@@ -2,18 +2,22 @@
 
 class PhotosController extends Controller
 {
-    /**
-     * Declares class-based actions.
-     */
-    public function actions()
-    {
-        return;
-    }
+
 
     public function actionIndex()
     {
-        $content['folder'] = Photo::getFolderList($_SESSION['MEMBERS']['ID']);
+        $data['folder'] = Photo::getFolderList($_SESSION['MEMBERS']['ID']);
+        $this->render('index',$data);
+    }
 
-        $this->render('index',$content);
+    /**
+     * показываем содержимое альбома
+     */
+    public function actionFolder()
+    {
+        $id = intval($_GET['id']);
+
+        $data['photos'] = Photo::getPhotoList($id);
+        $this->render('folder',$data);
     }
 }
