@@ -65,7 +65,10 @@
                         if(!empty($value['image_news']))
                         {
                             ?>
-                            <a class="fancy_feed_photo" title="Loading..." post-id="<?=$value['id'];?>" href="/photos/<?=$value['image_1024_news'];?>"><img src="/photos/<?=$value['image_news'];?>" /></a>
+                            <a class="fancy_feed_photo" title="Loading..." post-id="<?=$value['id'];?>" href="#d<?=$value['id'];?>"><img src="/photos/<?=$value['image_news'];?>" /></a>
+                            <div id="d<?=$value['id'];?>" style="display:none;">
+                                <img class="photo_fancy" src="/photos/<?=$value['image_1024_news'];?>" align="absmiddle" />
+                            </div>
                             <?
                         }
 

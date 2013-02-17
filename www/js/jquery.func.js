@@ -1431,10 +1431,13 @@ $(document).ready(function(){
 
     $('.fancy_feed_photo').fancybox({
         autoSize: false,
+        autoWidth: false,
+        fitToView: false,
+        aspectRatio: true,
         autoResize: false,
         autoCenter: false,
-        width: 800,
-        minWidth: 800,
+        width: 780,
+        maxHeight: 480,
         helpers : {
             title : {
                 type : 'inside'

@@ -76,7 +76,7 @@
         <td width="15">
             <br />
         </td>
-        <td align="right" width="300">
+        <td align="right" width="150">
             Album:
             <br />
 

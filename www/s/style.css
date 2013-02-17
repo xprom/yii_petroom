@@ -1144,7 +1144,7 @@ table {
                     line-height: 18px;
                 }
                 .fancybox-title .insert-comment textarea {
-                    width: 450px;
+                    width: 480px;
                 }
                     .insert-comment-focus textarea {
                         height: 55px;
@@ -1152,7 +1152,7 @@ table {
                         width: 315px;
                     }
                     .fancybox-title .insert-comment-focus textarea {
-                        width: 390px;
+                        width: 380px;
                     }
 #login-holder p {
     color: #AAA0A0;
@@ -1612,6 +1612,7 @@ ul.form-errors > li {
 
 .fancybox-inner {
     overflow: hidden;
+    margin: auto;
 }
 
 .fancybox-type-iframe .fancybox-inner {
@@ -1850,7 +1851,7 @@ ul.form-errors > li {
             margin-right: 39px;
             margin-bottom: 20px;
             overflow: hidden;
-            height: 200px;
+            height: 145px;
             width: 200px;
         }
         .photo_list .folder_id {
@@ -1871,4 +1872,10 @@ ul.form-errors > li {
                 max-width: 145px;
                 max-height: 115px;
                 display: inline;
+            }
+            .photo_fancy {
+                 display: block;
+                 margin: auto;
+                 max-height: 477px;
+                 max-width: 100%;
             }
